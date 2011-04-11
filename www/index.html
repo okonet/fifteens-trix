@@ -10,12 +10,19 @@
 	
 	<!-- iPad/iPhone specific css below, add after your main css >
 	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
-	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
+	
 	-->
+	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
+	
 	<!-- If you application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
 	<script type="text/javascript" charset="utf-8" src="phonegap.0.9.4.min.js"></script>
-    <script type="text/javascript" charset="utf-8">
-
+	<script type="text/javascript" charset="utf-8" src="underscore.js"></script>
+	<script type="text/javascript" charset="utf-8" src="backbone.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="zepto.min.js"></script>
+	
+	<script type="text/javascript" charset="utf-8" src="fifteens.js"></script>
+	
+  <script type="text/javascript" charset="utf-8">
 
 	// If you want to prevent dragging, uncomment this section
 	/*
@@ -35,11 +42,37 @@
 	function onDeviceReady()
 	{
 		// do your thing!
+		// $(document.body).bind('touchstart touchmove touchend', function(event){
+		//      if(typeof console !== 'undefined'){console.log(123)};
+		//      event.preventDefault();
+		//    });
+		//    
+		$('#board').bind('touchstart', function(event){
+		  if(typeof console !== 'undefined'){console.log('Touch start')};
+		  var touch = event.changedTouches[0];
+		  $(this).attr('initX', touch.clientX);
+		  $(this).attr('initY', touch.clientY);
+      // $(this).html('left:' + $(this).attr('initX') + 'px; top:' + touch.clientY + 'px').css({left: touch.clientX + 'px', top: touch.clientY + 'px'});
+		  event.preventDefault();
+	  });
+	  
+	  $('#board').bind('touchmove', function(event){
+	    if(typeof console !== 'undefined'){console.log('Touch move')};
+		  var touch = event.changedTouches[0];
+		  var dX = touch.clientX - $(this).attr('initX');
+		  var dY = touch.clientY - $(this).attr('initY');
+      var newX = $(this).css('left') - dX;
+		  var newY = $(this).css('top') - dY;
+      $(this).css({left: dX + 'px', top: dY + 'px'})
+		  event.preventDefault();
+	  });
 	}
-    
-    </script>
+  </script>
   </head>
-  <body onload="onBodyLoad()">
-  	
+  <!-- <body onload="onBodyLoad()"> -->
+  <body onload="onDeviceReady()">
+    
+    <div id="board"></div>
+    
   </body>
 </html>

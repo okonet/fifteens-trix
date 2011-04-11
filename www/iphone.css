@@ -1,0 +1,8 @@
+#board {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  width: 150px;
+  height: 150px;
+  border: 10px solid #666;
+}
