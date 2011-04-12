@@ -34,9 +34,13 @@ $(function(){
       if(typeof console !== 'undefined'){console.log(this.models)};
     },
     
+    shuffle: function(){
+      return this.models.sort(function() {return 0.5 - Math.random()});
+    }
+    
   });
   
-  window.Game = new Board;
+  window.board = new Board;
   
   window.TileView = Backbone.View.extend({
     
@@ -57,7 +61,7 @@ $(function(){
     },
 
     render: function() {
-      if(typeof console !== 'undefined'){console.log('rendering...')};
+      if(typeof console !== 'undefined'){console.log('rendering...', this.model.toJSON())};
       $(this.el).html(this.template(this.model.toJSON()));
       return this;
     },
@@ -65,6 +69,37 @@ $(function(){
     moveTile: function(){
       if(typeof console !== 'undefined'){console.log('Playing tile...')};
       this.model.updatePosition();
+    },
+    
+  });
+  
+  window.BoardView = Backbone.View.extend({
+    
+    tagName: 'ul',
+    
+    className: 'b-board',
+    
+    initialize: function() {
+      _.bindAll(this, 'render', 'addTile', 'addTiles');
+      this.model.bind('refresh', this.addTiles);
+      this.model.bind('change', this.render);
+      this.model.view = this;
+      this.model.shuffle();
+    },
+
+    render: function() {
+      if(typeof console !== 'undefined'){console.log('rendering...', this.model.toJSON())};
+      this.addTiles();
+      return this;
+    },
+    
+    addTile: function(tile){
+      var view = new TileView({model: tile});
+      $(this.el).append(view.render().el);
+    },
+    
+    addTiles: function() {
+      board.each(this.addTile);
     },
     
   });
@@ -77,8 +112,8 @@ $(function(){
       if(typeof console !== 'undefined'){console.log(123)};
       _.bindAll(this, 'render');
       
-      var view = new TileView({model: Game});
-      this.$("#board").append(view.render().el);
+      var view = new BoardView({model: board});
+      this.el.append(view.render().el);
       
       // Game.bind('refresh', this.newGame);
       
