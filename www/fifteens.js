@@ -66,8 +66,10 @@ $(function(){
       
       if(typeof console !== 'undefined'){console.log(12312312)};
       
-      var left = (tileData.position % 4) * 70;
-      var top = (Math.ceil((tileData.position + 1) / 4) - 1) * 70;
+      var board = this.model.collection;
+      
+      var left = (tileData.position % board.SIZE) * 70;
+      var top = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 70;
       $(this.el).css({left: left + 'px', top: top + 'px'})
       
       return this;
@@ -84,7 +86,7 @@ $(function(){
   */
   window.Board = Backbone.Collection.extend({
     
-    SIZE: 4, // Matrix with SIZE x SIZE elements
+    SIZE: 3, // Matrix with SIZE x SIZE elements
     
     model: Tile,
     
