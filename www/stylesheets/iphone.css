@@ -72,8 +72,10 @@ body {
 
 /* line 18, ../src/iphone.scss */
 .b-board {
+  position: relative;
   margin: 1em 0;
   width: 320px;
+  height: 320px;
   background-color: #223;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
@@ -81,17 +83,16 @@ body {
   -ms-border-radius: 8px;
   -khtml-border-radius: 8px;
   border-radius: 8px;
-  overflow: hidden;
-  *zoom: 1;
+  border: 1px solid #000;
 }
-/* line 25, ../src/iphone.scss */
+/* line 27, ../src/iphone.scss */
 .b-board .b-tile {
-  display: inline-block;
+  position: absolute;
   margin: 1px;
   text-align: center;
   color: #FFF;
-  width: 23.5%;
-  height: 23.5%;
+  width: 65px;
+  height: 65px;
   border: 1px solid #000;
   border-bottom-width: 3px;
   background-color: #333;
@@ -105,19 +106,31 @@ body {
   -ms-border-radius: 6px;
   -khtml-border-radius: 6px;
   border-radius: 6px;
+  -moz-transition-property: all;
+  -webkit-transition-property: all;
+  -o-transition-property: all;
+  transition-property: all;
+  -moz-transition-duration: 0.25s;
+  -webkit-transition-duration: 0.25s;
+  -o-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  -moz-transition-timing-function: ease-in-out;
+  -webkit-transition-timing-function: ease-in-out;
+  -o-transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out;
 }
-/* line 38, ../src/iphone.scss */
+/* line 42, ../src/iphone.scss */
 .b-board .b-tile p {
   font-size: 2em;
   line-height: 2.25em;
 }
-/* line 43, ../src/iphone.scss */
+/* line 47, ../src/iphone.scss */
 .b-board .b-tile_empty {
   border-color: #f00;
-  visibility: hidden!important;
+  /*    visibility: hidden!important;*/
 }
 
-/* line 49, ../src/iphone.scss */
+/* line 53, ../src/iphone.scss */
 #board {
   position: absolute;
   top: 50px;
