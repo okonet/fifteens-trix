@@ -51,7 +51,7 @@ $(function(){
     events: {
       'tap' : 'moveTile',
       'swipe' : 'moveTile',
-      'click' : 'moveTile'
+      // 'click' : 'moveTile'
     },
     
     initialize: function() {
@@ -61,7 +61,6 @@ $(function(){
     },
 
     render: function() {
-      console.time('rendering tile');
       tileData = this.model.toJSON();
       $(this.el).html(this.template(tileData));
       if(tileData.empty) $(this.el).addClass('b-tile_empty');
@@ -70,7 +69,15 @@ $(function(){
       
       var left = (tileData.position % board.SIZE) * 70;
       var top = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 70;
-      $(this.el).css({left: left + 'px', top: top + 'px'})
+      
+      $(this.el).anim(
+        { translate: top + 'px, ' + left + 'px'}, 
+        0.25, 
+        'ease-out', 
+        function(){
+          $(this.el).css({left: left + 'px', top: top + 'px', translate: '0,0'})
+        });
+      // $(this.el).css({left: left + 'px', top: top + 'px'})
       
       console.timeEnd('rendering tile');
       
@@ -180,7 +187,7 @@ $(function(){
     el: $("#gameview"),
     
     events: {
-      'tap #new_game': 'newGame'
+      'click #new_game': 'newGame'
     },
     
     initialize: function() {
@@ -197,9 +204,9 @@ $(function(){
     },
     
     newGame: function(){
-      // if (window.confirm('Are you sure you want to start a new game')) {
+      if (window.confirm('Are you sure you want to start a new game')) {
         this.model.newGame();
-      // }
+      }
     },
     
     gameSolved: function(){
