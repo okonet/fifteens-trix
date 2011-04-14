@@ -27,9 +27,15 @@ $(function(){
       var tilePos = this.get('position');
       var emptyPos = board.getEmptyTile().get('position');
       
-      board.getEmptyTile().set({ position: tilePos }, { silent: true });
-      this.set({ position: emptyPos });
-    }
+      if(this.canPlay(tilePos, emptyPos)) {
+        board.getEmptyTile().set({ position: tilePos }, { silent: true });
+        this.set({ position: emptyPos });
+      }
+    },
+    
+    canPlay: function(tilePos, emptyPos){
+      if(typeof console !== 'undefined'){console.log(tilePos, emptyPos)};
+    },
 
   });
   window.TileView = Backbone.View.extend({
@@ -41,12 +47,13 @@ $(function(){
     template: _.template("<p><%= label %></p>"),
     
     events: {
-      'tap' : 'moveTile',
-      'swipe' : 'moveTile'
+      'tap' : 'playTile',
+      'swipe' : 'playTile',
+      'click' : 'playTile',
     },
     
     initialize: function() {
-      _.bindAll(this, 'render', 'moveTile');
+      _.bindAll(this, 'render', 'playTile');
       this.model.bind('change', this.render);
       this.model.view = this;
     },
@@ -58,8 +65,8 @@ $(function(){
       
       var board = this.model.collection;
       
-      var left = (tileData.position % board.SIZE) * 70;
-      var top = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 70;
+      var top = (tileData.position % board.SIZE) * 70;
+      var left = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 70;
       
       $(this.el).anim({ translate: top + 'px, ' + left + 'px'}, 0.25, 'ease-out', 
       function(){
@@ -69,7 +76,7 @@ $(function(){
       return this;
     },
     
-    moveTile: function(){
+    playTile: function(){
       this.model.play();
     },
     
@@ -80,7 +87,7 @@ $(function(){
   */
   window.Board = Backbone.Collection.extend({
     
-    SIZE: 4, // Matrix with SIZE x SIZE elements
+    SIZE: 3, // Matrix with SIZE x SIZE elements
     
     model: Tile,
     
