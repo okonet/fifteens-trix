@@ -63,29 +63,25 @@ a img {
   border: none;
 }
 
-/* line 12, ../src/iphone.scss */
+/* line 16, ../src/iphone.scss */
 body {
   padding: 20px;
   background-color: #EFEFEF;
   font-family: "Helvetica Neue", sans-serif;
 }
 
-/* line 18, ../src/iphone.scss */
+/* line 22, ../src/iphone.scss */
 .b-board {
   position: relative;
   margin: 1em 0;
   width: 320px;
   height: 320px;
   background-color: #223;
-  -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
-  -o-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -khtml-border-radius: 8px;
   border-radius: 8px;
   border: 1px solid #000;
 }
-/* line 27, ../src/iphone.scss */
+/* line 31, ../src/iphone.scss */
 .b-board .b-tile {
   position: absolute;
   margin: 1px;
@@ -96,24 +92,18 @@ body {
   border: 1px solid #000;
   border-bottom-width: 3px;
   background-color: #333;
-  -moz-box-shadow: #999999 0 2px 4px inset;
   -webkit-box-shadow: #999999 0 2px 4px inset;
-  -o-box-shadow: #999999 0 2px 4px inset;
   box-shadow: #999999 0 2px 4px inset;
-  -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
-  -o-border-radius: 6px;
-  -ms-border-radius: 6px;
-  -khtml-border-radius: 6px;
   border-radius: 6px;
   /*    @include transition(tran, .125s);*/
 }
-/* line 42, ../src/iphone.scss */
+/* line 46, ../src/iphone.scss */
 .b-board .b-tile p {
   font-size: 2em;
   line-height: 2.25em;
 }
-/* line 47, ../src/iphone.scss */
+/* line 51, ../src/iphone.scss */
 .b-board .b-tile_empty {
   border-color: #f00;
   visibility: hidden!important;

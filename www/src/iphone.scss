@@ -7,7 +7,11 @@
 
 @import "compass/reset";
 
-
+$legacy-support-for-ie: false;
+$experimental-support-for-mozilla: false;
+$experimental-support-for-opera: false;
+$experimental-support-for-microsoft: false;
+$experimental-support-for-khtml: false;
 
 body {
   padding: 20px;
