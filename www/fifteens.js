@@ -25,9 +25,9 @@ $(function(){
     
     tagName: 'li',
     
-    className: 'b-board_item',
+    className: 'b-board_tile',
     
-    template: _.template("<%= label %>"),
+    template: _.template("<p><%= label %></p>"),
     
     events: {
       'click' : 'moveTile'
