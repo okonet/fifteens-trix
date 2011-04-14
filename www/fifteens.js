@@ -101,7 +101,7 @@ $(function(){
       
       var length = (this.SIZE * this.SIZE);
       for(var i = 0; i < length; i++) {
-        tiles.push(new this.model({ label: i+1, position: i }));
+        tiles.push(new this.model({ label: i+1, position: i, solution: i }));
       }
       
       _.last(tiles).set({ empty: true });
@@ -119,6 +119,12 @@ $(function(){
       return this.detect(function(tile){ return tile.isEmpty() });
     },
     
+    solved: function(){
+      var actual = this.pluck('position');
+      var solution = this.pluck('solution');
+      return actual.toString() === solution.toString();
+    },
+    
   });
   
   window.BoardView = Backbone.View.extend({
@@ -130,6 +136,7 @@ $(function(){
     initialize: function() {
       _.bindAll(this, 'render', 'addTile', 'addTiles');
       this.model.bind('refresh', this.render);
+      this.model.bind('change', this.checkSolved);
       this.model.view = this;
       this.model.shuffle();
     },
@@ -147,6 +154,10 @@ $(function(){
     
     addTiles: function() {
       this.model.each(this.addTile);
+    },
+    
+    checkSolved: function(){
+      if(this.solved()) game.set({ solved: true });
     },
     
   });
@@ -177,6 +188,8 @@ $(function(){
       if(typeof console !== 'undefined'){console.log(123)};
       _.bindAll(this, 'render');
       
+      this.model.bind('change:solved', this.gameSolved);
+      
       var view = new BoardView({model: this.model.board});
       this.el.append(view.render().el);
       
@@ -189,6 +202,10 @@ $(function(){
       // if (window.confirm('Are you sure you want to start a new game')) {
         this.model.newGame();
       // }
+    },
+    
+    gameSolved: function(){
+      alert('Congratulations!!!');
     },
   });
   
