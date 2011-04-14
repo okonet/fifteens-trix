@@ -37,7 +37,6 @@ $(function(){
       // board.at(tileIndex) = board.getEmptyTile();
       // board.at(emptyIndex) = tmpTile;
       
-      if(typeof console !== 'undefined'){console.log(tilePos, emptyPos)};
     },
     
   });
@@ -50,6 +49,8 @@ $(function(){
     template: _.template("<p><%= label %></p>"),
     
     events: {
+      'tap' : 'moveTile',
+      'swipe' : 'moveTile',
       'click' : 'moveTile'
     },
     
@@ -60,17 +61,18 @@ $(function(){
     },
 
     render: function() {
+      console.time('rendering tile');
       tileData = this.model.toJSON();
       $(this.el).html(this.template(tileData));
       if(tileData.empty) $(this.el).addClass('b-tile_empty');
-      
-      if(typeof console !== 'undefined'){console.log(12312312)};
       
       var board = this.model.collection;
       
       var left = (tileData.position % board.SIZE) * 70;
       var top = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 70;
       $(this.el).css({left: left + 'px', top: top + 'px'})
+      
+      console.timeEnd('rendering tile');
       
       return this;
     },
@@ -95,8 +97,6 @@ $(function(){
     },
     
     reset: function(){
-      if(typeof console !== 'undefined'){console.log('Resetting board')};
-      
       var tiles = [];
       
       var length = (this.SIZE * this.SIZE);
@@ -171,7 +171,6 @@ $(function(){
     },
     
     newGame: function(){
-      if(typeof console !== 'undefined'){console.log('starting new game')};
       this.board.shuffle();
     },
   });
@@ -181,11 +180,10 @@ $(function(){
     el: $("#gameview"),
     
     events: {
-      'click #new_game': 'newGame'
+      'tap #new_game': 'newGame'
     },
     
     initialize: function() {
-      if(typeof console !== 'undefined'){console.log(123)};
       _.bindAll(this, 'render');
       
       this.model.bind('change:solved', this.gameSolved);
