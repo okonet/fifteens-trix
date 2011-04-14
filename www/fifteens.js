@@ -34,7 +34,21 @@ $(function(){
     },
     
     canPlay: function(tilePos, emptyPos){
-      if(typeof console !== 'undefined'){console.log(tilePos, emptyPos)};
+      var boardSize = this.collection.SIZE;
+      var delta = Math.abs(tilePos - emptyPos);
+      
+      if(delta == 1 || delta == boardSize) {
+        // Empty is in first row. Previous tile can not be played
+        if(emptyPos % boardSize == 0 && tilePos == (emptyPos - 1))
+          return false;
+        // Empty is in last row. Next tile can not be played
+        else if((emptyPos + 1) % boardSize == 0 && tilePos == (emptyPos + 1))
+          return false;
+        else
+          return true;
+      } else {
+        return false;
+      }
     },
 
   });
@@ -49,7 +63,7 @@ $(function(){
     events: {
       'tap' : 'playTile',
       'swipe' : 'playTile',
-      'click' : 'playTile',
+      // 'click' : 'playTile',
     },
     
     initialize: function() {
