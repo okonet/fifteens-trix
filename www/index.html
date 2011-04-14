@@ -17,7 +17,7 @@
 	
 	<!-- If you application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
 	<script type="text/javascript" charset="utf-8" src="phonegap.0.9.4.min.js"></script>
-	<script type="text/javascript" charset="utf-8" src="zepto.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="zepto.js"></script>
 	<script type="text/javascript" charset="utf-8" src="underscore.js"></script>
 	<script type="text/javascript" charset="utf-8" src="backbone.js"></script>
 	
@@ -28,13 +28,11 @@
   <script type="text/javascript" charset="utf-8">
 
 	// If you want to prevent dragging, uncomment this section
-	/*
-	function preventBehavior(e) 
-	{ 
-      e.preventDefault(); 
-    };
+	function preventBehavior(e) { 
+    e.preventDefault(); 
+  };
 	document.addEventListener("touchmove", preventBehavior, false);
-	*/
+	
 	
 	function onBodyLoad()
 	{
@@ -50,25 +48,7 @@
 		//      event.preventDefault();
 		//    });
 		//    
-		$('#board').bind('touchstart', function(event){
-		  if(typeof console !== 'undefined'){console.log('Touch start')};
-		  var touch = event.changedTouches[0];
-		  $(this).attr('initX', touch.clientX);
-		  $(this).attr('initY', touch.clientY);
-      // $(this).html('left:' + $(this).attr('initX') + 'px; top:' + touch.clientY + 'px').css({left: touch.clientX + 'px', top: touch.clientY + 'px'});
-		  event.preventDefault();
-	  });
-	  
-	  $('#board').bind('touchmove', function(event){
-	    if(typeof console !== 'undefined'){console.log('Touch move')};
-		  var touch = event.changedTouches[0];
-		  var dX = touch.clientX - $(this).attr('initX');
-		  var dY = touch.clientY - $(this).attr('initY');
-      var newX = $(this).css('left') - dX;
-		  var newY = $(this).css('top') - dY;
-      $(this).css({left: dX + 'px', top: dY + 'px'})
-		  event.preventDefault();
-	  });
+
 	}
   </script>
   </head>
