@@ -27,18 +27,10 @@ $(function(){
       var tilePos = this.get('position');
       var emptyPos = board.getEmptyTile().get('position');
       
-      board.getEmptyTile().set({ position: tilePos });
+      board.getEmptyTile().set({ position: tilePos }, { silent: true });
       this.set({ position: emptyPos });
-      
-      // var tileIndex = board.indexOf(this);
-      // var emptyIndex = board.indexOf(board.getEmptyTile());
-      
-      // var tmpTile = board.at(tileIndex);
-      // board.at(tileIndex) = board.getEmptyTile();
-      // board.at(emptyIndex) = tmpTile;
-      
-    },
-    
+    }
+
   });
   window.TileView = Backbone.View.extend({
     
@@ -50,8 +42,7 @@ $(function(){
     
     events: {
       'tap' : 'moveTile',
-      'swipe' : 'moveTile',
-      // 'click' : 'moveTile'
+      'swipe' : 'moveTile'
     },
     
     initialize: function() {
@@ -70,16 +61,10 @@ $(function(){
       var left = (tileData.position % board.SIZE) * 70;
       var top = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 70;
       
-      $(this.el).anim(
-        { translate: top + 'px, ' + left + 'px'}, 
-        0.25, 
-        'ease-out', 
-        function(){
-          $(this.el).css({left: left + 'px', top: top + 'px', translate: '0,0'})
-        });
-      // $(this.el).css({left: left + 'px', top: top + 'px'})
-      
-      console.timeEnd('rendering tile');
+      $(this.el).anim({ translate: top + 'px, ' + left + 'px'}, 0.25, 'ease-out', 
+      function(){
+        $(this.el).css({left: left + 'px', top: top + 'px', translate: '0,0'})
+      });
       
       return this;
     },
@@ -95,7 +80,7 @@ $(function(){
   */
   window.Board = Backbone.Collection.extend({
     
-    SIZE: 3, // Matrix with SIZE x SIZE elements
+    SIZE: 4, // Matrix with SIZE x SIZE elements
     
     model: Tile,
     
@@ -197,10 +182,6 @@ $(function(){
       
       var view = new BoardView({model: this.model.board});
       this.el.append(view.render().el);
-      
-      // Game.bind('refresh', this.newGame);
-      
-      // Game.newGame();
     },
     
     newGame: function(){
