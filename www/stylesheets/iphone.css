@@ -73,17 +73,25 @@ body {
 /* line 18, ../src/iphone.scss */
 .b-board {
   margin: 1em 0;
-  width: 321px;
+  width: 320px;
+  background-color: #223;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -o-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  border-radius: 8px;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 23, ../src/iphone.scss */
-.b-board .b-board_tile {
+/* line 25, ../src/iphone.scss */
+.b-board .b-tile {
   display: inline-block;
+  margin: 1px;
   text-align: center;
   color: #FFF;
-  width: 33%;
-  height: 33%;
+  width: 23.5%;
+  height: 23.5%;
   border: 1px solid #000;
   border-bottom-width: 3px;
   background-color: #333;
@@ -98,13 +106,18 @@ body {
   -khtml-border-radius: 6px;
   border-radius: 6px;
 }
-/* line 35, ../src/iphone.scss */
-.b-board .b-board_tile p {
-  font-size: 3em;
-  line-height: 2em;
+/* line 38, ../src/iphone.scss */
+.b-board .b-tile p {
+  font-size: 2em;
+  line-height: 2.25em;
+}
+/* line 43, ../src/iphone.scss */
+.b-board .b-tile_empty {
+  border-color: #f00;
+  visibility: hidden!important;
 }
 
-/* line 42, ../src/iphone.scss */
+/* line 49, ../src/iphone.scss */
 #board {
   position: absolute;
   top: 50px;

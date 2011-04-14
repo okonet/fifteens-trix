@@ -25,7 +25,7 @@ $(function(){
     
     tagName: 'li',
     
-    className: 'b-board_tile',
+    className: 'b-tile',
     
     template: _.template("<p><%= label %></p>"),
     
@@ -40,7 +40,9 @@ $(function(){
     },
 
     render: function() {
-      $(this.el).html(this.template(this.model.toJSON()));
+      tileData = this.model.toJSON();
+      $(this.el).html(this.template(tileData));
+      if(tileData.empty) $(this.el).addClass('b-tile_empty');
       return this;
     },
     
@@ -56,7 +58,7 @@ $(function(){
   */
   window.Board = Backbone.Collection.extend({
     
-    SIZE: 3, // Matrix with SIZE x SIZE elements
+    SIZE: 4, // Matrix with SIZE x SIZE elements
     
     model: Tile,
     
@@ -73,6 +75,8 @@ $(function(){
       for(var i = 0; i < length; i++) {
         tiles.push(new this.model({label: i+1, position: i}));
       }
+      
+      _.last(tiles).set({ empty: true });
       
       this.refresh(tiles, {silent: true});
     },

@@ -17,15 +17,18 @@ body {
 
 .b-board {
   margin: 1em 0;
-  width: 321px;
+  width: 320px;
+  background-color: #223;
+  @include border-radius(8px);
   @include clearfix();
   
-  .b-board_tile {
+  .b-tile {
     display: inline-block;
+    margin: 1px;
     text-align: center;
     color: #FFF;
-    width: 33%;
-    height: 33%;
+    width: 23.5%;
+    height: 23.5%;
     border: 1px solid #000;
     border-bottom-width: 3px;
     background-color: #333;
@@ -33,9 +36,13 @@ body {
     @include border-radius(6px);
     
     p {
-      font-size: 3em;
-      line-height: 2em;
+      font-size: 2em;
+      line-height: 2.25em;
     }
+  }
+  .b-tile_empty {
+    border-color: #f00;
+    visibility: hidden!important;
   }
 }
 
