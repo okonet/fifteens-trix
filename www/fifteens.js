@@ -101,7 +101,7 @@ $(function(){
   */
   window.Board = Backbone.Collection.extend({
     
-    SIZE: 3, // Matrix with SIZE x SIZE elements
+    SIZE: 4, // Matrix with SIZE x SIZE elements
     
     model: Tile,
     
