@@ -7,6 +7,9 @@
 
 $(function(){
   
+  /*
+    Tile model and view
+  */
   window.Tile = Backbone.Model.extend({
     
     EMPTY: '',
@@ -18,30 +21,6 @@ $(function(){
     }
     
   });
-  
-  window.Board = Backbone.Collection.extend({
-    
-    SIZE: 3, // Matrix with SIZE x SIZE elements
-    
-    model: Tile,
-    
-    initialize: function(){
-      var length = (this.SIZE * this.SIZE);
-      for(var i = 0; i < length; i++) {
-        this.add(new this.model({label: i+1, position: i}));
-      }
-      
-      if(typeof console !== 'undefined'){console.log(this.models)};
-    },
-    
-    shuffle: function(){
-      return this.models.sort(function() {return 0.5 - Math.random()});
-    }
-    
-  });
-  
-  window.board = new Board;
-  
   window.TileView = Backbone.View.extend({
     
     tagName: 'li',
@@ -61,7 +40,6 @@ $(function(){
     },
 
     render: function() {
-      if(typeof console !== 'undefined'){console.log('rendering...', this.model.toJSON())};
       $(this.el).html(this.template(this.model.toJSON()));
       return this;
     },
@@ -73,6 +51,39 @@ $(function(){
     
   });
   
+  /*
+    Board consist of tiles
+  */
+  window.Board = Backbone.Collection.extend({
+    
+    SIZE: 3, // Matrix with SIZE x SIZE elements
+    
+    model: Tile,
+    
+    initialize: function(){
+      this.reset();
+    },
+    
+    reset: function(){
+      if(typeof console !== 'undefined'){console.log('Resetting board')};
+      
+      var tiles = [];
+      
+      var length = (this.SIZE * this.SIZE);
+      for(var i = 0; i < length; i++) {
+        tiles.push(new this.model({label: i+1, position: i}));
+      }
+      
+      this.refresh(tiles, {silent: true});
+    },
+    
+    shuffle: function(){
+      this.models.sort(function() {return 0.5 - Math.random()});
+      this.trigger('refresh');
+    }
+    
+  });
+  
   window.BoardView = Backbone.View.extend({
     
     tagName: 'ul',
@@ -81,14 +92,14 @@ $(function(){
     
     initialize: function() {
       _.bindAll(this, 'render', 'addTile', 'addTiles');
-      this.model.bind('refresh', this.addTiles);
+      this.model.bind('refresh', this.render);
       this.model.bind('change', this.render);
       this.model.view = this;
       this.model.shuffle();
     },
 
     render: function() {
-      if(typeof console !== 'undefined'){console.log('rendering...', this.model.toJSON())};
+      $(this.el).html('');
       this.addTiles();
       return this;
     },
@@ -99,28 +110,53 @@ $(function(){
     },
     
     addTiles: function() {
-      board.each(this.addTile);
+      this.model.each(this.addTile);
     },
     
   });
   
+  /*
+    Game model and view
+  */
+  window.Game = Backbone.Model.extend({
+    initialize: function(){
+      this.board = new Board();
+    },
+    
+    newGame: function(){
+      if(typeof console !== 'undefined'){console.log('starting new game')};
+      this.board.shuffle();
+    },
+  });
+  
   window.GameView = Backbone.View.extend({
     
-    el: $("#board"),
+    el: $("#gameview"),
+    
+    events: {
+      'click #new_game': 'newGame'
+    },
     
     initialize: function() {
       if(typeof console !== 'undefined'){console.log(123)};
       _.bindAll(this, 'render');
       
-      var view = new BoardView({model: board});
+      var view = new BoardView({model: this.model.board});
       this.el.append(view.render().el);
       
       // Game.bind('refresh', this.newGame);
       
       // Game.newGame();
     },
+    
+    newGame: function(){
+      // if (window.confirm('Are you sure you want to start a new game')) {
+        this.model.newGame();
+      // }
+    },
   });
   
-  window.game = new GameView;
+  window.game = new Game;
+  window.gameView = new GameView({ model: game });
   
 });
