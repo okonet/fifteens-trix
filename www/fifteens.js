@@ -82,7 +82,7 @@ $(function(){
       var top = (tileData.position % board.SIZE) * 70;
       var left = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 70;
       
-      $(this.el).anim({ translate: top + 'px, ' + left + 'px'}, 0.25, 'ease-out', 
+      $(this.el).anim({ translate: top + 'px, ' + left + 'px'}, 0.125, 'ease-out', 
       function(){
         $(this.el).css({left: left + 'px', top: top + 'px', translate: '0,0'})
       });
