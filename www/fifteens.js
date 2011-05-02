@@ -30,6 +30,7 @@ $(function(){
       if(this.canPlay(tilePos, emptyPos)) {
         board.getEmptyTile().set({ position: tilePos }, { silent: true });
         this.set({ position: emptyPos });
+        game.set({ moves: game.get('moves') + 1 });
       }
     },
     
@@ -61,9 +62,9 @@ $(function(){
     template: _.template("<p><%= label %></p>"),
     
     events: {
-      'tap' : 'playTile',
+      // 'tap' : 'playTile',
       'swipe' : 'playTile',
-      // 'click' : 'playTile',
+      'click' : 'playTile',
     },
     
     initialize: function() {
@@ -181,10 +182,12 @@ $(function(){
   window.Game = Backbone.Model.extend({
     initialize: function(){
       this.board = new Board();
+      this.set({ moves: 0 });
     },
     
     newGame: function(){
       this.board.shuffle();
+      this.set({ moves: 0 });
     },
   });
   
@@ -197,9 +200,10 @@ $(function(){
     },
     
     initialize: function() {
-      _.bindAll(this, 'render');
+      _.bindAll(this, 'render', 'updateStats');
       
       this.model.bind('change:solved', this.gameSolved);
+      this.model.bind('change', this.updateStats);
       
       var view = new BoardView({model: this.model.board});
       this.el.append(view.render().el);
@@ -214,6 +218,10 @@ $(function(){
     gameSolved: function(){
       alert('Congratulations!!!');
     },
+    
+    updateStats: function(){
+      this.$('#moves_count').html(this.model.get('moves'));
+    }
   });
   
   window.game = new Game;
