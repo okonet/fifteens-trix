@@ -76,17 +76,20 @@ $(function(){
     render: function() {
       tileData = this.model.toJSON();
       $(this.el).html(this.template(tileData));
+      
       if(tileData.empty) $(this.el).addClass('b-tile_empty');
       
       var board = this.model.collection;
       
-      var top = (tileData.position % board.SIZE) * 70;
-      var left = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 70;
+      var left = (tileData.position % board.SIZE) * 144;
+      var top = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 136;  
       
-      $(this.el).anim({ translate: top + 'px, ' + left + 'px'}, 0.125, 'ease-out', 
-      function(){
-        $(this.el).css({left: left + 'px', top: top + 'px', translate: '0,0'})
-      });
+      $(this.el).
+        css({ 'z-index': tileData.position }).
+        anim({ translate: left + 'px, ' + top + 'px'}, 0.125, 'ease-out', 
+          function(){
+            $(this.el).css({left: left + 'px', top: top + 'px', translate: '0,0'})
+          });
       
       return this;
     },

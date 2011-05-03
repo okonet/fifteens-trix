@@ -25,15 +25,45 @@
 	
 	<script type="text/javascript" charset="utf-8" src="fifteens.js"></script>
 	
-	<script src="http://localhost:8001/vogue-client.js" type="text/javascript"></script>
+  <script src="http://localhost:8001/vogue-client.js" type="text/javascript"></script>
 	
   <script type="text/javascript" charset="utf-8">
+  
+  function touchHandle (event) {
+    var touches = event.originalEvent.changedTouches,
+        firstTouch = touches[0],
+        type = "";
+        
+    switch(event.type) {
+        case 'touchstart': type = 'mousedown'; break;
+        case 'touchmove':  type='mousemove'; break;        
+        case 'touchend':   type='mouseup'; break;
+        default: return;
+    }
+
+    //initMouseEvent(type, canBubble, cancelable, view, clickCount, 
+    //           screenX, screenY, clientX, clientY, ctrlKey, 
+    //           altKey, shiftKey, metaKey, button, relatedTarget);
+
+    var simulatedEvent = document.createEvent("MouseEvent");
+    simulatedEvent.initMouseEvent(type, true, true, window, 1, 
+                              firstTouch.screenX, firstTouch.screenY, 
+                              firstTouch.clientX, firstTouch.clientY, false, 
+                              false, false, false, 0/*left*/, null);
+
+    firstTouch.target.dispatchEvent(simulatedEvent);
+    event.preventDefault();
+  };
+  
+  document.addEventListener("touchstart", touchHandle, false);
+  document.addEventListener("touchmove", touchHandle, false);
+  document.addEventListener("touchend", touchHandle, false);
 
 	// If you want to prevent dragging, uncomment this section
-	function preventBehavior(e) { 
-    e.preventDefault(); 
-  };
-	document.addEventListener("touchmove", preventBehavior, false);
+  // function preventBehavior(e) { 
+  //     e.preventDefault(); 
+  //   };
+  // document.addEventListener("touchmove", preventBehavior, false);
 	
 	
 	function onBodyLoad()
@@ -59,6 +89,11 @@
     
     <div id="gameview">
       <input type="button" name="new_game" value="New game" id="new_game">
+      <p>Moves made: <span id="moves_count">0</span></p>
+      <div class="b-board_fg b-board_fg-1"></div>
+      <div class="b-board_fg b-board_fg-2"></div>
+      <div class="b-board_fg b-board_fg-3"></div>
+      <div class="b-board_fg b-board_fg-4"></div>
     </div>
     
     
