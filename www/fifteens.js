@@ -64,7 +64,7 @@ $(function(){
     events: {
       'tap' : 'playTile',
       'swipe' : 'playTile',
-      // 'click' : 'playTile',
+      'click' : 'playTile',
     },
     
     initialize: function() {
