@@ -62,9 +62,9 @@ $(function(){
     template: _.template("<p><%= label %></p>"),
     
     events: {
-      // 'tap' : 'playTile',
+      'tap' : 'playTile',
       'swipe' : 'playTile',
-      'click' : 'playTile',
+      // 'click' : 'playTile',
     },
     
     initialize: function() {
