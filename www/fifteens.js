@@ -62,13 +62,13 @@ $(function(){
     template: _.template("<p><%= label %></p>"),
     
     events: {
-      'tap' : 'playTile',
-      'swipe' : 'playTile',
-      'click' : 'playTile',
+      'tap'       : 'playTile',
+      // 'swipe'     : 'playTile',
+      'touchmove' : 'dragTile'
     },
     
     initialize: function() {
-      _.bindAll(this, 'render', 'playTile');
+      _.bindAll(this, 'render', 'playTile', 'dragTile');
       this.model.bind('change', this.render);
       this.model.view = this;
     },
@@ -96,6 +96,16 @@ $(function(){
     
     playTile: function(){
       this.model.play();
+    },
+    
+    dragTile: function(event){
+      var deltaX = event.changedTouches[0].screenX;
+      var deltaY = event.changedTouches[0].screenY;
+      
+      $(this.el).css({
+        left: deltaX + 'px',
+        top: deltaY + 'px'
+      })
     },
     
   });
