@@ -15,47 +15,18 @@
 	
 	-->
   <!-- <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="stylesheets/iphone.css" type="text/css" />     -->
-	<link rel="stylesheet" href="css/iphone.css" type="text/css" />		
+	<link rel="stylesheet" href="css/iphone.css" type="text/css" />
 	
 	<!-- If you application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
 	<script type="text/javascript" charset="utf-8" src="js/libs/phonegap.0.9.4.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="js/libs/zepto.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/libs/touchable.js"></script>
 	<script type="text/javascript" charset="utf-8" src="js/libs/underscore.js"></script>
 	<script type="text/javascript" charset="utf-8" src="js/libs/backbone.js"></script>
 	
 	<script type="text/javascript" charset="utf-8" src="js/fifteens.js"></script>
 	
   <script type="text/javascript" charset="utf-8">
-  
-  function touchHandle (event) {
-    var touches = event.originalEvent.changedTouches,
-        firstTouch = touches[0],
-        type = "";
-        
-    switch(event.type) {
-        case 'touchstart': type = 'mousedown'; break;
-        case 'touchmove':  type='mousemove'; break;        
-        case 'touchend':   type='mouseup'; break;
-        default: return;
-    }
-
-    //initMouseEvent(type, canBubble, cancelable, view, clickCount, 
-    //           screenX, screenY, clientX, clientY, ctrlKey, 
-    //           altKey, shiftKey, metaKey, button, relatedTarget);
-
-    var simulatedEvent = document.createEvent("MouseEvent");
-    simulatedEvent.initMouseEvent(type, true, true, window, 1, 
-                              firstTouch.screenX, firstTouch.screenY, 
-                              firstTouch.clientX, firstTouch.clientY, false, 
-                              false, false, false, 0/*left*/, null);
-
-    firstTouch.target.dispatchEvent(simulatedEvent);
-    event.preventDefault();
-  };
-  
-  document.addEventListener("touchstart", touchHandle, false);
-  document.addEventListener("touchmove", touchHandle, false);
-  document.addEventListener("touchend", touchHandle, false);
 
 	// If you want to prevent dragging, uncomment this section
   document.addEventListener("touchmove", function(e){ e.preventDefault(); }, false);
