@@ -27,15 +27,15 @@ $(function(){
       var tilePos = this.get('position');
       var emptyPos = board.getEmptyTile().get('position');
       
-      if(this.canPlay(tilePos, emptyPos)) {
-        board.getEmptyTile().set({ position: tilePos }, { silent: true });
-        this.set({ position: emptyPos });
-        game.set({ moves: game.get('moves') + 1 });
-      }
+      board.getEmptyTile().set({ position: tilePos }, { silent: true });
+      this.set({ position: emptyPos });
+      game.set({ moves: game.get('moves') + 1 });
     },
     
-    canPlay: function(tilePos, emptyPos){
+    canBePlayed: function(){
       var boardSize = this.collection.SIZE;
+      var tilePos = this.get('position');
+      var emptyPos = this.collection.getEmptyTile().get('position');
       var delta = Math.abs(tilePos - emptyPos);
       
       if(delta == 1 || delta == boardSize) {
@@ -46,7 +46,7 @@ $(function(){
         else if((emptyPos + 1) % boardSize == 0 && tilePos == (emptyPos + 1))
           return false;
         else
-          return true;
+          return delta; // If true, return delta so we can know in which direction to play
       } else {
         return false;
       }
@@ -55,6 +55,9 @@ $(function(){
   });
   window.TileView = Backbone.View.extend({
     
+    WIDTH: 144,
+    HEIGHT: 136,
+    
     tagName: 'li',
     
     className: 'b-tile',
@@ -62,8 +65,8 @@ $(function(){
     template: _.template("<p><%= label %></p>"),
     
     events: {
-      // 'tap'       : 'playTile',
-      // 'swipe'     : 'playTile',
+      // 'tap'            : 'playTile',
+      // 'swipe'          : 'playTile',
       'touchablestart' : 'dragTileStart',
       'touchablemove'  : 'dragTileMove',
       'touchableend'   : 'dragTileEnd'
@@ -84,8 +87,8 @@ $(function(){
       
       var board = this.model.collection;
       
-      var left = (tileData.position % board.SIZE) * 144;
-      var top = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 136;
+      var left = (tileData.position % board.SIZE) * this.WIDTH;
+      var top = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * this.HEIGHT;
       
       var el = $(this.el);
       
@@ -95,29 +98,58 @@ $(function(){
     },
     
     playTile: function(){
-      this.model.play();
+      if(this.model.canBePlayed()) this.model.play();
     },
     
     dragTileStart: function(event){
       touch = event.data;
       
-      this.originalTransform = _.map($(this.el).css('-webkit-transform').replace('translate(','').split(','), function(component){
-        return parseFloat(component);
-      });
+      var canBePlayed = this.model.canBePlayed();
+      
+      if(canBePlayed) {
+        this.playing = true;
+        this.horizontal = (canBePlayed == 1) ? true : false;
+        this.originalTransform = _.map($(this.el).css('-webkit-transform').replace('translate(','').split(','), function(component){
+          return parseFloat(component);
+        });
+      }
     },
     
     dragTileMove: function(event){
+      if(!this.playing) return false;
+      
       touch = event.data;
       
-      var deltaX = this.originalTransform[0] + (touch.currentTouch.x - touch.startTouch.x);
-      var deltaY = this.originalTransform[1] + (touch.currentTouch.y - touch.startTouch.y);
+      this.deltaX = touch.currentTouch.x - touch.startTouch.x;
+      this.deltaY = touch.currentTouch.y - touch.startTouch.y;
       
-      $(this.el).css({ '-webkit-transform': 'translate(' + deltaX + 'px, ' + deltaY + 'px)'});
+      var visibleX = this.originalTransform[0];
+      var visibleY = this.originalTransform[1];
+      
+      if(this.horizontal) {
+        visibleX += this.deltaX;
+      } else {
+        visibleY += this.deltaY;
+      }
+      
+      $(this.el).css({ '-webkit-transform': 'translate(' + visibleX + 'px, ' + visibleY + 'px)'});
     },
     
     dragTileEnd: function(event){
+      if(!this.playing) return false;
+      
       touch = event.data;
-      this.model.play(); 
+      
+      if(Math.abs(this.deltaX) > this.WIDTH/2 || Math.abs(this.deltaY) > this.HEIGHT/2) {
+        // Play the tile if it passes the half of its size
+        this.model.play();
+      } else {
+        // Revert it back to original position
+        $(this.el).anim({ translate: this.originalTransform[0] + 'px, ' + this.originalTransform[1] + 'px'}, 0.125, 'ease-out');
+      }
+      
+      this.playing = false;
+      this.originalTransform = [];
     },
     
   });
