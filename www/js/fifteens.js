@@ -46,7 +46,11 @@ $(function(){
         else if((emptyPos + 1) % boardSize == 0 && tilePos == (emptyPos + 1))
           return false;
         else
-          return delta; // If true, return delta so we can know in which direction to play
+          // If true, return useful data so we can use it in views
+          return {
+            real: (tilePos - emptyPos),
+            delta: delta
+          };
       } else {
         return false;
       }
@@ -65,18 +69,16 @@ $(function(){
     template: _.template("<p><%= label %></p>"),
     
     events: {
-      // 'tap'            : 'playTile',
-      // 'swipe'          : 'playTile',
-      'touchablestart' : 'dragTileStart',
-      'touchablemove'  : 'dragTileMove',
-      'touchableend'   : 'dragTileEnd'
+      'tap'        : 'playTile',
+      'touchstart' : 'dragTileStart',
+      'touchmove'  : 'dragTileMove',
+      'touchend'   : 'dragTileEnd'
     },
     
     initialize: function() {
       _.bindAll(this, 'render', 'playTile', 'dragTileStart', 'dragTileMove', 'dragTileEnd');
       this.model.bind('change', this.render);
       this.model.view = this;
-      $(this.el).Touchable();
     },
 
     render: function() {
@@ -101,31 +103,58 @@ $(function(){
       if(this.model.canBePlayed()) this.model.play();
     },
     
-    dragTileStart: function(event){
-      touch = event.data;
+    dragTileStart: function(e){
+      this.touch = {};
+      this.touch.x1 = e.touches[0].pageX;
+      this.touch.y1 = e.touches[0].pageY;
       
       var canBePlayed = this.model.canBePlayed();
       
       if(canBePlayed) {
         this.playing = true;
-        this.horizontal = (canBePlayed == 1) ? true : false;
+        this.horizontal = (canBePlayed.delta == 1) ? true : false;
+        
+        this.moveTo = (this.horizontal && canBePlayed.real < 0) ? 'right' : 
+                      (this.horizontal && canBePlayed.real > 0)  ? 'left' : 
+                      (!this.horizontal && canBePlayed.real < 0) ? 'bottom' : 
+                      (!this.horizontal && canBePlayed.real > 0) ? 'top' : false;
+        
         this.originalTransform = _.map($(this.el).css('-webkit-transform').replace('translate(','').split(','), function(component){
           return parseFloat(component);
         });
       }
     },
     
-    dragTileMove: function(event){
+    dragTileMove: function(e){
       if(!this.playing) return false;
       
-      touch = event.data;
+      this.touch.x2 = e.touches[0].pageX;
+      this.touch.y2 = e.touches[0].pageY;
       
-      this.deltaX = touch.currentTouch.x - touch.startTouch.x;
-      this.deltaY = touch.currentTouch.y - touch.startTouch.y;
+      this.deltaX = this.touch.x2 - this.touch.x1;
+      this.deltaY = this.touch.y2 - this.touch.y1;
       
+      // Respect current tile positioning
       var visibleX = this.originalTransform[0];
       var visibleY = this.originalTransform[1];
       
+      // Restrict movement to tile width and height
+      switch(this.moveTo) {
+        case 'left':
+          this.deltaX = Math.max(Math.min(this.deltaX, 0), -this.WIDTH);
+          break;
+        case 'right':
+          this.deltaX = Math.min(Math.max(this.deltaX, 0), this.WIDTH);
+          break;
+        case 'top':
+          this.deltaY = Math.max(Math.min(this.deltaY, 0), -this.HEIGHT);
+          break;
+        case 'bottom':
+          this.deltaY = Math.min(Math.max(this.deltaY, 0), this.HEIGHT);
+          break;
+      }
+      
+      // Move only in one direction depending on how tiles are positioned
       if(this.horizontal) {
         visibleX += this.deltaX;
       } else {
@@ -137,8 +166,6 @@ $(function(){
     
     dragTileEnd: function(event){
       if(!this.playing) return false;
-      
-      touch = event.data;
       
       if(Math.abs(this.deltaX) > this.WIDTH/2 || Math.abs(this.deltaY) > this.HEIGHT/2) {
         // Play the tile if it passes the half of its size
