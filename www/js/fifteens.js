@@ -69,11 +69,14 @@ $(function(){
     template: _.template("<p><%= label %></p>"),
     
     events: {
-      'tap'        : 'playTile',
+      'click'      : 'play',
+      'tap'        : 'play',
       'touchstart' : 'dragTileStart',
       'touchmove'  : 'dragTileMove',
       'touchend'   : 'dragTileEnd'
     },
+    
+    sound: new Audio('sounds/tink.mp3'),
     
     initialize: function() {
       _.bindAll(this, 'render', 'playTile', 'dragTileStart', 'dragTileMove', 'dragTileEnd');
@@ -99,8 +102,11 @@ $(function(){
       return this;
     },
     
-    playTile: function(){
-      if(this.model.canBePlayed()) this.model.play();
+    play: function(){
+      if(this.model.canBePlayed()) {
+        this.model.play();
+        this.sound.play();
+      }
     },
     
     dragTileStart: function(e){
@@ -169,7 +175,7 @@ $(function(){
       
       if(Math.abs(this.deltaX) > this.WIDTH/2 || Math.abs(this.deltaY) > this.HEIGHT/2) {
         // Play the tile if it passes the half of its size
-        this.model.play();
+        this.play();
       } else {
         // Revert it back to original position
         $(this.el).anim({ translate3D: this.originalTransform[0] + 'px, ' + this.originalTransform[1] + 'px, 0'}, 0.125, 'ease-out');
