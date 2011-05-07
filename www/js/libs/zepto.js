@@ -375,10 +375,12 @@ var Zepto = (function() {
     return this;
   };
 
-  $.fn.trigger = function(event){
+  $.fn.trigger = function(event, data){
     return this.each(function(){
       var e = document.createEvent('Events');
-      this.dispatchEvent(e, e.initEvent(event, true, true));
+      e.initEvent(event, true, true);
+      e.data = data || {};
+      this.dispatchEvent(e);
     });
   };
 })(Zepto);
