@@ -62,15 +62,18 @@ $(function(){
     template: _.template("<p><%= label %></p>"),
     
     events: {
-      'tap'       : 'playTile',
+      // 'tap'       : 'playTile',
       // 'swipe'     : 'playTile',
-      'touchmove' : 'dragTile'
+      'touchablestart' : 'dragTileStart',
+      'touchablemove'  : 'dragTileMove',
+      'touchableend'   : 'dragTileEnd'
     },
     
     initialize: function() {
-      _.bindAll(this, 'render', 'playTile', 'dragTile');
+      _.bindAll(this, 'render', 'playTile', 'dragTileStart', 'dragTileMove', 'dragTileEnd');
       this.model.bind('change', this.render);
       this.model.view = this;
+      $(this.el).Touchable();
     },
 
     render: function() {
@@ -82,14 +85,11 @@ $(function(){
       var board = this.model.collection;
       
       var left = (tileData.position % board.SIZE) * 144;
-      var top = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 136;  
+      var top = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * 136;
       
-      $(this.el).
-        css({ 'z-index': tileData.position }).
-        anim({ translate: left + 'px, ' + top + 'px'}, 0.125, 'ease-out', 
-          function(){
-            $(this.el).css({left: left + 'px', top: top + 'px', translate: '0,0'})
-          });
+      var el = $(this.el);
+      
+      el.css({ 'z-index': tileData.position }).anim({ translate: left + 'px, ' + top + 'px'}, 0.125, 'ease-out');
       
       return this;
     },
@@ -98,14 +98,26 @@ $(function(){
       this.model.play();
     },
     
-    dragTile: function(event){
-      var deltaX = event.changedTouches[0].screenX;
-      var deltaY = event.changedTouches[0].screenY;
+    dragTileStart: function(event){
+      touch = event.data;
       
-      $(this.el).css({
-        left: deltaX + 'px',
-        top: deltaY + 'px'
-      })
+      this.originalTransform = _.map($(this.el).css('-webkit-transform').replace('translate(','').split(','), function(component){
+        return parseFloat(component);
+      });
+    },
+    
+    dragTileMove: function(event){
+      touch = event.data;
+      
+      var deltaX = this.originalTransform[0] + (touch.currentTouch.x - touch.startTouch.x);
+      var deltaY = this.originalTransform[1] + (touch.currentTouch.y - touch.startTouch.y);
+      
+      $(this.el).css({ '-webkit-transform': 'translate(' + deltaX + 'px, ' + deltaY + 'px)'});
+    },
+    
+    dragTileEnd: function(event){
+      touch = event.data;
+      this.model.play(); 
     },
     
   });
