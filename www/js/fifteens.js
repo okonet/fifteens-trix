@@ -94,7 +94,7 @@ $(function(){
       
       var el = $(this.el);
       
-      el.css({ 'z-index': tileData.position }).anim({ translate: left + 'px, ' + top + 'px'}, 0.125, 'ease-out');
+      el.css({ 'z-index': tileData.position }).anim({ translate3d: left + 'px, ' + top + 'px, 0'}, 0.125, 'ease-out');
       
       return this;
     },
@@ -119,7 +119,7 @@ $(function(){
                       (!this.horizontal && canBePlayed.real < 0) ? 'bottom' : 
                       (!this.horizontal && canBePlayed.real > 0) ? 'top' : false;
         
-        this.originalTransform = _.map($(this.el).css('-webkit-transform').replace('translate(','').split(','), function(component){
+        this.originalTransform = _.map($(this.el).css('-webkit-transform').replace('translate3d(','').split(','), function(component){
           return parseFloat(component);
         });
       }
@@ -161,7 +161,7 @@ $(function(){
         visibleY += this.deltaY;
       }
       
-      $(this.el).css({ '-webkit-transform': 'translate(' + visibleX + 'px, ' + visibleY + 'px)'});
+      $(this.el).css({ '-webkit-transform': 'translate3d(' + visibleX + 'px, ' + visibleY + 'px, 0)'});
     },
     
     dragTileEnd: function(event){
@@ -172,7 +172,7 @@ $(function(){
         this.model.play();
       } else {
         // Revert it back to original position
-        $(this.el).anim({ translate: this.originalTransform[0] + 'px, ' + this.originalTransform[1] + 'px'}, 0.125, 'ease-out');
+        $(this.el).anim({ translate3D: this.originalTransform[0] + 'px, ' + this.originalTransform[1] + 'px, 0'}, 0.125, 'ease-out');
       }
       
       this.playing = false;
