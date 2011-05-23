@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <title>Fifteens</title>
+    
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+	
+	<!-- iPad/iPhone specific css below, add after your main css >
+	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
+	
+	-->
+  <!-- <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="stylesheets/iphone.css" type="text/css" />     -->
+	<link rel="stylesheet" href="css/iphone.css" type="text/css" />
+	
+	<!-- If you application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+  <!-- // <script type="text/javascript" charset="utf-8" src="js/libs/phonegap.0.9.4.min.js"></script> -->
+	<script type="text/javascript" charset="utf-8" src="js/libs/zepto.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/libs/underscore.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/libs/backbone.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/fifteens.js"></script>
+	
+  <script type="text/javascript" charset="utf-8">
+
+	// If you want to prevent dragging, uncomment this section
+  document.addEventListener("touchmove", function(e){ e.preventDefault(); }, false);
+	
+	
+	function onBodyLoad() {
+		document.addEventListener("deviceready",onDeviceReady,false);
+	}
+	
+	/* When this function is called, PhoneGap has been initialized and is ready to roll */
+	function onDeviceReady() {
+		setTimeout(function() { window.scrollTo(false, 0); }, 1);
+	}
+  </script>
+  </head>
+  <!-- <body onload="onBodyLoad()"> -->
+  <body onload="onDeviceReady()">
+    
+    <div id="gameview">
+      <input type="button" name="new_game" value="New game" id="new_game">
+      <p>Moves made: <span id="moves_count">0</span></p>
+      <div class="b-board_fg b-board_fg-1"></div>
+      <div class="b-board_fg b-board_fg-2"></div>
+      <div class="b-board_fg b-board_fg-3"></div>
+      <div class="b-board_fg b-board_fg-4"></div>
+    </div>
+    
+    
+  </body>
+</html>
