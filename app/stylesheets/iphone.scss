@@ -4,7 +4,6 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass";
-
 @import "compass/reset";
 
 $legacy-support-for-ie: false;
@@ -14,7 +13,7 @@ $experimental-support-for-microsoft: false;
 $experimental-support-for-khtml: false;
 
 body {
-  background: url(/img/bg.png);
+  background: image-url("bg.png");
   font-family: "Helvetica Neue", sans-serif;
   color: #fff;
 }
@@ -26,7 +25,7 @@ body {
   
   .b-board_fg {
     position: absolute;
-    background: url(/img/fg.png);
+    background: image-url("fg.png");
     z-index: 9999;
   }
   
@@ -72,7 +71,7 @@ body {
       text-align: center;
       text-shadow: 0 -2px #000;
       color: #DDD;
-      background: url(/img/tile.png) -30px -30px no-repeat;
+      background: image-url("tile.png") -30px -30px no-repeat;
       width: 144px;
       height: 160px;
 
