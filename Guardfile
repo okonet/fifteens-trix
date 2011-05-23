@@ -1,13 +1,10 @@
-guard 'coffeescript', :input => 'app', :output => 'js', :cli => ''
+guard 'coffeescript', :input => 'app', :output => 'js'
 
 guard 'compass' do
   watch(/app\/stylesheets\/(.*)\.s[ac]ss/)
 end
 
-guard 'livereload', :apply_js_live => false do
-  watch(%r{^public/.+\.js})
-  watch(%r{^public/.+\.css})
+guard 'livereload' do
+  watch(%r{^assets/.+\.js})
+  watch(%r{^assets/.+\.css})
 end
-
-
-
