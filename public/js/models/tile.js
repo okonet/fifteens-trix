@@ -33,11 +33,8 @@
       }, {
         silent: true
       });
-      this.set({
+      return this.set({
         position: emptyPos
-      });
-      return game.set({
-        moves: game.get('moves') + 1
       });
     };
     Tile.prototype.canBePlayed = function() {

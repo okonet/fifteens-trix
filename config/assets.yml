@@ -1,0 +1,20 @@
+compress_assets: off
+embed_assets: on
+
+javascripts:
+  app:    
+    - public/js/libs/zepto.js
+    - public/js/libs/underscore.js
+    - public/js/libs/backbone.js
+    
+    - public/js/models/tile.js
+    - public/js/models/board.js
+    - public/js/models/game.js
+    - public/js/views/tile_view.js
+    - public/js/views/board_view.js
+    - public/js/views/game_view.js
+    - public/js/fifteens.js
+
+stylesheets:
+  app:
+    - public/css/app.css

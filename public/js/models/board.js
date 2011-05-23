@@ -19,11 +19,9 @@
       return this.reset();
     };
     Board.prototype.reset = function() {
-      var i, tiles, _i, _len, _ref;
+      var i, tiles, _ref;
       tiles = [];
-      _ref = [this.SIZE * this.SIZE];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        i = _ref[_i];
+      for (i = 0, _ref = this.SIZE * this.SIZE; 0 <= _ref ? i < _ref : i > _ref; 0 <= _ref ? i++ : i--) {
         tiles.push(new this.model({
           label: i + 1,
           position: i,
@@ -42,7 +40,7 @@
       positions = this.pluck('position').sort(function() {
         return 0.5 - Math.random();
       });
-      _.each(positions, __bind(function() {
+      _.each(positions, __bind(function(pos, i) {
         return this.models[i].set({
           'position': pos
         });

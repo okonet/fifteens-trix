@@ -50,6 +50,7 @@ class TileView extends Backbone.View
     if @model.canBePlayed()
       @model.play()
       @sound.play()
+      game.set { moves: game.get('moves') + 1 }
   
   dragTileStart: (e) ->
     @touch = {}

@@ -1,4 +1,4 @@
-guard 'coffeescript', :input => 'app', :output => 'js'
+guard 'coffeescript', :input => 'app', :output => 'public/js'
 
 guard 'compass' do
   watch(/app\/stylesheets\/(.*)\.s[ac]ss/)
@@ -8,3 +8,8 @@ end
 #   watch(%r{^assets\/(.*)\.js})
 #   watch(%r{^assets\/(.*)\.css})
 # end
+
+guard 'jammit' do
+  watch(%r{^assets/js/(.*)\.js})
+  watch(%r{^assets/css/(.*)\.css})
+end

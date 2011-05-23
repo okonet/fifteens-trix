@@ -22,7 +22,6 @@ class Tile extends Backbone.Model
       
       board.getEmptyTile().set { position: tilePos }, { silent: true }
       @set { position: emptyPos }
-      game.set { moves: game.get('moves') + 1 }
     
     canBePlayed: ->
       boardSize = @collection.SIZE

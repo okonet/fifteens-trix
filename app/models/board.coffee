@@ -17,9 +17,7 @@ class Board extends Backbone.Collection
     
     reset: ->
       tiles = []
-      
-      for i in [@SIZE * @SIZE]
-        tiles.push new @model { label: i+1, position: i, solution: i }
+      tiles.push new @model { label: i+1, position: i, solution: i } for i in [0...@SIZE * @SIZE]
       
       _.last(tiles).set { empty: true }
       
@@ -30,7 +28,7 @@ class Board extends Backbone.Collection
       positions = @pluck('position').sort ()-> 
         return 0.5 - Math.random()
         
-      _.each positions, () =>
+      _.each positions, (pos, i) =>
         @models[i].set { 'position': pos }
       
       @trigger('refresh')

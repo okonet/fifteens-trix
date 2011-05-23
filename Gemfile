@@ -9,3 +9,5 @@ gem "rb-fsevent"
 gem "guard-livereload"
 gem "guard-coffeescript"
 gem "guard-compass"
+gem 'guard-jammit'
+# gem 'guard-sprockets'

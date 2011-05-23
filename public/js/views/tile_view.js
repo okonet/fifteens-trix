@@ -51,7 +51,10 @@
     TileView.prototype.play = function() {
       if (this.model.canBePlayed()) {
         this.model.play();
-        return this.sound.play();
+        this.sound.play();
+        return game.set({
+          moves: game.get('moves') + 1
+        });
       }
     };
     TileView.prototype.dragTileStart = function(e) {

@@ -10,6 +10,7 @@ class Game extends Backbone.Model
 
   initialize: ->
     @board = new Board()
+    @set { moves: 0 }
 
   newGame: ->
     @board.shuffle()

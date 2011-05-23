@@ -14,7 +14,10 @@
       Game.__super__.constructor.apply(this, arguments);
     }
     Game.prototype.initialize = function() {
-      return this.board = new Board();
+      this.board = new Board();
+      return this.set({
+        moves: 0
+      });
     };
     Game.prototype.newGame = function() {
       this.board.shuffle();

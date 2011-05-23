@@ -7,6 +7,7 @@
 
 $(function(){
   
-  window.gameView = new GameView({ model: new Game });
+  window.game = new Game();
+  window.gameView = new GameView({ model: game });
   
 });
