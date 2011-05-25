@@ -10,6 +10,6 @@ end
 # end
 
 guard 'jammit' do
-  watch(%r{^assets/js/(.*)\.js})
-  watch(%r{^assets/css/(.*)\.css})
+  watch(%r{^public/js/(.*)\.js})
+  watch(%r{^public/css/(.*)\.css})
 end
