@@ -20,37 +20,38 @@
         });
       }
     };
+    Tile.prototype.position = function() {
+      return this.get('position');
+    };
     Tile.prototype.isEmpty = function() {
       return this.get('empty');
     };
     Tile.prototype.play = function() {
-      var board, emptyPos, tilePos;
-      board = this.collection;
-      tilePos = this.get('position');
-      emptyPos = board.getEmptyTile().get('position');
-      board.getEmptyTile().set({
-        position: tilePos
+      var newPos;
+      newPos = this.collection.emptyTilePosition();
+      this.collection.emptyTile().set({
+        position: this.position()
       }, {
         silent: true
       });
       return this.set({
-        position: emptyPos
+        position: newPos
       });
     };
     Tile.prototype.canBePlayed = function() {
       var boardSize, delta, emptyPos, tilePos;
       boardSize = this.collection.SIZE;
-      tilePos = this.get('position');
-      emptyPos = this.collection.getEmptyTile().get('position');
-      delta = Math.abs(tilePos - emptyPos);
+      tilePos = this.position();
+      emptyPos = this.collection.emptyTilePosition();
+      delta = Math.abs(this.position() - emptyPos);
       if (delta === 1 || delta === boardSize) {
-        if (emptyPos % boardSize === 0 && tilePos === (emptyPos - 1)) {
+        if (emptyPos % boardSize === 0 && this.position === (emptyPos - 1)) {
           return false;
-        } else if ((emptyPos + 1) % boardSize === 0 && tilePos === (emptyPos + 1)) {
+        } else if ((emptyPos + 1) % boardSize === 0 && this.position === (emptyPos + 1)) {
           return false;
         } else {
           return {
-            real: tilePos - emptyPos,
+            real: this.position - emptyPos,
             delta: delta
           };
         }

@@ -47,10 +47,13 @@
       }, this));
       return this.trigger('refresh');
     };
-    Board.prototype.getEmptyTile = function() {
-      return this.detect(function(tile) {
+    Board.prototype.emptyTile = function() {
+      return this.find(function(tile) {
         return tile.isEmpty();
       });
+    };
+    Board.prototype.emptyTilePosition = function() {
+      return this.emptyTile().get('position');
     };
     Board.prototype.solved = function() {
       var actual, solution;

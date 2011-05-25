@@ -57,16 +57,22 @@ class TileView extends Backbone.View
     @touch.x1 = e.touches[0].pageX
     @touch.y1 = e.touches[0].pageY
     
-    canBePlayed = @model.canBePlayed()
-    
-    if canBePlayed
+    if @model.canBePlayed()
       @playing = true
-      @horizontal = (canBePlayed.delta == 1)
+      tilePos = @model.position()
+      emptyPos = @model.collection.emptyTilePosition()
+      diff = tilePos - emptyPos
+      delta = Math.abs(diff)
+      @horizontal = (delta == 1)
       
-      @moveTo = if (@horizontal and canBePlayed.real < 0) then 'right' else
-                if @horizontal and canBePlayed.real > 0  then 'left' else
-                if not @horizontal and canBePlayed.real < 0 then 'bottom' else
-                if not @horizontal and canBePlayed.real > 0 then 'top' else false
+      console.log diff < 0 and not @horizontal
+      
+      @moveDirection = 'right' if diff < 0 and @horizontal
+      @moveDirection = 'left' if diff > 0 and @horizontal
+      @moveDirection = 'down' if diff < 0 and not @horizontal
+      @moveDirection = 'up' if diff > 0 and not @horizontal
+      
+      console.log @moveDirection
       
       @originalTransform = _.map($(@el).css('-webkit-transform').replace('translate3d(','').split(','), (component) ->
         return parseFloat(component)
@@ -82,24 +88,23 @@ class TileView extends Backbone.View
     @deltaY = @touch.y2 - @touch.y1
     
     # Respect current tile positioning
-    visibleX = @originalTransform[0]
-    visibleY = @originalTransform[1]
+    tileX = @originalTransform[0]
+    tileY = @originalTransform[1]
     
     # Restrict movement to tile width and height
-    switch @moveTo
+    switch @moveDirection
       when "left"   then @deltaX = Math.max(Math.min(@deltaX, 0), -@WIDTH)
       when "right"  then @deltaX = Math.min(Math.max(@deltaX, 0), @WIDTH)
-      when "top"    then @deltaY = Math.max(Math.min(@deltaY, 0), -@HEIGHT)
-      when "bottom" then @deltaY = Math.min(Math.max(@deltaY, 0), @HEIGHT)
+      when "up"     then @deltaY = Math.max(Math.min(@deltaY, 0), -@HEIGHT)
+      when "down"   then @deltaY = Math.min(Math.max(@deltaY, 0), @HEIGHT)
 
-    
     # Move only in one direction depending on how tiles are positioned
     if @horizontal
-      visibleX += @deltaX
+      tileX += @deltaX
     else
-      visibleY += @deltaY
+      tileY += @deltaY
     
-    $(@el).css { '-webkit-transform': "translate3d(#{visibleX}px, #{visibleY}px, 0)" }
+    $(@el).css { '-webkit-transform': "translate3d(#{tileX}px, #{tileY}px, 0)" }
   
   dragTileEnd: () ->
     return false unless @playing

@@ -33,10 +33,13 @@ class Board extends Backbone.Collection
       
       @trigger('refresh')
     
-    getEmptyTile: ->
-      return @detect (tile) ->
+    emptyTile: ->
+      return @find (tile) ->
         return tile.isEmpty()
-    
+      
+    emptyTilePosition: ->
+      return @emptyTile().get 'position'
+      
     solved: ->
       actual = @pluck 'position'
       solution = @pluck 'solution'

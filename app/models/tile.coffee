@@ -11,38 +11,38 @@ class Tile extends Backbone.Model
     initialize: ->
       if !@get 'empty' 
         @set { empty: false }
+        
+    position: ->
+      @get 'position'
     
     isEmpty: ->
       return @get 'empty'
     
     play: ->
-      board = @collection
-      tilePos = @get 'position'
-      emptyPos = board.getEmptyTile().get 'position'
-      
-      board.getEmptyTile().set { position: tilePos }, { silent: true }
-      @set { position: emptyPos }
+      newPos = @collection.emptyTilePosition()
+      @collection.emptyTile().set { position: @position() }, { silent: true }
+      @set { position: newPos }
     
     canBePlayed: ->
       boardSize = @collection.SIZE
-      tilePos = @get('position')
-      emptyPos = @collection.getEmptyTile().get('position')
-      delta = Math.abs(tilePos - emptyPos)
+      tilePos = @position()
+      emptyPos = @collection.emptyTilePosition()
+      delta = Math.abs(@position() - emptyPos)
       
       if delta == 1 or delta == boardSize
         # Empty is in first row. Previous tile can not be played
-        if emptyPos % boardSize == 0 and tilePos == (emptyPos - 1)
-          return false
+        if emptyPos % boardSize == 0 and @position == (emptyPos - 1)
+          return no
         # Empty is in last row. Next tile can not be played
-        else if (emptyPos + 1) % boardSize == 0 and tilePos == (emptyPos + 1)
-          return false
+        else if (emptyPos + 1) % boardSize == 0 and @position == (emptyPos + 1)
+          return no
         else
           # If true, return useful data so we can use it in views
           return {
-            real: (tilePos - emptyPos),
+            real: (@position - emptyPos),
             delta: delta
           }
       else
-        return false
+        return no
 
 window.Tile = Tile

@@ -2407,37 +2407,38 @@ var Zepto = (function() {
         });
       }
     };
+    Tile.prototype.position = function() {
+      return this.get('position');
+    };
     Tile.prototype.isEmpty = function() {
       return this.get('empty');
     };
     Tile.prototype.play = function() {
-      var board, emptyPos, tilePos;
-      board = this.collection;
-      tilePos = this.get('position');
-      emptyPos = board.getEmptyTile().get('position');
-      board.getEmptyTile().set({
-        position: tilePos
+      var newPos;
+      newPos = this.collection.emptyTilePosition();
+      this.collection.emptyTile().set({
+        position: this.position()
       }, {
         silent: true
       });
       return this.set({
-        position: emptyPos
+        position: newPos
       });
     };
     Tile.prototype.canBePlayed = function() {
       var boardSize, delta, emptyPos, tilePos;
       boardSize = this.collection.SIZE;
-      tilePos = this.get('position');
-      emptyPos = this.collection.getEmptyTile().get('position');
-      delta = Math.abs(tilePos - emptyPos);
+      tilePos = this.position();
+      emptyPos = this.collection.emptyTilePosition();
+      delta = Math.abs(this.position() - emptyPos);
       if (delta === 1 || delta === boardSize) {
-        if (emptyPos % boardSize === 0 && tilePos === (emptyPos - 1)) {
+        if (emptyPos % boardSize === 0 && this.position === (emptyPos - 1)) {
           return false;
-        } else if ((emptyPos + 1) % boardSize === 0 && tilePos === (emptyPos + 1)) {
+        } else if ((emptyPos + 1) % boardSize === 0 && this.position === (emptyPos + 1)) {
           return false;
         } else {
           return {
-            real: tilePos - emptyPos,
+            real: this.position - emptyPos,
             delta: delta
           };
         }
@@ -2499,10 +2500,13 @@ var Zepto = (function() {
       }, this));
       return this.trigger('refresh');
     };
-    Board.prototype.getEmptyTile = function() {
-      return this.detect(function(tile) {
+    Board.prototype.emptyTile = function() {
+      return this.find(function(tile) {
         return tile.isEmpty();
       });
+    };
+    Board.prototype.emptyTilePosition = function() {
+      return this.emptyTile().get('position');
     };
     Board.prototype.solved = function() {
       var actual, solution;
@@ -2607,22 +2611,38 @@ var Zepto = (function() {
       }
     };
     TileView.prototype.dragTileStart = function(e) {
-      var canBePlayed;
+      var delta, diff, emptyPos, tilePos;
       this.touch = {};
       this.touch.x1 = e.touches[0].pageX;
       this.touch.y1 = e.touches[0].pageY;
-      canBePlayed = this.model.canBePlayed();
-      if (canBePlayed) {
+      if (this.model.canBePlayed()) {
         this.playing = true;
-        this.horizontal = canBePlayed.delta === 1;
-        this.moveTo = this.horizontal && canBePlayed.real < 0 ? 'right' : (this.horizontal && canBePlayed.real > 0 ? 'left' : void 0, !this.horizontal && canBePlayed.real < 0 ? 'bottom' : void 0, !this.horizontal && canBePlayed.real > 0 ? 'top' : false);
+        tilePos = this.model.position();
+        emptyPos = this.model.collection.emptyTilePosition();
+        diff = tilePos - emptyPos;
+        delta = Math.abs(diff);
+        this.horizontal = delta === 1;
+        console.log(diff < 0 && !this.horizontal);
+        if (diff < 0 && this.horizontal) {
+          this.moveDirection = 'right';
+        }
+        if (diff > 0 && this.horizontal) {
+          this.moveDirection = 'left';
+        }
+        if (diff < 0 && !this.horizontal) {
+          this.moveDirection = 'down';
+        }
+        if (diff > 0 && !this.horizontal) {
+          this.moveDirection = 'up';
+        }
+        console.log(this.moveDirection);
         return this.originalTransform = _.map($(this.el).css('-webkit-transform').replace('translate3d(', '').split(','), function(component) {
           return parseFloat(component);
         });
       }
     };
     TileView.prototype.dragTileMove = function(e) {
-      var visibleX, visibleY;
+      var tileX, tileY;
       if (!this.playing) {
         return false;
       }
@@ -2630,28 +2650,28 @@ var Zepto = (function() {
       this.touch.y2 = e.touches[0].pageY;
       this.deltaX = this.touch.x2 - this.touch.x1;
       this.deltaY = this.touch.y2 - this.touch.y1;
-      visibleX = this.originalTransform[0];
-      visibleY = this.originalTransform[1];
-      switch (this.moveTo) {
+      tileX = this.originalTransform[0];
+      tileY = this.originalTransform[1];
+      switch (this.moveDirection) {
         case "left":
           this.deltaX = Math.max(Math.min(this.deltaX, 0), -this.WIDTH);
           break;
         case "right":
           this.deltaX = Math.min(Math.max(this.deltaX, 0), this.WIDTH);
           break;
-        case "top":
+        case "up":
           this.deltaY = Math.max(Math.min(this.deltaY, 0), -this.HEIGHT);
           break;
-        case "bottom":
+        case "down":
           this.deltaY = Math.min(Math.max(this.deltaY, 0), this.HEIGHT);
       }
       if (this.horizontal) {
-        visibleX += this.deltaX;
+        tileX += this.deltaX;
       } else {
-        visibleY += this.deltaY;
+        tileY += this.deltaY;
       }
       return $(this.el).css({
-        '-webkit-transform': "translate3d(" + visibleX + "px, " + visibleY + "px, 0)"
+        '-webkit-transform': "translate3d(" + tileX + "px, " + tileY + "px, 0)"
       });
     };
     TileView.prototype.dragTileEnd = function() {
