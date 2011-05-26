@@ -70,7 +70,7 @@ footer, header, hgroup, menu, nav, section {
 
 /* line 15, ../../app/stylesheets/app.scss */
 body {
-  background: url(../img/bg.png?1304379313);
+  background: url(../img/bg.png?1306430291);
   font-family: "Helvetica Neue", sans-serif;
   color: #fff;
 }
@@ -84,7 +84,7 @@ body {
 /* line 26, ../../app/stylesheets/app.scss */
 #gameview .b-board_fg {
   position: absolute;
-  background: url(../img/fg.png?1304411258);
+  background: url(../img/fg.png?1306430291);
   z-index: 9999;
 }
 /* line 32, ../../app/stylesheets/app.scss */
@@ -134,7 +134,7 @@ body {
   text-align: center;
   text-shadow: 0 -2px black;
   color: #DDD;
-  background: url(../img/tile.png?1304379237) -30px -30px no-repeat;
+  background: url(../img/tile.png?1306430291) -30px -30px no-repeat;
   width: 144px;
   height: 160px;
 }
