@@ -1,0 +1,14 @@
+CACHE MANIFEST
+# lines that begin with a pound sign are comments and are ignored
+http://localhost:4000/index.html
+public/assets/app-datauri.css.gz
+public/assets/app.js.gz
+public/img/bg.png
+public/img/fg.png
+public/img/tile.png
+
+CACHE:
+# this is the default, try the cache first for these items
+
+NETWORK:
+# always fetch items listed here from the network, never the cache

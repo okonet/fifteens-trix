@@ -2,7 +2,7 @@
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-/* line 17, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -24,70 +24,70 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 20, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 20, ../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 body {
   line-height: 1;
 }
 
-/* line 22, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 24, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 26, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 28, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 101, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 101, ../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 30, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 115, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 115, ../../../../../Library/Ruby/Gems/1.8/gems/compass-0.11.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
-/* line 15, ../../app/stylesheets/app.scss */
+/* line 15, ../app/stylesheets/app.scss */
 body {
-  background: url(../img/bg.png?1304379313);
+  background: url('../img/bg.png');
   font-family: "Helvetica Neue", sans-serif;
   color: #fff;
 }
 
-/* line 21, ../../app/stylesheets/app.scss */
+/* line 21, ../app/stylesheets/app.scss */
 #gameview {
   position: relative;
   width: 640px;
   height: 960px;
 }
-/* line 26, ../../app/stylesheets/app.scss */
+/* line 26, ../app/stylesheets/app.scss */
 #gameview .b-board_fg {
   position: absolute;
-  background: url(../img/fg.png?1304411258);
+  background: url('../img/fg.png');
   z-index: 9999;
 }
-/* line 32, ../../app/stylesheets/app.scss */
+/* line 32, ../app/stylesheets/app.scss */
 #gameview .b-board_fg-1 {
   left: 0;
   top: 140px;
@@ -95,7 +95,7 @@ body {
   height: 40px;
   background-position: 0 -140px;
 }
-/* line 39, ../../app/stylesheets/app.scss */
+/* line 39, ../app/stylesheets/app.scss */
 #gameview .b-board_fg-2 {
   left: 20px;
   top: 180px;
@@ -103,7 +103,7 @@ body {
   height: 510px;
   background-position: -20px -180px;
 }
-/* line 46, ../../app/stylesheets/app.scss */
+/* line 46, ../app/stylesheets/app.scss */
 #gameview .b-board_fg-3 {
   left: 580px;
   top: 180px;
@@ -111,7 +111,7 @@ body {
   height: 510px;
   background-position: -580px -180px;
 }
-/* line 53, ../../app/stylesheets/app.scss */
+/* line 53, ../app/stylesheets/app.scss */
 #gameview .b-board_fg-4 {
   left: 0;
   top: 690px;
@@ -119,7 +119,7 @@ body {
   height: 60px;
   background-position: 0 -690px;
 }
-/* line 61, ../../app/stylesheets/app.scss */
+/* line 61, ../app/stylesheets/app.scss */
 #gameview .b-board {
   position: relative;
   top: 128px;
@@ -127,24 +127,24 @@ body {
   width: 580px;
   height: 580px;
 }
-/* line 68, ../../app/stylesheets/app.scss */
+/* line 68, ../app/stylesheets/app.scss */
 #gameview .b-board .b-tile {
   position: absolute;
   margin: 1px;
   text-align: center;
   text-shadow: 0 -2px black;
   color: #DDD;
-  background: url(../img/tile.png?1304379237) -30px -30px no-repeat;
+  background: url('../img/tile.png') -30px -30px no-repeat;
   width: 144px;
   height: 160px;
 }
-/* line 79, ../../app/stylesheets/app.scss */
+/* line 79, ../app/stylesheets/app.scss */
 #gameview .b-board .b-tile p {
   font-size: 3.5em;
   line-height: 2.25em;
   font-weight: 500;
 }
-/* line 85, ../../app/stylesheets/app.scss */
+/* line 85, ../app/stylesheets/app.scss */
 #gameview .b-board .b-tile_empty {
   visibility: hidden!important;
 }

@@ -63,16 +63,12 @@ class TileView extends Backbone.View
       emptyPos = @model.collection.emptyTilePosition()
       diff = tilePos - emptyPos
       delta = Math.abs(diff)
+      
       @horizontal = (delta == 1)
-      
-      console.log diff < 0 and not @horizontal
-      
       @moveDirection = 'right' if diff < 0 and @horizontal
       @moveDirection = 'left' if diff > 0 and @horizontal
       @moveDirection = 'down' if diff < 0 and not @horizontal
       @moveDirection = 'up' if diff > 0 and not @horizontal
-      
-      console.log @moveDirection
       
       @originalTransform = _.map($(@el).css('-webkit-transform').replace('translate3d(','').split(','), (component) ->
         return parseFloat(component)

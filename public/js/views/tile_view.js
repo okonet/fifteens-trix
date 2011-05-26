@@ -69,7 +69,6 @@
         diff = tilePos - emptyPos;
         delta = Math.abs(diff);
         this.horizontal = delta === 1;
-        console.log(diff < 0 && !this.horizontal);
         if (diff < 0 && this.horizontal) {
           this.moveDirection = 'right';
         }
@@ -82,7 +81,6 @@
         if (diff > 0 && !this.horizontal) {
           this.moveDirection = 'up';
         }
-        console.log(this.moveDirection);
         return this.originalTransform = _.map($(this.el).css('-webkit-transform').replace('translate3d(', '').split(','), function(component) {
           return parseFloat(component);
         });
