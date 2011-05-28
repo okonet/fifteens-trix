@@ -121,7 +121,7 @@
       if (!this.playing) {
         return false;
       }
-      if (Math.abs(this.deltaX) > this.WIDTH / 2 || Math.abs(this.deltaY) > this.HEIGHT / 2) {
+      if ((this.horizontal && Math.abs(this.deltaX) > this.WIDTH / 8) || !(this.horizontal && Math.abs(this.deltaY) > this.HEIGHT / 8)) {
         this.play();
       } else {
         $(this.el).anim({

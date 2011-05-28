@@ -105,7 +105,7 @@ class TileView extends Backbone.View
   dragTileEnd: () ->
     return false unless @playing
     
-    if Math.abs(@deltaX) > @WIDTH/2 or Math.abs(@deltaY) > @HEIGHT/2
+    if (@horizontal and Math.abs(@deltaX) > @WIDTH/8) or not (@horizontal and Math.abs(@deltaY) > @HEIGHT/8)
       @play() #Play the tile if it passes the half of its size
     else
       $(@el).anim({ translate3D: "#{@originalTransform[0]}px, #{@originalTransform[1]}px, 0"}, 0.125, "ease-out") # Revert it back to original position
