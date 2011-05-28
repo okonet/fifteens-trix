@@ -26,7 +26,7 @@
       'touchend': 'dragTileEnd'
     };
     TileView.prototype.initialize = function() {
-      _.bindAll(this, 'render', 'playTile', 'dragTileStart', 'dragTileMove', 'dragTileEnd');
+      _.bindAll(this, 'render', 'play', 'dragTileStart', 'dragTileMove', 'dragTileEnd');
       this.model.bind('change', this.render);
       return this.model.view = this;
     };
