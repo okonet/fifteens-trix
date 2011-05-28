@@ -25,7 +25,6 @@
       'touchmove': 'dragTileMove',
       'touchend': 'dragTileEnd'
     };
-    TileView.prototype.sound = new Audio('sounds/tink.mp3');
     TileView.prototype.initialize = function() {
       _.bindAll(this, 'render', 'playTile', 'dragTileStart', 'dragTileMove', 'dragTileEnd');
       this.model.bind('change', this.render);
@@ -51,7 +50,6 @@
     TileView.prototype.play = function() {
       if (this.model.canBePlayed()) {
         this.model.play();
-        this.sound.play();
         return game.set({
           moves: game.get('moves') + 1
         });
