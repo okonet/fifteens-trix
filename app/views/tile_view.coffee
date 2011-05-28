@@ -29,7 +29,7 @@ class TileView extends Backbone.View
   # sound: new Audio('sounds/tink.mp3')
   
   initialize: ->
-    _.bindAll @, 'render', 'playTile', 'dragTileStart', 'dragTileMove', 'dragTileEnd'
+    _.bindAll @, 'render', 'play', 'dragTileStart', 'dragTileMove', 'dragTileEnd'
     @model.bind('change', @render)
     @model.view = @
 
