@@ -13,7 +13,7 @@ class BoardView extends Backbone.View
     className: 'b-board'
     
     initialize: ->
-      _.bindAll this, 'render', 'addTile', 'addTiles'
+      _.bindAll this, 'render', 'addTile', 'addTiles', 'checkSolved'
       @model.bind('refresh', @render)
       @model.bind('change', @checkSolved)
       @model.view = @
@@ -32,6 +32,6 @@ class BoardView extends Backbone.View
       @model.each @addTile
     
     checkSolved: ->
-      game.set { solved: true } if @solved()
+      game.set { solved: true } if @model.solved()
   
 window.BoardView = BoardView

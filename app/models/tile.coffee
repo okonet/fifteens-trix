@@ -19,6 +19,7 @@ class Tile extends Backbone.Model
       return @get 'empty'
     
     play: ->
+      console.log 345
       newPos = @collection.emptyTilePosition()
       @collection.emptyTile().set { position: @position() }, { silent: true }
       @set { position: newPos }

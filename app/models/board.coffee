@@ -41,8 +41,6 @@ class Board extends Backbone.Collection
       return @emptyTile().get 'position'
       
     solved: ->
-      actual = @pluck 'position'
-      solution = @pluck 'solution'
-      return actual.toString() == solution.toString()
+      return @pluck('position').toString() == @pluck('solution').toString()
 
 window.Board = Board

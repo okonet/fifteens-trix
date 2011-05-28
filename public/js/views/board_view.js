@@ -16,7 +16,7 @@
     BoardView.prototype.tagName = 'ul';
     BoardView.prototype.className = 'b-board';
     BoardView.prototype.initialize = function() {
-      _.bindAll(this, 'render', 'addTile', 'addTiles');
+      _.bindAll(this, 'render', 'addTile', 'addTiles', 'checkSolved');
       this.model.bind('refresh', this.render);
       this.model.bind('change', this.checkSolved);
       this.model.view = this;
@@ -38,7 +38,7 @@
       return this.model.each(this.addTile);
     };
     BoardView.prototype.checkSolved = function() {
-      if (this.solved()) {
+      if (this.model.solved()) {
         return game.set({
           solved: true
         });

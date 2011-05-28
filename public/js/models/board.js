@@ -56,10 +56,7 @@
       return this.emptyTile().get('position');
     };
     Board.prototype.solved = function() {
-      var actual, solution;
-      actual = this.pluck('position');
-      solution = this.pluck('solution');
-      return actual.toString() === solution.toString();
+      return this.pluck('position').toString() === this.pluck('solution').toString();
     };
     return Board;
   })();
