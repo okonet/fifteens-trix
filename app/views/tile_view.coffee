@@ -26,7 +26,7 @@ class TileView extends Backbone.View
     'touchend'   : 'dragTileEnd'
   }
   
-  sound: new Audio('sounds/tink.mp3')
+  # sound: new Audio('sounds/tink.mp3')
   
   initialize: ->
     _.bindAll @, 'render', 'playTile', 'dragTileStart', 'dragTileMove', 'dragTileEnd'
@@ -49,7 +49,7 @@ class TileView extends Backbone.View
   play: ->
     if @model.canBePlayed()
       @model.play()
-      @sound.play()
+      # @sound.play()
       game.set { moves: game.get('moves') + 1 }
   
   dragTileStart: (e) ->
