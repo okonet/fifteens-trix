@@ -1,7 +1,11 @@
 CACHE MANIFEST
 
+/
 assets/app.css
 assets/app.js
 img/bg.png?1306430291
 img/fg.png?1306430291
 img/tile.png?1306430291
+apple-touch-icon-72x72-precomposed.png
+apple-touch-icon-114x114-precomposed.png
+apple-touch-icon-precomposed.png
