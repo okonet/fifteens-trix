@@ -1,8 +1,7 @@
 CACHE MANIFEST
 
-/
-/assets/app.css
-/assets/app.js
-/img/bg.png
-/img/fg.png
-/img/tile.png
+assets/app.css
+assets/app.js
+img/bg.png?1306430291
+img/fg.png?1306430291
+img/tile.png?1306430291
