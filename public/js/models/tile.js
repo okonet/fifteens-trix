@@ -28,7 +28,6 @@
     };
     Tile.prototype.play = function() {
       var newPos;
-      console.log(345);
       newPos = this.collection.emptyTilePosition();
       this.collection.emptyTile().set({
         position: this.position()

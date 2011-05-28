@@ -12,6 +12,7 @@ class GameView extends Backbone.View
     
     events: {
       'click #new_game': 'newGame'
+      'click #solve_game': 'solveGame'
     }
     
     initialize: ->
@@ -25,9 +26,13 @@ class GameView extends Backbone.View
     
     newGame: ->
       @model.newGame() if window.confirm "Are you sure you want to start a new game"
+      
+    solveGame: ->
+      @model.board.each (item) ->
+        item.set { position: item.get('solution') }
     
     gameSolved: ->
-      alert("Congratulations! You solved the puzzle in #{@model.get('moved')} moves.");
+      alert("Congratulations! You solved the puzzle in #{@get('moves')} moves.");
     
     updateStats: ->
       @$('#moves_count').html @model.get('moves')

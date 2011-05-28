@@ -15,7 +15,8 @@
     }
     GameView.prototype.el = $("#gameview");
     GameView.prototype.events = {
-      'click #new_game': 'newGame'
+      'click #new_game': 'newGame',
+      'click #solve_game': 'solveGame'
     };
     GameView.prototype.initialize = function() {
       var view;
@@ -32,8 +33,15 @@
         return this.model.newGame();
       }
     };
+    GameView.prototype.solveGame = function() {
+      return this.model.board.each(function(item) {
+        return item.set({
+          position: item.get('solution')
+        });
+      });
+    };
     GameView.prototype.gameSolved = function() {
-      return alert("Congratulations! You solved the puzzle in " + (this.model.get('moved')) + " moves.");
+      return alert("Congratulations! You solved the puzzle in " + (this.get('moves')) + " moves.");
     };
     GameView.prototype.updateStats = function() {
       return this.$('#moves_count').html(this.model.get('moves'));
