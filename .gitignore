@@ -2,6 +2,6 @@
 *.perspectivev3
 *.pbxuser
 .DS_Store
-build
-www/phonegap.js
 .sass-cache
+/public/assets
+/public/css
