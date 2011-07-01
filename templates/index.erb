@@ -43,7 +43,14 @@
 
       $(document).ready(function(){
         setTimeout(function() { window.scrollTo(false, 0); }, 1);
-      });	
+      });
+      
+      $(function(){
+
+        window.game = new Game();
+        window.gameView = new GameView({ model: game });
+
+      });
     </script>
     
   </body>

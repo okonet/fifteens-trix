@@ -1,5 +1,5 @@
-compress_assets: on
-embed_assets: on
+compress_assets: off
+embed_assets: off
 
 javascripts:
   app:
@@ -13,7 +13,6 @@ javascripts:
     - public/js/views/tile_view.js
     - public/js/views/board_view.js
     - public/js/views/game_view.js
-    - public/js/fifteens.js
 
 stylesheets:
   app:
