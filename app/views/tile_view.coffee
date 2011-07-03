@@ -19,8 +19,8 @@ class TileView extends Backbone.View
   template: _.template("<p><%= label %></p>")
 
   events: {
-    'click'      : 'play',
-    'tap'        : 'play',
+    # 'click'      : 'play',
+    # 'tap'        : 'play',
     'touchstart' : 'dragTileStart',
     'touchmove'  : 'dragTileMove',
     'touchend'   : 'dragTileEnd'
@@ -46,56 +46,54 @@ class TileView extends Backbone.View
     @
   
   play: ->
+    return if not @tilesToPlay = @getTilesToPlay() if not @tilesToPlay
+      
+    # Swtich each tile positions
+    for i in [@tilesToPlay.length-1...0]
+      tile1 = @tilesToPlay[i]
+      tile2 = @tilesToPlay[i-1]
+      @tilesToPlay[i] = tile2
+      @tilesToPlay[i-1] = tile1
+      game.board.switchTiles tile1, tile2
     
+    # @sound.play()
+    game.set { moves: game.get('moves') + 1 }
+      
+  getTilesToPlay: ->
     @positions = @model.getRelativePositioning()
-    
-    if @positions.delta < @positions.boardSize or @positions.delta % @positions.boardSize == 0 
-      @playing = true
-      
-      @horizontal = (@positions.delta < @positions.boardSize)
-      @moveDirection = 'right' if @positions.diff < 0 and @horizontal
-      @moveDirection = 'left' if @positions.diff > 0 and @horizontal
-      @moveDirection = 'down' if @positions.diff < 0 and not @horizontal
-      @moveDirection = 'up' if @positions.diff > 0 and not @horizontal
-      
-      # Find tiles between empty and clicked tile
-      if @positions.delta % @positions.boardSize == 0 # Empty and tile in a same column
-        @tilesToPlay = (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos] when (pos - @positions.emptyPos) % @positions.boardSize == 0)
-      else # or they are on the same row
-        @tilesToPlay = (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos]) if @positions.delta < @positions.boardSize
-      
-      # Swtich each tile positions
-      for i in [@tilesToPlay.length-1...0]
-        tile1 = @tilesToPlay[i]
-        tile2 = @tilesToPlay[i-1]
-        @tilesToPlay[i] = tile2
-        @tilesToPlay[i-1] = tile1
-        game.board.switchTiles tile1, tile2
-      
-      # @sound.play()
-      game.set { moves: game.get('moves') + 1 }
+    # Check if the clicked tile is on same column or row with empty tile
+    if @positions.delta % @positions.boardSize == 0 # Empty tile and our tile are on a same column
+      (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos] when (pos - @positions.emptyPos) % @positions.boardSize == 0)
+    else if @positions.delta < @positions.boardSize # or they are on the same row
+      (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos]) if @positions.delta < @positions.boardSize
   
   dragTileStart: (e) ->
-    @touch = {}
-    @touch.x1 = e.touches[0].pageX
-    @touch.y1 = e.touches[0].pageY    
-      
-    @originalTransform = _.map($(@el).css('-webkit-transform').replace('translate3d(','').split(','), (component) ->
-      return parseFloat(component)
-    )
+    return if not @tilesToPlay = @getTilesToPlay()
+    
+    @touch = 
+      x1: e.touches[0].pageX
+      y1: e.touches[0].pageY          
+    @horizontal = (@positions.delta < @positions.boardSize)
+    @moveDirection = 'right' if @positions.diff < 0 and @horizontal
+    @moveDirection = 'left' if @positions.diff > 0 and @horizontal
+    @moveDirection = 'down' if @positions.diff < 0 and not @horizontal
+    @moveDirection = 'up' if @positions.diff > 0 and not @horizontal
+    
+    @movingTiles = (for tile in @tilesToPlay when not tile.isEmpty()
+      {
+        element: $(tile.view.el)
+        transform: _.map $(tile.view.el).css('-webkit-transform').replace('translate3d(','').split(','), (component) -> return parseFloat component
+      }
+    )    
   
   dragTileMove: (e) ->
-    return false unless @playing
+    return false unless @movingTiles.length
     
     @touch.x2 = e.touches[0].pageX
     @touch.y2 = e.touches[0].pageY
     
     @deltaX = @touch.x2 - @touch.x1
     @deltaY = @touch.y2 - @touch.y1
-    
-    # Respect current tile positioning
-    tileX = @originalTransform[0]
-    tileY = @originalTransform[1]
     
     # Restrict movement to tile width and height
     switch @moveDirection
@@ -104,24 +102,25 @@ class TileView extends Backbone.View
       when "up"     then @deltaY = Math.max(Math.min(@deltaY, 0), -@HEIGHT)
       when "down"   then @deltaY = Math.min(Math.max(@deltaY, 0), @HEIGHT)
 
-    # Move only in one direction depending on how tiles are positioned
-    if @horizontal
-      tileX += @deltaX
-    else
-      tileY += @deltaY
-    
-    $(@el).css { '-webkit-transform': "translate3d(#{tileX}px, #{tileY}px, 0)" }
+    # Move each tile only in one direction depending on how tiles are positioned
+    for tile in @movingTiles
+      tileX = tile.transform[0]
+      tileY = tile.transform[1]
+      if @horizontal then tileX += @deltaX else tileY += @deltaY
+      tile.element.css { '-webkit-transform': "translate3d(#{tileX}px, #{tileY}px, 0)" }
   
   dragTileEnd: () ->
-    return false unless @playing
+    return false unless @movingTiles.length
     
-    if (@horizontal and Math.abs(@deltaX) > @WIDTH/8) or not (@horizontal and Math.abs(@deltaY) > @HEIGHT/8)
+    if (@horizontal and Math.abs(@deltaX) > @WIDTH/8) or (not @horizontal and Math.abs(@deltaY) > @HEIGHT/8)
       @play() #Play the tile if it passes the half of its size
     else
-      $(@el).anim({ translate3D: "#{@originalTransform[0]}px, #{@originalTransform[1]}px, 0"}, 0.125, "ease-out") # Revert it back to original position
+      for tile in @movingTiles
+        tileX = tile.transform[0]
+        tileY = tile.transform[1]
+        $(tile.element).anim({ translate3D: "#{tileX}px, #{tileY}px, 0"}, 0.125, "ease-out") # Aniamte tile back to original position
     
-    @playing = false
-    @originalTransform = []
+    @movingTiles = []
 
 window.TileView = TileView
   
