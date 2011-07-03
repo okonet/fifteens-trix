@@ -1,9 +1,10 @@
-compress_assets: off
+compress_assets: on
 embed_assets: off
 
 javascripts:
   app:
     - public/js/libs/zepto.js
+    - public/js/libs/jquery.ios-shake.js
     - public/js/libs/underscore.js
     - public/js/libs/backbone.js
     
