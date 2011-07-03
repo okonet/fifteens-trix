@@ -14,6 +14,14 @@ class Board extends Backbone.Collection
     
     initialize: ->
       @reset()
+      
+    getTileWithPosition: (position) ->
+      @find (tile) -> tile.position() == position
+      
+    switchTiles: (tile1, tile2) ->
+      tile1pos = tile1.position()
+      tile1.set { position: tile2.position() }, { silent: true }
+      tile2.set { position: tile1pos }
     
     reset: ->
       tiles = []
@@ -22,7 +30,6 @@ class Board extends Backbone.Collection
       _.last(tiles).set { empty: true }
       
       @refresh tiles, {silent: true}
-
     
     shuffle: ->
       positions = @pluck('position').sort ()-> 

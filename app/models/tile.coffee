@@ -9,8 +9,7 @@
 class Tile extends Backbone.Model
     
     initialize: ->
-      if !@get 'empty' 
-        @set { empty: false }
+      @set { empty: false } if !@get 'empty' 
         
     position: ->
       @get 'position'
@@ -44,5 +43,20 @@ class Tile extends Backbone.Model
           }
       else
         return no
+    
+    getRelativePositioning: ->
+      boardSize = @collection.SIZE
+      tilePos = @position()
+      emptyPos = @collection.emptyTilePosition()
+      diff = tilePos - emptyPos
+      delta = Math.abs diff
+      
+      {
+        boardSize:  boardSize
+        tilePos:    tilePos
+        emptyPos:   emptyPos
+        diff:       diff
+        delta:      delta
+      }
 
 window.Tile = Tile

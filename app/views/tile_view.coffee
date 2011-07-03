@@ -34,45 +34,55 @@ class TileView extends Backbone.View
     @model.view = @
 
   render: ->
-    board = @model.collection
     tileData = @model.toJSON()
     $(@el).html @template(tileData)
     $(@el).addClass('b-tile_empty') if tileData.empty
     
-    left = (tileData.position % board.SIZE) * @WIDTH
-    top = (Math.ceil((tileData.position + 1) / board.SIZE) - 1) * @HEIGHT
+    left = (tileData.position % game.board.SIZE) * @WIDTH
+    top = (Math.ceil((tileData.position + 1) / game.board.SIZE) - 1) * @HEIGHT
     
     $(@el).css({ 'z-index': tileData.position }).anim({ translate3d: "#{left}px, #{top}px, 0"}, 0.125, "ease-out")
     
-    return @
+    @
   
   play: ->
-    if @model.canBePlayed()
-      @model.play()
+    
+    @positions = @model.getRelativePositioning()
+    
+    if @positions.delta < @positions.boardSize or @positions.delta % @positions.boardSize == 0 
+      @playing = true
+      
+      @horizontal = (@positions.delta < @positions.boardSize)
+      @moveDirection = 'right' if @positions.diff < 0 and @horizontal
+      @moveDirection = 'left' if @positions.diff > 0 and @horizontal
+      @moveDirection = 'down' if @positions.diff < 0 and not @horizontal
+      @moveDirection = 'up' if @positions.diff > 0 and not @horizontal
+      
+      # Find tiles between empty and clicked tile
+      if @positions.delta % @positions.boardSize == 0 # Empty and tile in a same column
+        @tilesToPlay = (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos] when (pos - @positions.emptyPos) % @positions.boardSize == 0)
+      else # or they are on the same row
+        @tilesToPlay = (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos]) if @positions.delta < @positions.boardSize
+      
+      # Swtich each tile positions
+      for i in [@tilesToPlay.length-1...0]
+        tile1 = @tilesToPlay[i]
+        tile2 = @tilesToPlay[i-1]
+        @tilesToPlay[i] = tile2
+        @tilesToPlay[i-1] = tile1
+        game.board.switchTiles tile1, tile2
+      
       # @sound.play()
       game.set { moves: game.get('moves') + 1 }
   
   dragTileStart: (e) ->
     @touch = {}
     @touch.x1 = e.touches[0].pageX
-    @touch.y1 = e.touches[0].pageY
-    
-    if @model.canBePlayed()
-      @playing = true
-      tilePos = @model.position()
-      emptyPos = @model.collection.emptyTilePosition()
-      diff = tilePos - emptyPos
-      delta = Math.abs(diff)
+    @touch.y1 = e.touches[0].pageY    
       
-      @horizontal = (delta == 1)
-      @moveDirection = 'right' if diff < 0 and @horizontal
-      @moveDirection = 'left' if diff > 0 and @horizontal
-      @moveDirection = 'down' if diff < 0 and not @horizontal
-      @moveDirection = 'up' if diff > 0 and not @horizontal
-      
-      @originalTransform = _.map($(@el).css('-webkit-transform').replace('translate3d(','').split(','), (component) ->
-        return parseFloat(component)
-      )
+    @originalTransform = _.map($(@el).css('-webkit-transform').replace('translate3d(','').split(','), (component) ->
+      return parseFloat(component)
+    )
   
   dragTileMove: (e) ->
     return false unless @playing
