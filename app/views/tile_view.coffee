@@ -64,7 +64,7 @@ class TileView extends Backbone.View
     # Check if the clicked tile is on same column or row with empty tile
     if @positions.delta % @positions.boardSize == 0 # Empty tile and our tile are on a same column
       (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos] when (pos - @positions.emptyPos) % @positions.boardSize == 0)
-    else if @positions.delta < @positions.boardSize # or they are on the same row
+    else if (@positions.delta < @positions.boardSize) and parseInt(@positions.tilePos / @positions.boardSize) == parseInt(@positions.emptyPos / @positions.boardSize) # or they are on the same row
       (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos]) if @positions.delta < @positions.boardSize
   
   dragTileStart: (e) ->
@@ -84,10 +84,10 @@ class TileView extends Backbone.View
         element: $(tile.view.el)
         transform: _.map $(tile.view.el).css('-webkit-transform').replace('translate3d(','').split(','), (component) -> return parseFloat component
       }
-    )    
+    )
   
   dragTileMove: (e) ->
-    return false unless @movingTiles.length
+    return unless @movingTiles
     
     @touch.x2 = e.touches[0].pageX
     @touch.y2 = e.touches[0].pageY
@@ -110,7 +110,7 @@ class TileView extends Backbone.View
       tile.element.css { '-webkit-transform': "translate3d(#{tileX}px, #{tileY}px, 0)" }
   
   dragTileEnd: () ->
-    return false unless @movingTiles.length
+    return unless @movingTiles
     
     if (@horizontal and Math.abs(@deltaX) > @WIDTH/8) or (not @horizontal and Math.abs(@deltaY) > @HEIGHT/8)
       @play() #Play the tile if it passes the half of its size
@@ -120,7 +120,7 @@ class TileView extends Backbone.View
         tileY = tile.transform[1]
         $(tile.element).anim({ translate3D: "#{tileX}px, #{tileY}px, 0"}, 0.125, "ease-out") # Aniamte tile back to original position
     
-    @movingTiles = []
+    @movingTiles = null
 
 window.TileView = TileView
   
