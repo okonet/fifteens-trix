@@ -6,36 +6,36 @@
     <meta name="viewport" content="width=device-width, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    
+
     <title>Fifteens</title>
-    
+
     <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
     <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
     <!-- For first-generation iPad: -->
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72x72-precomposed.png">
     <!-- For iPhone 4 with high-resolution Retina display: -->
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114x114-precomposed.png">
-	
+
 	<!-- iPad/iPhone specific css below, add after your main css >
-	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
-	
+	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+
 	-->
   <!-- <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="stylesheets/iphone.css" type="text/css" />     -->
 	<link rel="stylesheet" href="/assets/app.css" type="text/css" />
-	
+
   </head>
   <body>
-    
+
     <div id="gameview">
       <input type="button" name="new_game" value="New game" id="new_game">
       <input type="button" name="solve_game" value="Solve the game" id="solve_game">
       <p>Moves made: <span id="moves_count">0</span></p>
-      <div class="b-board_fg b-board_fg-1"></div>
-      <div class="b-board_fg b-board_fg-2"></div>
-      <div class="b-board_fg b-board_fg-3"></div>
-      <div class="b-board_fg b-board_fg-4"></div>
+      <div class="b-board">
+        <div class="b-board__tiles"></div>
+        <div class="b-board__fg"></div>
+      </div>
     </div>
-    
+
     <script src="/js/libs/phantomLimb.js" type="text/javascript" charset="utf-8"></script>
     <!-- Initialize Phantom Limb after the page loads -->
 		<script type="text/javascript">
@@ -44,7 +44,7 @@
 				phantomLimb.init();
 			}, false);
 		</script>
-    
+
     <script type="text/javascript" charset="utf-8" src="/assets/app.js"></script>
     <script type="text/javascript" charset="utf-8">
       // If you want to prevent dragging, uncomment this section
@@ -53,12 +53,12 @@
       $(document).ready(function(){
         setTimeout(function() { window.scrollTo(false, 0); }, 1);
       });
-      
+
       $(function(){
 
         window.game = new Game();
         window.gameView = new GameView({ model: game });
-        
+
         $.shake({
           violence: 10.0,
           hf: 0.3,
