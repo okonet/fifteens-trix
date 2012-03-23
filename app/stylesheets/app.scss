@@ -13,21 +13,36 @@ $experimental-support-for-khtml: false;
 body {
   font-family: "Helvetica Neue", sans-serif;
   color: #FFF;
-  background: image-url("bg.png") no-repeat;
-  width: 100%;
-  height: 100%;
-  @include background-size(100%, 100%);
+  width: 320px;
+  height: 480px;
+  overflow: hidden;
+  // @include background-size(100%, 100%);
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-text-size-adjust: none;
 }
 
+.gameview {
+  position: absolute;
+  width: 400%;
+  height: 400%;
+  background: image-url("purty_wood.png") repeat;
+  border: 1px solid #f00;
+  @include transition(-webkit-transform 1s ease-in-out);
+  @include transform-origin(50%, 100%);
+  @include transform(translate(-35%, -35%) rotate(0deg));
+}
+.gameview_gameResult {
+  @include transform(translate(-35%, -35%) rotate(-30deg));
+}
+
 .b-board {
-  position: relative;
-  top: 128px;
-  left: 30px;
+  position: absolute;
+  top: 50%;
+  left: 35%;
   background: image-url("b-board_bg.png") no-repeat;
   width: 640px;
   height: 673px;
+  @include transform(translate(0, -50%));
 }
   .b-board__tiles {
     position: absolute;
@@ -64,15 +79,27 @@ body {
 }
 
 .gameResult {
+  // display: none;
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 70%;
   padding: 3em;
   font: 2em "Idol Wild", serif;
-  width: 60%;
+  width: 320px;
   background: #FFF;
   color: #000;
   z-index: 100;
-  border: 1px solid #000;
-  @include transform(translate(-50%, -50%));
+  border: 1px solid rgba(0,0,0,0.35);
+  @include box-shadow(0 4px 8px rgba(0,0,0,0.35));
+  @include transform(translate(0%, 0%) rotate(30deg));
+}
+
+.gameControls {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 1em;
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 10100;
 }

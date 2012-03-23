@@ -8,7 +8,7 @@
 
 class GameView extends Backbone.View
 
-    el: $("#gameview")
+    el: $("body")
 
     events: {
       'click #new_game': 'newGame'
@@ -25,14 +25,16 @@ class GameView extends Backbone.View
       view.render().el
 
     newGame: ->
-      @model.newGame() if window.confirm "Are you sure you want to start a new game"
+      @model.newGame() #if window.confirm "Are you sure you want to start a new game"
+      $('.gameview').removeClass('gameview_gameResult')
 
     solveGame: ->
       @model.board.each (item) ->
         item.set { position: item.get('solution') }
 
     gameSolved: ->
-      alert("Congratulations! You solved the puzzle in #{@get('moves')} moves.");
+      $('.gameview').addClass('gameview_gameResult')
+      # alert("Congratulations! You solved the puzzle in #{@get('moves')} moves.");
 
     updateStats: ->
       @$('#moves_count').html @model.get('moves')
