@@ -5,5 +5,6 @@ sass_dir = "app/stylesheets"
 css_dir = "public/css"
 images_dir = "public/img"
 javascripts_dir = "public/js"
+fonts_dir = "public/fonts"
 # To enable relative paths to assets via compass helper functions. Uncomment:
 relative_assets = true
