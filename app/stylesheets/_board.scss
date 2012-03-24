@@ -1,0 +1,26 @@
+.board {
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  background: image-url("board_bg.png") no-repeat;
+  width: 640px;
+  height: 673px;
+  @include transform(translate(0, -50%));
+}
+  .board__tiles {
+    position: absolute;
+    top: 22px;
+    left: 30px;
+    width: 100%;
+    height: 100%;
+  }
+  .board__fg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: image-url("board__fg.png") no-repeat;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    pointer-events: none;
+  }
