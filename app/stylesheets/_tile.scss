@@ -5,19 +5,24 @@
   margin: 1px;
   font: 2em/2.5 SpecialElite;
   text-align: center;
-  text-shadow: 0 2px 0 #000;
+  text-shadow: 0 1px 0 #000;
   color: rgba(255,255,255,.4);
   background: image-url($image) 0 0 no-repeat;
   width: image-width($image);
   height: image-height($image);
+  @include background-size(image-width($image), image-height($image));
+  border: 1px solid #f00;
 }
 .tile_empty {
   visibility: hidden;
 }
 
-@media only screen and (device-pixel-ratio: 2) {
-  $image: "tile@2x.png";
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (-o-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
   .tile {
-    background: image-url($image) 0 0 no-repeat;
+    margin: 2px;
+    background: image-url("tile@2x.png") 0 0 no-repeat;
   }
 }
