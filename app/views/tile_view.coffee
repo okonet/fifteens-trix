@@ -40,8 +40,13 @@ class TileView extends Backbone.View
 
     left = (tileData.position % game.board.SIZE) * @WIDTH
     top = (Math.ceil((tileData.position + 1) / game.board.SIZE) - 1) * @HEIGHT
+    angle = 2 * Math.random() - 1
 
-    $(@el).css({ 'z-index': tileData.position }).anim({ translate3d: "#{left}px, #{top}px, 0"}, 0.125, "ease-out")
+    console.log angle
+
+    $(@el)
+      .css({ 'z-index': tileData.position })
+      .anim({ translate3d: "#{left}px, #{top}px, 0", rotate: "#{angle}deg"}, 0.125, "ease-out")
 
     @
 
