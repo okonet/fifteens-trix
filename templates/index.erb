@@ -34,10 +34,7 @@
         <div class="board__tiles"></div>
         <div class="board__fg"></div>
       </div>
-      <div class="game-result">
-        <p>You solved puzzle in 154 moves and it took 1 min 35 sec.</p>
-        <p><a href="#">Tap for a new game...</a></p>
-      </div>
+      <div class="game-result"></div>
     </div>
 
     <script src="/js/libs/phantomLimb.js" type="text/javascript" charset="utf-8"></script>
@@ -52,7 +49,7 @@
     <script type="text/javascript" charset="utf-8" src="/assets/app.js"></script>
     <script type="text/javascript" charset="utf-8">
       // If you want to prevent dragging, uncomment this section
-      // document.addEventListener("touchmove", function(e){ e.preventDefault(); }, false);
+      document.addEventListener("touchmove", function(e){ e.preventDefault(); }, false);
 
       $(document).ready(function(){
         setTimeout(function() { window.scrollTo(false, 0); }, 1);
