@@ -1,26 +1,38 @@
+$board--img: "board.png";
+$board__fg--img: "board__fg.png";
+
 .board {
   position: absolute;
   top: 50%;
   left: 35%;
-  background: image-url("board_bg.png") no-repeat;
-  width: 640px;
-  height: 673px;
+  background: image-url($board--img) no-repeat;
+  width: image-width($board--img);
+  height: image-height($board--img);
   @include transform(translate(0, -50%));
 }
   .board__tiles {
     position: absolute;
-    top: 22px;
-    left: 30px;
-    width: 100%;
-    height: 100%;
+    top: 11px;
+    left: 18px;
   }
   .board__fg {
     position: absolute;
-    top: 0;
-    left: 0;
-    background: image-url("board__fg.png") no-repeat;
-    width: 100%;
-    height: 100%;
+    top: 7px;
+    left: (image-width($board--img) - image-width($board__fg--img)) / 2;
+    background: image-url($board__fg--img) no-repeat;
+    width: image-width($board__fg--img);
+    height: image-height($board__fg--img);
     z-index: 99;
     pointer-events: none;
   }
+
+@media only screen and (device-pixel-ratio: 2) {
+  $board--img: "board@2x.png";
+  $board__fg--img: "board__fg@2x.png";
+  .board {
+    background: image-url($board--img) no-repeat;
+  }
+  .board__fg {
+    background: image-url($board__fg--img) no-repeat;
+  }
+}

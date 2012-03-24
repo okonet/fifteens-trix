@@ -8,9 +8,9 @@
 
 class TileView extends Backbone.View
 
-  WIDTH: 144,
+  WIDTH: 72,
 
-  HEIGHT: 132,
+  HEIGHT: 66,
 
   tagName: 'div'
 

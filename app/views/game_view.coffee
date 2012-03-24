@@ -26,14 +26,14 @@ class GameView extends Backbone.View
 
     newGame: ->
       @model.newGame() #if window.confirm "Are you sure you want to start a new game"
-      $('.gameview').removeClass('gameview_gameResult')
+      $('.game-view').removeClass('game-view_result')
 
     solveGame: ->
       @model.board.each (item) ->
         item.set { position: item.get('solution') }
 
     gameSolved: ->
-      $('.gameview').addClass('gameview_gameResult')
+      $('.game-view').addClass('game-view_result')
       # alert("Congratulations! You solved the puzzle in #{@get('moves')} moves.");
 
     updateStats: ->

@@ -1,8 +1,9 @@
+ $image: "tile.png";
+
 .tile {
-  $image: "tile.png";
   position: absolute;
   margin: 1px;
-  font: 4.5em/1.95 SpecialElite;
+  font: 2em/2.5 SpecialElite;
   text-align: center;
   text-shadow: 0 2px 0 #000;
   color: rgba(255,255,255,.4);
@@ -12,4 +13,11 @@
 }
 .tile_empty {
   visibility: hidden;
+}
+
+@media only screen and (device-pixel-ratio: 2) {
+  $image: "tile@2x.png";
+  .tile {
+    background: image-url($image) 0 0 no-repeat;
+  }
 }

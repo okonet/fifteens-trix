@@ -8,6 +8,6 @@
   @include transform-origin(50%, 100%);
   @include transform(translate(-35%, -35%) rotate(0deg));
 }
-.game-view_gameResult {
+.game-view_result {
   @include transform(translate(-35%, -35%) rotate(-30deg));
 }
