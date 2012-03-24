@@ -10,7 +10,7 @@ class BoardView extends Backbone.View
 
     # tagName: 'div'
 
-    el: $('.b-board__tiles')
+    el: $('.board__tiles')
 
     initialize: ->
       _.bindAll this, 'render', 'addTile', 'addTiles', 'checkSolved'

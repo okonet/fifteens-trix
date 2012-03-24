@@ -14,9 +14,9 @@ class TileView extends Backbone.View
 
   tagName: 'div'
 
-  className: 'b-tile'
+  className: 'tile'
 
-  template: _.template("<div class=\"b-tile__label\"><%= label %></p>")
+  template: _.template("<div class=\"tile__label\"><%= label %></p>")
 
   events: {
     # 'click'      : 'play',
@@ -36,7 +36,7 @@ class TileView extends Backbone.View
   render: ->
     tileData = @model.toJSON()
     $(@el).html @template(tileData)
-    $(@el).addClass('b-tile_empty') if tileData.empty
+    $(@el).addClass('tile_empty') if tileData.empty
 
     left = (tileData.position % game.board.SIZE) * @WIDTH
     top = (Math.ceil((tileData.position + 1) / game.board.SIZE) - 1) * @HEIGHT
