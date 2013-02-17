@@ -19,10 +19,9 @@ class TileView extends Backbone.View
   template: _.template("<div class=\"tile__label\"><%= label %></p>")
 
   events: {
-    # 'click'      : 'play',
-    # 'tap'        : 'play',
-    'touchstart' : 'dragTileStart',
-    'touchmove'  : 'dragTileMove',
+    'click'      : 'play'
+    'touchstart' : 'dragTileStart'
+    'touchmove'  : 'dragTileMove'
     'touchend'   : 'dragTileEnd'
   }
 
