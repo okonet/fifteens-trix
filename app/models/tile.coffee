@@ -9,44 +9,40 @@
 class Tile extends Backbone.Model
 
     initialize: ->
-      @set { empty: false } if !@get 'empty'
+      @set { empty: false } unless @get 'empty'
 
-    position: ->
+    getPosition: ->
       @get 'position'
 
     isEmpty: ->
-      return @get 'empty'
+      @get('empty') is yes
 
     play: ->
       newPos = @collection.emptyTilePosition()
-      @collection.emptyTile().set { position: @position() }, { silent: true }
+      @collection.emptyTile().set { position: @getPosition() }, { silent: true }
       @set { position: newPos }
 
     canBePlayed: ->
       boardSize = @collection.SIZE
-      tilePos = @position()
+      tilePos = @getPosition()
       emptyPos = @collection.emptyTilePosition()
-      delta = Math.abs(@position() - emptyPos)
+      delta = Math.abs(@getPosition() - emptyPos)
 
       if delta is 1 or delta is boardSize
         # Empty is in first row. Previous tile can not be played
-        if emptyPos % boardSize is 0 and @position is (emptyPos - 1)
-          return no
+        if emptyPos % boardSize is 0 and @getPosition() is (emptyPos - 1) then no
         # Empty is in last row. Next tile can not be played
-        else if (emptyPos + 1) % boardSize is 0 and @position is (emptyPos + 1)
-          return no
+        else if (emptyPos + 1) % boardSize is 0 and @getPosition() is (emptyPos + 1) then no
         else
           # If true, return useful data so we can use it in views
-          return {
-            real: (@position - emptyPos),
-            delta: delta
-          }
+          real  : (@getPosition - emptyPos)
+          delta : delta
       else
-        return no
+        no
 
     getRelativePositioning: ->
       boardSize = @collection.SIZE
-      tilePos = @position()
+      tilePos = @getPosition()
       emptyPos = @collection.emptyTilePosition()
       diff = tilePos - emptyPos
       delta = Math.abs diff

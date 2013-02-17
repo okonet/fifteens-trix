@@ -13,41 +13,38 @@ class Board extends Backbone.Collection
     model: Tile,
 
     initialize: ->
-      @reset()
+      @resetBoard()
 
     getTileWithPosition: (position) ->
-      @find (tile) -> tile.position() is position
+      @find (tile) -> tile.get('position') is position
 
     switchTiles: (tile1, tile2) ->
-      tile1pos = tile1.position()
-      tile1.set { position: tile2.position() }, { silent: true }
+      tile1pos = tile1.get('position')
+      tile1.set { position: tile2.get('position') }, { silent: true }
       tile2.set { position: tile1pos }
 
-    reset: ->
-      tiles = []
-      tiles.push new @model { label: i+1, position: i, solution: i } for i in [0...@SIZE * @SIZE]
-
-      _.last(tiles).set { empty: true }
-
+    resetBoard: ->
+      tiles = (for i in [0...@SIZE * @SIZE]
+        new @model
+          label    : i+1
+          position : i
+          solution : i
+          empty    : (i+1 is @SIZE*@SIZE)
+      )
       @refresh tiles, {silent: true}
 
     shuffle: ->
-      positions = @pluck('position').sort ()->
-        return 0.5 - Math.random()
-
-      _.each positions, (pos, i) =>
-        @models[i].set { 'position': pos }
-
+      positions = @pluck('position').sort -> 0.5 - Math.random()
+      tile.set { 'position': positions[idx] } for tile, idx in @models
       @trigger('refresh')
 
     emptyTile: ->
-      return @find (tile) ->
-        return tile.isEmpty()
+      @find (tile) -> tile.isEmpty()
 
     emptyTilePosition: ->
-      return @emptyTile().get 'position'
+      @emptyTile().get 'position'
 
     solved: ->
-      return @pluck('position').toString() is @pluck('solution').toString()
+      @pluck('position').toString() is @pluck('solution').toString()
 
 window.Board = Board
