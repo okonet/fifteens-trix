@@ -1,12 +1,4 @@
-#
-#  board.coffee
-#  fifteens
-#
-#  Created by Andrew Okonetchnikov on 2011-05-24.
-#  Copyright 2011 sauspiel.de. All rights reserved.
-#
-
-class Board extends Backbone.Collection
+class window.Board extends Backbone.Collection
 
     SIZE: 4, # Matrix with SIZE x SIZE elements
 
@@ -46,5 +38,3 @@ class Board extends Backbone.Collection
 
     solved: ->
       @pluck('position').toString() is @pluck('solution').toString()
-
-window.Board = Board

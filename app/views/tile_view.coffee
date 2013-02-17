@@ -1,12 +1,4 @@
-#
-#  tile_view.coffee
-#  fifteens
-#
-#  Created by Andrew Okonetchnikov on 2011-05-23.
-#  Copyright 2011 sauspiel.de. All rights reserved.
-#
-
-class TileView extends Backbone.View
+class window.TileView extends Backbone.View
 
   WIDTH: 73,
 
@@ -123,6 +115,3 @@ class TileView extends Backbone.View
         $(tile.element).anim({ translate3D: "#{tileX}px, #{tileY}px, 0"}, 0.125, "ease-out") # Aniamte tile back to original position
 
     @movingTiles = null
-
-window.TileView = TileView
-

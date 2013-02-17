@@ -1,12 +1,4 @@
-#
-#  tile.coffee
-#  fifteens
-#
-#  Created by Andrew Okonetchnikov on 2011-05-23.
-#  Copyright 2011 sauspiel.de. All rights reserved.
-#
-
-class Tile extends Backbone.Model
+class window.Tile extends Backbone.Model
 
     initialize: ->
       @set { empty: false } unless @get 'empty'
@@ -54,5 +46,3 @@ class Tile extends Backbone.Model
         diff:       diff
         delta:      delta
       }
-
-window.Tile = Tile
