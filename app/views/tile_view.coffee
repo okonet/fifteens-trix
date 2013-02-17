@@ -65,9 +65,9 @@ class TileView extends Backbone.View
   getTilesToPlay: ->
     @positions = @model.getRelativePositioning()
     # Check if the clicked tile is on same column or row with empty tile
-    if @positions.delta % @positions.boardSize == 0 # Empty tile and our tile are on a same column
-      (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos] when (pos - @positions.emptyPos) % @positions.boardSize == 0)
-    else if (@positions.delta < @positions.boardSize) and parseInt(@positions.tilePos / @positions.boardSize) == parseInt(@positions.emptyPos / @positions.boardSize) # or they are on the same row
+    if @positions.delta % @positions.boardSize is 0 # Empty tile and our tile are on a same column
+      (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos] when (pos - @positions.emptyPos) % @positions.boardSize is 0)
+    else if (@positions.delta < @positions.boardSize) and parseInt(@positions.tilePos / @positions.boardSize) is parseInt(@positions.emptyPos / @positions.boardSize) # or they are on the same row
       (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos]) if @positions.delta < @positions.boardSize
 
   dragTileStart: (e) ->
