@@ -3,7 +3,6 @@
   width: 400%;
   height: 400%;
   background: image-url("purty_wood.png") repeat;
-  border: 1px solid #f00;
   @include transition(-webkit-transform .5s ease-in-out);
   @include transform-origin(50%, 100%);
   @include transform(translate(-35%, -35%) rotate(0deg));
