@@ -7,3 +7,5 @@
 /public/css
 /public/js/models
 /public/js/views
+/components
+/node_modules
