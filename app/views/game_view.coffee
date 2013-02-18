@@ -1,42 +1,35 @@
-#
-#  game_view.coffee
-#  fifteens
-#
-#  Created by Andrew Okonetchnikov on 2011-05-24.
-#  Copyright 2011 sauspiel.de. All rights reserved.
-#
-
-class GameView extends Backbone.View
+class window.GameView extends Backbone.View
 
     el: $("body")
 
-    events: {
+    events:
       'click #new_game': 'newGame'
       'click #solve_game': 'solveGame'
-    }
+      'shake': 'newGameConfirmation'
 
     initialize: ->
-      _.bindAll this, 'render', 'updateStats'
+      @listenTo @model, 'change:solved', @gameSolved
+      @listenTo @model, 'change', @updateStats
 
-      @model.bind('change:solved', @gameSolved)
-      @model.bind('change', @updateStats)
+      view = new BoardView( model: @model.board )
+      view.render()
 
-      view = new BoardView { model: @model.board }
-      view.render().el
+      _.defer -> window.scrollTo(false, 0) # Hide URL bar on iOS
 
-    newGame: ->
+    newGame: =>
       @model.newGame()
       $('.game-view').removeClass('game-view_result')
 
-    solveGame: ->
+    newGameConfirmation: =>
+      @newGame() if window.confirm "Are you sure you want start a new game?"
+
+    solveGame: =>
       @model.board.each (item) ->
         item.set { position: item.get('solution') }
 
-    gameSolved: ->
+    gameSolved: =>
       $('.game-view').addClass('game-view_result')
       $('.game-result').html("Congratulations! You solved the puzzle in #{@get('moves')} moves.")
 
-    updateStats: ->
+    updateStats: =>
       @$('#moves_count').html @model.get('moves')
-
-window.GameView = GameView

@@ -26,14 +26,14 @@ class window.TileView extends Backbone.View
 
   render: ->
     tileData = @model.toJSON()
-    $(@el).html @template(tileData)
-    $(@el).addClass('tile_empty') if tileData.empty
+    @$el.html @template(tileData)
+    @$el.addClass('tile_empty') if tileData.empty
 
     left = (tileData.position % game.board.SIZE) * @WIDTH
     top = (Math.ceil((tileData.position + 1) / game.board.SIZE) - 1) * @HEIGHT
     angle = 2 * Math.random() - 1
 
-    $(@el)
+    @$el
       .css({ 'z-index': tileData.position })
       .anim({ translate3d: "#{left}px, #{top}px, 0", rotate: "#{angle}deg" }, 0.025, "ease-out")
 

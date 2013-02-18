@@ -14,19 +14,19 @@ class BoardView extends Backbone.View
 
     initialize: ->
       _.bindAll this, 'render', 'addTile', 'addTiles', 'checkSolved'
-      @model.bind('refresh', @render)
+      @model.bind('reset', @render)
       @model.bind('change', @checkSolved)
       @model.view = @
       @model.shuffle()
 
     render: ->
-      $(@el).html('')
+      @$el.html('')
       @addTiles()
       return @
 
     addTile: (tile) ->
       view = new TileView {model: tile}
-      @el.append view.render().el
+      @$el.append view.render().el
 
     addTiles: ->
       @model.each @addTile

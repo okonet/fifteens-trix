@@ -23,12 +23,12 @@ class window.Board extends Backbone.Collection
           solution : i
           empty    : (i+1 is @SIZE*@SIZE)
       )
-      @refresh tiles, {silent: true}
+      @reset tiles, {silent: true}
 
     shuffle: ->
       positions = @pluck('position').sort -> 0.5 - Math.random()
       tile.set { 'position': positions[idx] } for tile, idx in @models
-      @trigger('refresh')
+      @trigger('reset')
 
     emptyTile: ->
       @find (tile) -> tile.isEmpty()
