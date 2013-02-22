@@ -36,5 +36,8 @@ class window.Board extends Backbone.Collection
     emptyTilePosition: ->
       @emptyTile().get 'position'
 
-    solved: ->
+    isSolved: ->
       @pluck('position').toString() is @pluck('solution').toString()
+
+    setSolved: ->
+      @set 'solved', yes

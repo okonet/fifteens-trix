@@ -42,25 +42,9 @@
       // If you want to prevent dragging, uncomment this section
       document.addEventListener("touchmove", function(e){ e.preventDefault(); }, false);
 
-      $(document).ready(function(){
-        setTimeout(function() { window.scrollTo(false, 0); }, 1);
-      });
-
       $(function(){
-
         window.game = new Game();
         window.gameView = new GameView({ model: game });
-
-        $.shake({
-          violence: 10.0,
-          hf: 0.3,
-          shakethreshold: 3,
-          debounce: 100,
-          callback: function() {
-            if (window.confirm("Are you sure you want start a new game?")) game.newGame();
-          }
-        });
-
       });
     </script>
   </body>

@@ -1,30 +1,21 @@
 class window.TileView extends Backbone.View
 
   WIDTH: 73,
-
   HEIGHT: 67,
 
-  tagName: 'div'
-
   className: 'tile'
-
   template: _.template("<div class=\"tile__label\"><%= label %></p>")
-
-  events: {
+  events:
     'click'      : 'play'
     'touchstart' : 'dragTileStart'
     'touchmove'  : 'dragTileMove'
     'touchend'   : 'dragTileEnd'
-  }
-
-  # sound: new Audio('sounds/tink.mp3')
 
   initialize: ->
-    _.bindAll @, 'render', 'play', 'dragTileStart', 'dragTileMove', 'dragTileEnd'
-    @model.bind('change', @render)
+    @listenTo @model, 'change', @render
     @model.view = @
 
-  render: ->
+  render: =>
     tileData = @model.toJSON()
     @$el.html @template(tileData)
     @$el.addClass('tile_empty') if tileData.empty
@@ -50,8 +41,7 @@ class window.TileView extends Backbone.View
       @tilesToPlay[i-1] = tile1
       game.board.switchTiles tile1, tile2
 
-    # @sound.play()
-    game.set { moves: game.get('moves') + 1 }
+    game.set('moves', game.get('moves') + 1)
 
   getTilesToPlay: ->
     @positions = @model.getRelativePositioning()
@@ -74,10 +64,8 @@ class window.TileView extends Backbone.View
     @moveDirection = 'up' if @positions.diff > 0 and not @horizontal
 
     @movingTiles = (for tile in @tilesToPlay when not tile.isEmpty()
-      {
-        element: $(tile.view.el)
-        transform: _.map $(tile.view.el).css('-webkit-transform').replace('translate3d(','').split(','), (component) -> return parseFloat component
-      }
+      element: $(tile.view.el)
+      transform: _.map $(tile.view.el).css('-webkit-transform').replace('translate3d(','').split(','), (component) -> return parseFloat component
     )
 
   dragTileMove: (e) ->
