@@ -5,15 +5,16 @@ class window.GameView extends Backbone.View
     events:
       'click #new_game': 'newGame'
       'click #solve_game': 'solveGame'
-      'shake': 'newGameConfirmation'
 
     initialize: ->
       @listenTo @model, 'change:solved', @gameSolved
       @listenTo @model, 'change', @updateStats
 
+
       view = new BoardView( model: @model.board )
       view.render()
 
+      window.addEventListener 'shake', @newGameConfirmation, false # Ask to start new game on shake
       _.defer -> window.scrollTo(false, 0) # Hide URL bar on iOS
 
     newGame: =>
