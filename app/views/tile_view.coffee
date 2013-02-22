@@ -6,7 +6,6 @@ class window.TileView extends Backbone.View
   className: 'tile'
   template: _.template("<div class=\"tile__label\"><%= label %></p>")
   events:
-    'click'      : 'play'
     'touchstart' : 'dragTileStart'
     'touchmove'  : 'dragTileMove'
     'touchend'   : 'dragTileEnd'
