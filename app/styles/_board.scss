@@ -5,12 +5,11 @@ $board__fg--img: "board__fg.png";
 
 .board {
   position: absolute;
-  top: 50px;
-  left: 0;
+  top: 70px;
+  left: -3px;
   background: inline-image($board--img) no-repeat;
   width: $board--width;
   height: $board--height;
-  // @include transform(translate(0, -50%));
   @include background-size($board--width, $board--height);
 }
   .board__tiles {
