@@ -1,5 +1,5 @@
-@include font-face("SpecialElite", font-files("SpecialElite.ttf", truetype));
-@include font-face("Idol Wild", font-files("idolwild.ttf", truetype));
+@include font-face("SpecialElite", inline-font-files("SpecialElite.ttf", truetype));
+@include font-face("Idol Wild", inline-font-files("idolwild.ttf", truetype));
 
 body {
   font-family: "Helvetica Neue", sans-serif;

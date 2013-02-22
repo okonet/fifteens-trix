@@ -6,7 +6,7 @@
   text-align: center;
   text-shadow: 0 1px 0 #000;
   color: rgba(255,255,255,.4);
-  background: image-url($image) 0 0 no-repeat;
+  background: inline-image($image) 0 0 no-repeat;
   width: image-width($image);
   height: image-height($image);
   @include background-size(image-width($image), image-height($image));
@@ -20,6 +20,6 @@ only screen and (min--moz-device-pixel-ratio: 1.5),
 only screen and (-o-device-pixel-ratio: 3/2),
 only screen and (min-device-pixel-ratio: 1.5) {
   .tile {
-    background: image-url("tile@2x.png") 0 0 no-repeat;
+    background: inline-image("tile@2x.png") 0 0 no-repeat;
   }
 }

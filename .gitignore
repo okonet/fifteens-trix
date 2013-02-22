@@ -1,11 +1,5 @@
-*.mode1v3
-*.perspectivev3
-*.pbxuser
-.DS_Store
 .sass-cache
-/public/assets
-/public/css
-/public/js/models
-/public/js/views
-/components
-/node_modules
+node_modules
+.tmp
+dist
+app/components

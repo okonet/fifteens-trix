@@ -1,0 +1,13 @@
+.game-view {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: inline-image("purty_wood.png") repeat;
+  // @include transition(-webkit-transform .5s ease-in-out);
+  // @include transform-origin(50%, 100%);
+  // @include transform(translate(-35%, -35%) rotate(0deg));
+  // -webkit-backface-visibility: hidden;
+}
+// .game-view_result {
+//   @include transform(translate(-35%, -35%) rotate(-30deg));
+// }

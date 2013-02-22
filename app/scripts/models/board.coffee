@@ -23,7 +23,7 @@ class window.Board extends Backbone.Collection
           solution : i
           empty    : (i+1 is @SIZE*@SIZE)
       )
-      @reset tiles, {silent: true}
+      @reset tiles, silent: true
 
     shuffle: ->
       positions = @pluck('position').sort -> 0.5 - Math.random()
@@ -40,4 +40,5 @@ class window.Board extends Backbone.Collection
       @pluck('position').toString() is @pluck('solution').toString()
 
     setSolved: ->
-      @set 'solved', yes
+      console.log @
+      game.set 'solved', yes

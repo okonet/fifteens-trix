@@ -5,12 +5,12 @@ $board__fg--img: "board__fg.png";
 
 .board {
   position: absolute;
-  top: 50%;
-  left: 35%;
-  background: image-url($board--img) no-repeat;
+  top: 50px;
+  left: 0;
+  background: inline-image($board--img) no-repeat;
   width: $board--width;
   height: $board--height;
-  @include transform(translate(0, -50%));
+  // @include transform(translate(0, -50%));
   @include background-size($board--width, $board--height);
 }
   .board__tiles {
@@ -22,7 +22,7 @@ $board__fg--img: "board__fg.png";
     position: absolute;
     top: 0;
     left: 0;
-    background: image-url($board__fg--img) no-repeat;
+    background: inline-image($board__fg--img) no-repeat;
     width: $board--width;
     height: $board--height;
     @include background-size($board--width, $board--height);
@@ -37,9 +37,9 @@ only screen and (min-device-pixel-ratio: 1.5) {
   $board--img: "board@2x.png";
   $board__fg--img: "board__fg@2x.png";
   .board {
-    background: image-url($board--img) no-repeat;
+    background: inline-image($board--img) no-repeat;
   }
   .board__fg {
-    background: image-url($board__fg--img) no-repeat;
+    background: inline-image($board__fg--img) no-repeat;
   }
 }

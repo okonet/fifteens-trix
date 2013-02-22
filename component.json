@@ -1,11 +1,12 @@
 {
   "author": "Andrey Okonetchnikov",
-  "name": "Fifteens",
+  "name": "fifteens",
   "version": "0.0.1",
   "dependencies": {
     "zepto": "~1.0.0rc1",
     "underscore": "~1.4",
     "backbone": "~0.9.10",
     "shake.js": "*"
-  }
+  },
+  "devDependencies": {}
 }

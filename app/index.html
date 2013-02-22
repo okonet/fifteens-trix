@@ -16,7 +16,7 @@
     <!-- For iPhone 4 with high-resolution Retina display: -->
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114x114-precomposed.png">
 
-  	<link rel="stylesheet" href="/assets/app.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/main.css" type="text/css" />
 
     <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 
@@ -37,7 +37,20 @@
       <div class="game-result"></div>
     </div>
 
-    <script type="text/javascript" charset="utf-8" src="/assets/app.js"></script>
+    <!-- build:js scripts/main.js -->
+    <script src="components/zepto/zepto.js"></script>
+    <script src="components/underscore/underscore.js"></script>
+    <script src="components/backbone/backbone.js"></script>
+    <script src="components/shake.js/shake.js"></script>
+
+    <script src="scripts/models/tile.js"></script>
+    <script src="scripts/models/board.js"></script>
+    <script src="scripts/models/game.js"></script>
+    <script src="scripts/views/tile_view.js"></script>
+    <script src="scripts/views/board_view.js"></script>
+    <script src="scripts/views/game_view.js"></script>
+    <!-- endbuild -->
+
     <script type="text/javascript" charset="utf-8">
       // If you want to prevent dragging, uncomment this section
       document.addEventListener("touchmove", function(e){ e.preventDefault(); }, false);

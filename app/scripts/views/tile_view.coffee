@@ -63,8 +63,10 @@ class window.TileView extends Backbone.View
     @moveDirection = 'up' if @positions.diff > 0 and not @horizontal
 
     @movingTiles = (for tile in @tilesToPlay when not tile.isEmpty()
-      element: $(tile.view.el)
-      transform: _.map $(tile.view.el).css('-webkit-transform').replace('translate3d(','').split(','), (component) -> return parseFloat component
+      {
+        element: $(tile.view.el)
+        transform: _.map $(tile.view.el).css('-webkit-transform').replace('translate3d(','').split(','), (component) -> return parseFloat component
+      }
     )
 
   dragTileMove: (e) ->
