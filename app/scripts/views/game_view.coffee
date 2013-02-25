@@ -30,7 +30,8 @@ class window.GameView extends Backbone.View
 
     gameSolved: =>
       $('.game-view').addClass('game-view_result')
-      $('.game-result').html("Congratulations! You solved the puzzle in #{@model.get('moves')} moves.")
+      $('.game-result').html("Congratulations! You solved puzzle in #{@model.get('moves')}&nbsp;moves.<br><br>Tap to start over...")
+      @$el.one "tap", => @newGame()
 
     updateStats: =>
       @$('#moves_count').html @model.get('moves')
