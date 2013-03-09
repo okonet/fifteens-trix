@@ -40,5 +40,4 @@ class window.Board extends Backbone.Collection
       @pluck('position').toString() is @pluck('solution').toString()
 
     setSolved: ->
-      console.log @
       game.set 'solved', yes
