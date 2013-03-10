@@ -3,8 +3,8 @@ class window.TileView extends Backbone.View
   WIDTH: 73,
   HEIGHT: 67,
 
-  className: 'tile'
-  template: _.template("<div class=\"tile__label\"><%= label %></p>")
+  el: no
+  template: _.template("<div class=\"tile tile_<%= type %>\"><%= label %></div>")
   events:
     'touchstart' : 'dragTileStart'
     'touchmove'  : 'dragTileMove'
@@ -12,6 +12,9 @@ class window.TileView extends Backbone.View
 
   initialize: ->
     @listenTo @model, 'change', @render
+    @listenTo @model, 'change', ->
+      game.board.remove tile for tile in game.board.getTilesToDestroy()
+    @listenTo @model, 'remove', @remove
     @model.view = @
 
   render: =>
@@ -19,15 +22,22 @@ class window.TileView extends Backbone.View
     @$el.html @template(tileData)
     @$el.addClass('tile_empty') if tileData.empty
 
-    left = (tileData.position % game.board.SIZE) * @WIDTH
-    top = (Math.ceil((tileData.position + 1) / game.board.SIZE) - 1) * @HEIGHT
-    angle = 2 * Math.random() - 1
+    left = (tileData.position % game.board.getSize()) * @WIDTH
+    top = (Math.ceil((tileData.position + 1) / game.board.getSize()) - 1) * @HEIGHT
 
     @$el
-      .css({ 'z-index': tileData.position })
-      .anim({ translate3d: "#{left}px, #{top}px, 0", rotate: "#{angle}deg" }, 0.025, "ease-out")
+      .css
+        'z-index': tileData.position
+      .anim
+        translate3d: "#{left}px, #{top}px, 0"
+      ,
+        duration: 0.025
+        easing: "ease-out"
 
     @
+
+  remove: ->
+    @$el.remove()
 
   play: ->
     return if not @tilesToPlay = @getTilesToPlay() if not @tilesToPlay

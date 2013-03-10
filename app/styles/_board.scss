@@ -5,40 +5,28 @@ $board__fg--img: "board__fg.png";
 
 .board {
   position: absolute;
-  top: 70px;
-  left: -3px;
-  background: inline-image($board--img) no-repeat;
-  width: $board--width;
-  height: $board--height;
-  @include background-size($board--width, $board--height);
+  width: 100%;
+  height: 100%;
 }
   .board__tiles {
     position: absolute;
-    top: 12px;
-    left: 17px;
-  }
-  .board__fg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: inline-image($board__fg--img) no-repeat;
-    width: $board--width;
-    height: $board--height;
-    @include background-size($board--width, $board--height);
-    z-index: 99;
-    pointer-events: none;
+    top: 50px;
+    right: 10px;
+    bottom: 20px;
+    left: 10px;
+    border: 1px solid #ccc;
   }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-only screen and (min--moz-device-pixel-ratio: 1.5),
-only screen and (-o-device-pixel-ratio: 3/2),
-only screen and (min-device-pixel-ratio: 1.5) {
-  $board--img: "board@2x.png";
-  $board__fg--img: "board__fg@2x.png";
-  .board {
-    background: inline-image($board--img) no-repeat;
-  }
-  .board__fg {
-    background: inline-image($board__fg--img) no-repeat;
-  }
-}
+// @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+// only screen and (min--moz-device-pixel-ratio: 1.5),
+// only screen and (-o-device-pixel-ratio: 3/2),
+// only screen and (min-device-pixel-ratio: 1.5) {
+//   $board--img: "board@2x.png";
+//   $board__fg--img: "board__fg@2x.png";
+//   .board {
+//     background: inline-image($board--img) no-repeat;
+//   }
+//   .board__fg {
+//     background: inline-image($board__fg--img) no-repeat;
+//   }
+// }

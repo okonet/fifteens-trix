@@ -2,7 +2,8 @@
 
 .tile {
   position: absolute;
-  font: 2em/2.5 SpecialElite;
+  font-size: 2em;
+  line-height: 2.25;
   text-align: center;
   text-shadow: 0 1px 0 #000;
   color: rgba(255,255,255,.4);
@@ -10,6 +11,29 @@
   width: image-width($image);
   height: image-height($image);
   @include background-size(image-width($image), image-height($image));
+
+  &:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .5;
+    content: "";
+  }
+
+  &.tile_1:after {
+    background-color: #fa1c00;
+  }
+  &.tile_2:after {
+    background-color: #2474ab;
+  }
+  &.tile_3:after {
+    background-color: #8d0268;
+  }
+  &.tile_4:after {
+    background-color: #fdc430;
+  }
 }
 .tile_empty {
   visibility: hidden;

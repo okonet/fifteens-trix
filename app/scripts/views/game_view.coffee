@@ -10,7 +10,6 @@ class window.GameView extends Backbone.View
       @listenTo @model, 'change:solved', @gameSolved
       @listenTo @model, 'change', @updateStats
 
-
       view = new BoardView( model: @model.board )
       view.render()
 
