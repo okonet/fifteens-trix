@@ -25,10 +25,10 @@ class window.TileView extends Backbone.View
     @$el
       .css
         'z-index': tileData.position
-      .anim
+      .animate
         translate3d: "#{left}px, #{top}px, 0"
       ,
-        duration: 0.025
+        duration: 150
         easing: "ease-out"
 
     @
