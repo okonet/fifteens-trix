@@ -2,7 +2,7 @@ class window.Game extends Backbone.Model
 
   initialize: ->
     @board = new Board
-    @reset()
+    @newGame()
 
   newGame: ->
     @board.shuffle()

@@ -10,7 +10,7 @@ class window.GameView extends Backbone.View
       @listenTo @model, 'change:solved', @gameSolved
       @listenTo @model, 'change', @updateStats
       @listenTo @model, 'change:moves', =>
-        @model.board.remove tile for tile in @model.board.getTilesToDestroy()
+        @model.board.destroyTiles()
 
       view = new BoardView( collection: @model.board )
       view.render()

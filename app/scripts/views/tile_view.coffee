@@ -18,7 +18,6 @@ class window.TileView extends Backbone.View
   render: =>
     tileData = @model.toJSON()
     @$el.html @template(tileData)
-    @$el.addClass('tile_empty') if tileData.empty
 
     left = (tileData.position % game.board.getSize()) * @WIDTH
     top = (Math.ceil((tileData.position + 1) / game.board.getSize()) - 1) * @HEIGHT

@@ -5,9 +5,6 @@ class window.Board extends Backbone.Collection
 
     model: Tile,
 
-    initialize: (options) ->
-      @resetBoard()
-
     getTileWithPosition: (position) ->
       @find (tile) -> tile.get('position') is position
 
@@ -19,23 +16,21 @@ class window.Board extends Backbone.Collection
       tile1.set { position: tile2.get('position') }, { silent: true }
       tile2.set { position: tile1pos }
 
-    resetBoard: ->
-      row = 0
-      for i in [0...@TILES_X * @TILES_Y]
-        row += 1 if i % @TILES_X is 0
-        @add
-          label    : i+1
-          position : i
-          solution : i
-          type     : row % @TILES_X + 1
-          empty    : (i+1 is @TILES_X*@TILES_Y)
-
-      @getEmptyTile().set 'type', 0
-
     shuffle: ->
-      positions = @pluck('position').sort -> 0.5 - Math.random()
-      tile.set 'position', positions[idx], { silent: yes } for tile, idx in @models
-      @trigger('reset')
+      tiles = []
+      for y in [0...@TILES_Y]
+        for x in [0...@TILES_X]
+          i = y * @TILES_X + x
+          tiles.push
+            label    : i
+            position : i
+            solution : i
+            type     : y % @TILES_X + 1
+
+      _.last(tiles).type = 0
+      positions = _.pluck(tiles, 'position').sort -> 0.5 - Math.random()
+      tile.position = positions[idx] for tile, idx in tiles
+      @reset tiles
 
     getEmptyTile: ->
       @find (tile) -> tile.isEmpty()
@@ -46,15 +41,18 @@ class window.Board extends Backbone.Collection
     getTilesInRow: (row) ->
       (@getTileWithPosition(row * @TILES_X + i) for i in [0...@TILES_X])
 
-    getTilesToDestroy: =>
+    destroyTiles: ->
       for row in [0...@TILES_Y]
         tiles = @getTilesInRow row
         types = (tile?.get('type') for tile in tiles)
-        console.log types
         firstTile = tiles[0]
         if firstTile?
           len = 1
           for i in [1...tiles.length]
             if tiles[i]?.get('type') is firstTile.get('type') then len++ else break
 
-          if len is @TILES_X then _.compact tiles else []
+          if len is @TILES_X
+            @remove tile for tile in tiles
+            for r in [row-1..0]
+              for tile in @getTilesInRow r
+                tile.set 'position', tile.get('position') + @TILES_X # Move a tile one row down

@@ -2,13 +2,12 @@ class window.Tile extends Backbone.Model
 
     defaults:
       type: 0
-      empty: no
 
     getPosition: ->
       @get 'position'
 
     isEmpty: ->
-      @get('empty') is yes
+      @get('type') is 0
 
     play: ->
       newPos = @collection.getEmptyTilePosition()
