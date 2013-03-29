@@ -30,18 +30,18 @@ class window.Board extends Backbone.Collection
           type     : row % @TILES_X + 1
           empty    : (i+1 is @TILES_X*@TILES_Y)
 
-      @emptyTile().set 'type', 0
+      @getEmptyTile().set 'type', 0
 
     shuffle: ->
       positions = @pluck('position').sort -> 0.5 - Math.random()
       tile.set 'position', positions[idx], { silent: yes } for tile, idx in @models
       @trigger('reset')
 
-    emptyTile: ->
+    getEmptyTile: ->
       @find (tile) -> tile.isEmpty()
 
-    emptyTilePosition: ->
-      @emptyTile().get 'position'
+    getEmptyTilePosition: ->
+      @getEmptyTile().get 'position'
 
     getTilesInRow: (row) ->
       (@getTileWithPosition(row * @TILES_X + i) for i in [0...@TILES_X])

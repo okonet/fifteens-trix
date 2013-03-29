@@ -11,14 +11,14 @@ class window.Tile extends Backbone.Model
       @get('empty') is yes
 
     play: ->
-      newPos = @collection.emptyTilePosition()
-      @collection.emptyTile().set { position: @getPosition() }, { silent: true }
+      newPos = @collection.getEmptyTilePosition()
+      @collection.getEmptyTile().set { position: @getPosition() }, { silent: true }
       @set position, newPos
 
     canBePlayed: ->
       boardSize = @collection.getSizeX()
       tilePos = @getPosition()
-      emptyPos = @collection.emptyTilePosition()
+      emptyPos = @collection.getEmptyTilePosition()
       delta = Math.abs(@getPosition() - emptyPos)
 
       if delta is 1 or delta is boardSize
@@ -36,7 +36,7 @@ class window.Tile extends Backbone.Model
     getRelativePositioning: ->
       boardSize = @collection.getSize()
       tilePos = @getPosition()
-      emptyPos = @collection.emptyTilePosition()
+      emptyPos = @collection.getEmptyTilePosition()
       diff = tilePos - emptyPos
       delta = Math.abs diff
 
