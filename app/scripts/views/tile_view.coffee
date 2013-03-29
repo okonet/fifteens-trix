@@ -12,8 +12,6 @@ class window.TileView extends Backbone.View
 
   initialize: ->
     @listenTo @model, 'change', @render
-    @listenTo @model, 'change', ->
-      game.board.remove tile for tile in game.board.getTilesToDestroy()
     @listenTo @model, 'remove', @remove
     @model.view = @
 

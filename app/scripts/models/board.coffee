@@ -1,11 +1,11 @@
 class window.Board extends Backbone.Collection
 
     TILES_X: 4
-    TILES_Y: 6
+    TILES_Y: 8
 
     model: Tile,
 
-    initialize: ->
+    initialize: (options) ->
       @resetBoard()
 
     getTileWithPosition: (position) ->
@@ -21,16 +21,16 @@ class window.Board extends Backbone.Collection
 
     resetBoard: ->
       row = 0
-      tiles = (for i in [0...@TILES_X * @TILES_Y]
-        row += 1 if i % @TILES_X is 0 and row < 4
-        new @model
+      for i in [0...@TILES_X * @TILES_Y]
+        row += 1 if i % @TILES_X is 0
+        @add
           label    : i+1
           position : i
           solution : i
-          type     : row
+          type     : row % @TILES_X + 1
           empty    : (i+1 is @TILES_X*@TILES_Y)
-      )
-      @add tiles
+
+      @emptyTile().set 'type', 0
 
     shuffle: ->
       positions = @pluck('position').sort -> 0.5 - Math.random()
@@ -43,22 +43,18 @@ class window.Board extends Backbone.Collection
     emptyTilePosition: ->
       @emptyTile().get 'position'
 
-    isSolved: ->
-      @pluck('position').toString() is @pluck('solution').toString()
-
-    setSolved: ->
-      game.set 'solved', yes
-
     getTilesInRow: (row) ->
       (@getTileWithPosition(row * @TILES_X + i) for i in [0...@TILES_X])
 
     getTilesToDestroy: =>
       for row in [0...@TILES_Y]
         tiles = @getTilesInRow row
+        types = (tile?.get('type') for tile in tiles)
+        console.log types
         firstTile = tiles[0]
-        len = 1
-        for i in [1...tiles.length]
-          if tiles[i]?.get('type') is firstTile?.get('type')
-            len++
-          else break
-        if len is @TILES_X then tiles else []
+        if firstTile?
+          len = 1
+          for i in [1...tiles.length]
+            if tiles[i]?.get('type') is firstTile.get('type') then len++ else break
+
+          if len is @TILES_X then _.compact tiles else []

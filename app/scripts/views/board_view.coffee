@@ -3,10 +3,9 @@ class window.BoardView extends Backbone.View
     el: $('.board__tiles')
 
     initialize: ->
-      @listenTo @model, 'reset', @render
-      @listenTo @model, 'change', @checkSolved
-      @model.view = @
-      @model.shuffle()
+      @listenTo @collection, 'reset', @render
+      @collection.view = @
+      @collection.shuffle()
 
     render: =>
       @$el.html('')
@@ -18,7 +17,4 @@ class window.BoardView extends Backbone.View
       @$el.append view.render().el
 
     addTiles: =>
-      @model.each @addTile
-
-    checkSolved: =>
-      @model.setSolved() if @model.isSolved()
+      @collection.each @addTile

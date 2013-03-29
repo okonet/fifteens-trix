@@ -9,8 +9,10 @@ class window.GameView extends Backbone.View
     initialize: ->
       @listenTo @model, 'change:solved', @gameSolved
       @listenTo @model, 'change', @updateStats
+      @listenTo @model, 'change:moves', =>
+        @model.board.remove tile for tile in @model.board.getTilesToDestroy()
 
-      view = new BoardView( model: @model.board )
+      view = new BoardView( collection: @model.board )
       view.render()
 
       window.addEventListener 'shake', @newGameConfirmation, false # Ask to start new game on shake
@@ -34,3 +36,7 @@ class window.GameView extends Backbone.View
 
     updateStats: =>
       @$('#moves_count').html @model.get('moves')
+      @checkSolved()
+
+    checkSolved: =>
+      @model.setSolved() if @model.isSolved()
