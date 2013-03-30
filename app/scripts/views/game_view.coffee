@@ -4,10 +4,9 @@ class window.GameView extends Backbone.View
 
     events:
       'click #new_game': 'newGame'
-      'click #solve_game': 'solveGame'
 
     initialize: ->
-      @listenTo @model, 'change:solved', @gameSolved
+      @listenTo @model, 'change:isOver', @gameOver
       @listenTo @model, 'change', @updateStats
       @listenTo @model, 'change:moves', =>
         @model.board.destroyTiles()
@@ -25,18 +24,11 @@ class window.GameView extends Backbone.View
     newGameConfirmation: =>
       @newGame() if window.confirm "Are you sure you want start a new game?"
 
-    solveGame: =>
-      @model.board.each (item) ->
-        item.set { position: item.get('solution') }
-
-    gameSolved: =>
+    gameOver: =>
       $('.game-view').addClass('game-view_result')
-      $('.game-result').html("Congratulations! You solved puzzle in #{@model.get('moves')}&nbsp;moves.<br><br>Tap to start over...")
+      $('.game-result').html("Game over!<br><br>Tap to start over...")
       @$el.one "tap", => @newGame()
 
     updateStats: =>
       @$('#moves_count').html @model.get('moves')
       @checkSolved()
-
-    checkSolved: =>
-      @model.setSolved() if @model.isSolved()

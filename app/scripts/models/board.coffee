@@ -13,8 +13,8 @@ class window.Board extends Backbone.Collection
 
     switchTiles: (tile1, tile2) ->
       tile1pos = tile1.get('position')
-      tile1.set { position: tile2.get('position') }, { silent: true }
-      tile2.set { position: tile1pos }
+      tile1.set 'position', tile2.get('position'), silent: true
+      tile2.set 'position', tile1pos
 
     shuffle: ->
       tiles = []
@@ -24,7 +24,6 @@ class window.Board extends Backbone.Collection
           tiles.push
             label    : i
             position : i
-            solution : i
             type     : y % @TILES_X + 1
 
       _.last(tiles).type = 0

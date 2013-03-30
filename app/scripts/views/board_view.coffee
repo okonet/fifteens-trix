@@ -8,13 +8,10 @@ class window.BoardView extends Backbone.View
       @collection.shuffle()
 
     render: =>
+      els = []
       @$el.html('')
-      @addTiles()
+      @collection.each (tile) ->
+        view = new TileView( model: tile )
+        els.push view.render().el
+      @$el.append els
       return @
-
-    addTile: (tile) =>
-      view = new TileView( model: tile )
-      @$el.append view.render().el
-
-    addTiles: =>
-      @collection.each @addTile
