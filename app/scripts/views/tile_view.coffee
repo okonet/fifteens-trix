@@ -19,14 +19,14 @@ class window.TileView extends Backbone.View
     tileData = @model.toJSON()
     @$el.html @template(tileData)
 
-    left = (tileData.position % game.board.getSize()) * @WIDTH
-    top = (Math.ceil((tileData.position + 1) / game.board.getSize()) - 1) * @HEIGHT
+    @left = (tileData.position % game.board.getSize()) * @WIDTH
+    @top = (Math.ceil((tileData.position + 1) / game.board.getSize()) - 1) * @HEIGHT
 
     @$el
       .css
         'z-index': tileData.position
       .animate
-        translate3d: "#{left}px, #{top}px, 0"
+        translate3d: "#{@left}px, #{@top}px, 0"
       ,
         duration: 150
         easing: "ease-out"
@@ -34,7 +34,11 @@ class window.TileView extends Backbone.View
     @
 
   remove: ->
-    @$el.remove()
+    @$el.animate
+      translate3d: "#{@left}px, #{@top + 150}px, 0"
+      opacity: 0
+    ,
+      complete: -> @remove()
 
   play: ->
     return if not @tilesToPlay = @getTilesToPlay() if not @tilesToPlay
