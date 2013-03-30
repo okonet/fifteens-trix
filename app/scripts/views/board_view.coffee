@@ -4,14 +4,18 @@ class window.BoardView extends Backbone.View
 
     initialize: ->
       @listenTo @collection, 'reset', @render
-      @collection.view = @
       @collection.shuffle()
+      @collection.view = @
 
     render: =>
+      $.fx.off = yes
       els = []
       @$el.html('')
       @collection.each (tile) ->
         view = new TileView( model: tile )
         els.push view.render().el
       @$el.append els
-      return @
+      _.delay ->
+        $.fx.off = no
+      , 100
+      @
