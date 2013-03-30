@@ -15,7 +15,7 @@ class window.Tile extends Backbone.Model
       @set position, newPos
 
     canBePlayed: ->
-      boardSize = @collection.getSizeX()
+      boardSize = @collection.getSize()
       tilePos = @getPosition()
       emptyPos = @collection.getEmptyTilePosition()
       delta = Math.abs(@getPosition() - emptyPos)

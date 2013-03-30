@@ -1,7 +1,7 @@
 class window.Board extends Backbone.Collection
 
     TILES_X: 4
-    TILES_Y: 8
+    TILES_Y: 6
 
     model: Tile,
 
@@ -18,7 +18,8 @@ class window.Board extends Backbone.Collection
 
     shuffle: ->
       tiles = []
-      for y in [0...@TILES_Y]
+      for y in [@TILES_Y...2]
+        y -= 1
         for x in [0...@TILES_X]
           i = y * @TILES_X + x
           tiles.push
