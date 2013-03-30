@@ -31,4 +31,3 @@ class window.GameView extends Backbone.View
 
     updateStats: =>
       @$('#moves_count').html @model.get('moves')
-      @checkSolved()
