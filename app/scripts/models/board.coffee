@@ -55,4 +55,4 @@ class window.Board extends Backbone.Collection
             @remove tile for tile in tiles
             for r in [row-1..0]
               for tile in @getTilesInRow r
-                tile.set 'position', tile.get('position') + @TILES_X # Move a tile one row down
+                tile.set 'position', tile.get('position') + @TILES_X if tile? # Move a tile one row down
