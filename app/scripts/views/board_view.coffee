@@ -4,8 +4,13 @@ class window.BoardView extends Backbone.View
 
     initialize: ->
       @listenTo @collection, 'reset', @render
+      @listenTo @collection, 'add', @addOne
       @collection.shuffle()
       @collection.view = @
+
+    addOne: (tile) ->
+      view = new TileView( model: tile )
+      @$el.append view.render().el
 
     render: =>
       $.fx.off = yes
@@ -17,5 +22,5 @@ class window.BoardView extends Backbone.View
       @$el.append els
       _.delay ->
         $.fx.off = no
-      , 100
+      , 250
       @

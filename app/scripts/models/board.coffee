@@ -1,7 +1,7 @@
 class window.Board extends Backbone.Collection
 
     TILES_X: 4
-    TILES_Y: 6
+    TILES_Y: 9
 
     model: Tile,
 
@@ -18,14 +18,13 @@ class window.Board extends Backbone.Collection
 
     shuffle: ->
       tiles = []
-      for y in [@TILES_Y...2]
-        y -= 1
-        for x in [0...@TILES_X]
-          i = y * @TILES_X + x
+      for row in [@TILES_Y...@TILES_Y-4]
+        row -= 1
+        for col in [0...@TILES_X]
+          i = row * @TILES_X + col
           tiles.push
-            label    : i
             position : i
-            type     : y % @TILES_X + 1
+            type     : row % @TILES_X + 1
 
       _.last(tiles).type = 0
       positions = _.pluck(tiles, 'position').sort -> 0.5 - Math.random()
@@ -41,6 +40,32 @@ class window.Board extends Backbone.Collection
     getTilesInRow: (row) ->
       (@getTileWithPosition(row * @TILES_X + i) for i in [0...@TILES_X])
 
+    getEmptyRows: ->
+      (row for row in [0...@TILES_Y] when not @getTilesInRow(row)[0]?)
+
+    addRow: ->
+      for col in [0...@TILES_X]
+        @add
+          position: col
+          type: Math.ceil(Math.random() * @TILES_X)
+
+    addAndMoveRows: =>
+      emptyRows = @getEmptyRows()
+      if emptyRows.length
+        for row in [_.last(emptyRows)..0]
+          console.log row
+          if row is 0
+            @addRow()
+          else if row >= 1
+            @moveRowDown row-1
+      else
+        console.log "Board is full. Game over!"
+        @trigger 'board:isFull'
+
+    moveRowDown: (row) ->
+      for tile in @getTilesInRow row
+        tile.set 'position', tile.get('position') + @TILES_X if tile? # Move a tile one row down
+
     destroyTiles: ->
       for row in [0...@TILES_Y]
         tiles = @getTilesInRow row
@@ -53,6 +78,4 @@ class window.Board extends Backbone.Collection
 
           if len is @TILES_X
             @remove tile for tile in tiles
-            for r in [row-1..0]
-              for tile in @getTilesInRow r
-                tile.set 'position', tile.get('position') + @TILES_X if tile? # Move a tile one row down
+            @moveRowDown r for r in [row-1..0]
