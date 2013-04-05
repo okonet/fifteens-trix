@@ -1,4 +1,4 @@
- $image: "tile.png";
+$dimension: 75px;
 
 .tile {
   position: absolute;
@@ -7,10 +7,8 @@
   text-align: center;
   text-shadow: 0 1px 0 #000;
   color: rgba(255,255,255,.4);
-  background: inline-image($image) 0 0 no-repeat;
-  width: image-width($image);
-  height: image-height($image);
-  @include background-size(image-width($image), image-height($image));
+  width: $dimension;
+  height: $dimension;
 
   &:after {
     position: absolute;
@@ -33,6 +31,9 @@
   }
   &.tile_4:after {
     background-color: #fdc430;
+  }
+  &.tile_5:after {
+    background-color: #5dc15d;
   }
 }
 

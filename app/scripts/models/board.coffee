@@ -1,6 +1,6 @@
 class window.Board extends Backbone.Collection
 
-    TILES_X: 4
+    TILES_X: 5
     TILES_Y: 9
 
     model: Tile,
@@ -57,14 +57,14 @@ class window.Board extends Backbone.Collection
           if row is 0
             @addRow()
           else if row >= 1
-            @moveRowDown row-1
+            @moveRowDown row-1, _.last(emptyRows) - row + 1
       else
         console.log "Board is full. Game over!"
         @trigger 'board:isFull'
 
-    moveRowDown: (row) ->
+    moveRowDown: (row, amount = 1) ->
       for tile in @getTilesInRow row
-        tile.set 'position', tile.get('position') + @TILES_X if tile? # Move a tile one row down
+        tile.set 'position', tile.get('position') + @TILES_X * amount if tile? # Move a tile one row down
 
     destroyTiles: ->
       for row in [0...@TILES_Y]

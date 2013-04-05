@@ -1,7 +1,7 @@
 class window.TileView extends Backbone.View
 
-  WIDTH: 73,
-  HEIGHT: 67,
+  WIDTH  : 75
+  HEIGHT : 75
 
   el: no
   template: _.template("<div class=\"tile tile_<%= type %>\"><%= position %></div>")
