@@ -1,7 +1,7 @@
 class window.Board extends Backbone.Collection
 
-    TILES_X: 5
-    TILES_Y: 9
+    TILES_X: 4
+    TILES_Y: 8
 
     model: Tile,
 
@@ -18,8 +18,8 @@ class window.Board extends Backbone.Collection
 
     shuffle: ->
       tiles = []
-      for row in [@TILES_Y...@TILES_Y-4]
-        row -= 1
+      for row in [0...@TILES_X]
+        row = @TILES_Y - row - 1
         for col in [0...@TILES_X]
           i = row * @TILES_X + col
           tiles.push
@@ -53,13 +53,11 @@ class window.Board extends Backbone.Collection
       emptyRows = @getEmptyRows()
       if emptyRows.length
         for row in [_.last(emptyRows)..0]
-          console.log row
           if row is 0
             @addRow()
           else if row >= 1
             @moveRowDown row-1, _.last(emptyRows) - row + 1
       else
-        console.log "Board is full. Game over!"
         @trigger 'board:isFull'
 
     moveRowDown: (row, amount = 1) ->
