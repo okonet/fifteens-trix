@@ -52,25 +52,9 @@ module.exports = (grunt) ->
           middleware: (connect) ->
             [mountFolder(connect, "dist")]
 
-    open:
-      server:
-        url: "http://localhost:<%= connect.options.port %>"
-
     clean:
       dist: [".tmp", "<%= yeoman.dist %>/*"]
       server: ".tmp"
-
-    jshint:
-      options:
-        jshintrc: ".jshintrc"
-
-      all: ["Gruntfile.js", "<%= yeoman.app %>/scripts/*.js", "test/spec/*.js"]
-
-    mocha:
-      all:
-        options:
-          run: true
-          urls: ["http://localhost:<%= connect.options.port %>/index.html"]
 
     coffee:
       dist:
@@ -81,8 +65,6 @@ module.exports = (grunt) ->
           dest: ".tmp/scripts"
           ext: '.js'
         ]
-        # files:
-        #   ".tmp/scripts/coffee.js": "<%= yeoman.app %>/scripts/**/*.coffee"
 
       test:
         files: [
@@ -167,17 +149,11 @@ module.exports = (grunt) ->
           src: ["*.{ico,txt}", ".htaccess"]
         ]
 
-    bower:
-      rjsConfig: "app/scripts/main.js"
-      indent: "    "
-
   grunt.renameTask "regarde", "watch"
 
-  # remove when mincss task is renamed
-  grunt.renameTask "mincss", "cssmin"
   grunt.registerTask "server", (target) ->
-    return grunt.task.run(["open", "connect:dist:keepalive"])  if target is "dist"
-    grunt.task.run ["clean:server", "coffee:dist", "compass:server", "livereload-start", "connect:livereload", "open", "watch"]
+    return grunt.task.run(["connect:dist:keepalive"])  if target is "dist"
+    grunt.task.run ["clean:server", "coffee:dist", "compass:server", "livereload-start", "connect:livereload", "watch"]
 
   grunt.registerTask "test", ["clean:server", "coffee", "compass", "connect:test", "mocha"]
   grunt.registerTask "build", ["clean:dist", "jshint", "test", "coffee", "compass:dist", "useminPrepare", "imagemin", "cssmin", "htmlmin", "concat", "uglify", "copy", "usemin"]
