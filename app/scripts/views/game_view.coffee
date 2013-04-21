@@ -32,16 +32,16 @@ class window.GameView extends Backbone.View
     gameOver: =>
       $('.game-view').addClass('game-view_result')
       $('.game-result').html("Game over!<br><br>Tap to start over...")
-      @$el.one "click", => @newGame()
+      @$el.one "click", @newGame
 
     gamePaused: =>
       if @model.get('isPaused')
         $('.game-view').addClass('game-view_paused')
         $('.game-result').html("Game paused...<br><br>Tap to continue...")
-        @$el.one "click", => @togglePause()
+        @$el.one "click", @togglePause
       else
         $('.game-view').removeClass('game-view_paused')
-        @$el.off "click"
+        @$el.off "click", @togglePause
 
     updateStats: =>
       @$('#moves_count').html @model.get('moves')

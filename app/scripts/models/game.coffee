@@ -14,10 +14,7 @@ class window.Game extends Backbone.Model
 
   togglePause: ->
     @set 'isPaused', not @get('isPaused')
-    if @get('isPaused')
-      @stopTicking()
-    else
-      @startTicking()
+    if @get('isPaused') then @stopTicking() else @startTicking()
 
   startTicking: ->
     @timer = setInterval @tick, 5000
