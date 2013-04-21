@@ -3,7 +3,6 @@ class window.Game extends Backbone.Model
   initialize: ->
     @board = new Board
     @listenTo @board, "board:isFull", =>
-      console.log @
       @stopTicking()
       @set 'isOver', yes
     @newGame()
