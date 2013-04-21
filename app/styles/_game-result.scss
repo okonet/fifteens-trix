@@ -10,10 +10,12 @@
   color: #444;
   background-color: #fff;
   opacity: 0;
+  visibility: collapse;
   -webkit-transform: scale(2);
   -webkit-transition:
     opacity .5s ease-in-out,
-    -webkit-transform .5s ease-in-out;
+    -webkit-transform .5s ease-in-out,
+    visibility .01s .5s;
 }
 .game-view_paused,
 .game-view_result {
@@ -23,7 +25,12 @@
   }
   .game-result {
     opacity: 1;
+    visibility: visible;
     -webkit-transform: scale(1);
     z-index: 100000;
+    -webkit-transition:
+      opacity .5s .01s ease-in-out,
+      -webkit-transform .5s .01s ease-in-out,
+      visibility .01s;
   }
 }
