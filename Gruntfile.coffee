@@ -57,6 +57,10 @@ module.exports = (grunt) ->
       server: ".tmp"
 
     coffee:
+      options:
+        sourceMap: yes
+        sourceRoot: ""
+
       dist:
         files: [
           expand: yes
