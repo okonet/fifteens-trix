@@ -10,15 +10,25 @@ class window.Game extends Backbone.Model
   newGame: ->
     @reset()
     @board.shuffle()
-    @timer = setInterval @tick, 5000
+    @startTicking()
 
-  tick: =>
-    @board.addAndMoveRows()
+  togglePause: ->
+    @set 'isPaused', not @get('isPaused')
+    if @get('isPaused')
+      @stopTicking()
+    else
+      @startTicking()
+
+  startTicking: ->
+    @timer = setInterval @tick, 5000
 
   stopTicking: ->
     if @timer?
       clearInterval @timer
       @timer = null
+
+  tick: =>
+    @board.addAndMoveRows()
 
   reset: ->
     @stopTicking()

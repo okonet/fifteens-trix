@@ -9,6 +9,7 @@
     @include transition(opacity .5s ease-in-out);
   }
 }
+.game-view_paused,
 .game-view_result {
   &:after {
     position: absolute;

@@ -12,6 +12,7 @@
   @include translate(-50%, -50%);
   @include transition(top .5s ease-in-out);
 }
+.game-view_paused,
 .game-view_result {
   .game-result {
     top: 50%;
