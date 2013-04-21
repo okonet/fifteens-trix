@@ -38,7 +38,8 @@ class window.TileView extends Backbone.View
       translate3d: "#{@left}px, #{@top + 150}px, 0"
       opacity: 0
     ,
-      complete: -> @remove()
+      complete: =>
+        @$el.remove()
 
   play: ->
     return if not @tilesToPlay = @getTilesToPlay() if not @tilesToPlay
