@@ -4,7 +4,7 @@ class window.TileView extends Backbone.View
   HEIGHT : 75
 
   el: no
-  template: _.template("<div class=\"tile tile_<%= type %>\"><%= position %></div>")
+  template: _.template("<div class=\"tile tile_<%= type %>\"></div>")
   events:
     'touchstart' : 'dragTileStart'
     'touchmove'  : 'dragTileMove'
