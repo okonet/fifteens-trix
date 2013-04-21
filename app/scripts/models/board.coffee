@@ -1,15 +1,8 @@
 class window.Board extends Backbone.Collection
 
-    TILES_X: 4
-    TILES_Y: 8
-
-    model: Tile,
-
-    getTileWithPosition: (position) ->
-      @find (tile) -> tile.get('position') is position
-
-    getSize: ->
-      @TILES_X
+    cols: 4
+    rows: 8
+    model: Tile
 
     switchTiles: (tile1, tile2) ->
       tile1pos = tile1.get('position')
@@ -17,19 +10,25 @@ class window.Board extends Backbone.Collection
       tile2.set 'position', tile1pos
 
     shuffle: ->
-      tiles = []
-      for row in [0...@TILES_X]
-        row = @TILES_Y - row - 1
-        for col in [0...@TILES_X]
-          i = row * @TILES_X + col
-          tiles.push
+      @reset()
+      startRow = @rows - @cols
+      for row in [startRow...@rows]
+        for col in [0...@cols]
+          i = row * @cols + col
+          @add new Tile
             position : i
-            type     : row % @TILES_X + 1
+            type     : row % @cols + 1
 
-      _.last(tiles).type = 0
-      positions = _.pluck(tiles, 'position').sort -> 0.5 - Math.random()
-      tile.position = positions[idx] for tile, idx in tiles
-      @reset tiles
+      @last().set 'type', 0
+      positions = [startRow * @cols...@cols * @rows].sort -> 0.5 - Math.random()
+      @each (tile, idx) ->
+        tile.set 'position', positions[idx]
+
+    getSize: ->
+      @cols
+
+    getTileWithPosition: (pos) ->
+      @find (tile) -> tile.get('position') is pos
 
     getEmptyTile: ->
       @find (tile) -> tile.isEmpty()
@@ -38,16 +37,43 @@ class window.Board extends Backbone.Collection
       @getEmptyTile().get 'position'
 
     getTilesInRow: (row) ->
-      (@getTileWithPosition(row * @TILES_X + i) for i in [0...@TILES_X])
+      (@getTileWithPosition(row * @cols + i) for i in [0...@cols])
 
     getEmptyRows: ->
-      (row for row in [0...@TILES_Y] when not @getTilesInRow(row)[0]?)
+      (row for row in [0...@rows] when not @getTilesInRow(row)[0]?)
+
+    getPlayableTilesFor: (tile) ->
+      tiles    = []
+      tilePos  = tile.getPosition()
+      emptyPos = @getEmptyTilePosition()
+      diff     = tilePos - emptyPos
+      delta    = Math.abs diff
+
+      if delta % @cols is 0 # Empty tile and our tile are on a same column
+        for pos in [tilePos..emptyPos] when (pos - emptyPos) % @cols is 0
+          tiles.push @getTileWithPosition(pos)
+      else if (delta < @cols) and parseInt(tilePos / @cols) is parseInt(emptyPos / @cols) # or they are on the same row
+        for pos in [tilePos..emptyPos]
+          tiles.push @getTileWithPosition(pos)
+      tiles
+
+    movePlayableTiles: (tiles) ->
+      if tiles.length
+        # Swtich positions for each tile pair
+        for i in [tiles.length-1...0]
+          tile1 = tiles[i]
+          tile2 = tiles[i-1]
+          tiles[i] = tile2
+          tiles[i-1] = tile1
+          @switchTiles tile1, tile2
+
+        game.set('moves', game.get('moves') + 1)
 
     addRow: ->
-      for col in [0...@TILES_X]
+      for col in [0...@cols]
         @add
           position: col
-          type: Math.ceil(Math.random() * @TILES_X)
+          type: Math.ceil(Math.random() * @cols)
           justAdded: yes
 
     addAndMoveRows: =>
@@ -62,11 +88,11 @@ class window.Board extends Backbone.Collection
 
     moveRowDown: (row, amount = 1) ->
       for tile in @getTilesInRow row when tile?
-        tile.set 'position', tile.get('position') + @TILES_X * amount # Move a tile one row down
+        tile.set 'position', tile.get('position') + @cols * amount # Move a tile one row down
         tile.set 'justAdded', no # and remove 'justAdded' flag
 
     destroyTiles: ->
-      for row in [0...@TILES_Y]
+      for row in [0...@rows]
         tiles = @getTilesInRow row
         types = (tile?.get('type') for tile in tiles)
         firstTile = tiles[0]
@@ -75,6 +101,6 @@ class window.Board extends Backbone.Collection
           for i in [1...tiles.length]
             if tiles[i]?.get('type') is firstTile.get('type') then len++ else break
 
-          if len is @TILES_X
+          if len is @cols
             @remove tile for tile in tiles
             @moveRowDown r for r in [row-1..0]

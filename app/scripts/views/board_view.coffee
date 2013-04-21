@@ -5,7 +5,6 @@ class window.BoardView extends Backbone.View
     initialize: ->
       @listenTo @collection, 'reset', @render
       @listenTo @collection, 'add', @addOne
-      @collection.shuffle()
       @collection.view = @
 
     addOne: (tile) ->

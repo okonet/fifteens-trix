@@ -3,6 +3,8 @@ class window.TileView extends Backbone.View
   WIDTH  : 75
   HEIGHT : 75
 
+  movingTiles: []
+  tilesToPlay: []
   el: no
   template: _.template("<div class=\"tile tile_<%= type %>\"></div>")
   events:
@@ -13,6 +15,7 @@ class window.TileView extends Backbone.View
   initialize: ->
     @listenTo @model, 'change', @render
     @listenTo @model, 'remove', @remove
+    @board = @model.collection
     @model.view = @
 
   render: =>
@@ -32,7 +35,6 @@ class window.TileView extends Backbone.View
         easing: "ease-out"
 
     @$el[if @model.get('justAdded') then "addClass" else "removeClass"] "tile_justAdded"
-
     @
 
   remove: ->
@@ -43,78 +45,57 @@ class window.TileView extends Backbone.View
       complete: =>
         @$el.remove()
 
-  play: ->
-    return if not @tilesToPlay = @getTilesToPlay() if not @tilesToPlay
-
-    # Swtich each tile positions
-    for i in [@tilesToPlay.length-1...0]
-      tile1 = @tilesToPlay[i]
-      tile2 = @tilesToPlay[i-1]
-      @tilesToPlay[i] = tile2
-      @tilesToPlay[i-1] = tile1
-      game.board.switchTiles tile1, tile2
-
-    game.set('moves', game.get('moves') + 1)
-
-  getTilesToPlay: ->
-    @positions = @model.getRelativePositioning()
-    # Check if the clicked tile is on same column or row with empty tile
-    if @positions.delta % @positions.boardSize is 0 # Empty tile and our tile are on a same column
-      (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos] when (pos - @positions.emptyPos) % @positions.boardSize is 0)
-    else if (@positions.delta < @positions.boardSize) and parseInt(@positions.tilePos / @positions.boardSize) is parseInt(@positions.emptyPos / @positions.boardSize) # or they are on the same row
-      (game.board.getTileWithPosition pos for pos in [@positions.tilePos..@positions.emptyPos]) if @positions.delta < @positions.boardSize
-
   dragTileStart: (e) ->
-    return if not @tilesToPlay = @getTilesToPlay()
+    @tilesToPlay = @board.getPlayableTilesFor @model
+    if @tilesToPlay.length
+      @model.updateRelativePositions()
+      delta = @model.get('delta')
+      diff = @model.get('diff')
+      @touch =
+        x1: e.touches[0].pageX
+        y1: e.touches[0].pageY
+      @horizontal = (delta < @board.getSize())
+      @moveDirection = 'right' if diff < 0 and @horizontal
+      @moveDirection = 'left' if diff > 0 and @horizontal
+      @moveDirection = 'down' if diff < 0 and not @horizontal
+      @moveDirection = 'up' if diff > 0 and not @horizontal
 
-    @touch =
-      x1: e.touches[0].pageX
-      y1: e.touches[0].pageY
-    @horizontal = (@positions.delta < @positions.boardSize)
-    @moveDirection = 'right' if @positions.diff < 0 and @horizontal
-    @moveDirection = 'left' if @positions.diff > 0 and @horizontal
-    @moveDirection = 'down' if @positions.diff < 0 and not @horizontal
-    @moveDirection = 'up' if @positions.diff > 0 and not @horizontal
-
-    @movingTiles = (for tile in @tilesToPlay when not tile.isEmpty()
-      {
+      @movingTiles = (for tile in @tilesToPlay when not tile.isEmpty()
         element: $(tile.view.el)
-        transform: _.map $(tile.view.el).css('-webkit-transform').replace('translate3d(','').split(','), (component) -> return parseFloat component
-      }
-    )
+        transform: _.map $(tile.view.el).css('-webkit-transform').replace('translate3d(','').split(','), (val) -> parseFloat val
+      )
 
   dragTileMove: (e) ->
-    return unless @movingTiles
+    if @movingTiles.length
+      @touch.x2 = e.touches[0].pageX
+      @touch.y2 = e.touches[0].pageY
 
-    @touch.x2 = e.touches[0].pageX
-    @touch.y2 = e.touches[0].pageY
+      @deltaX = @touch.x2 - @touch.x1
+      @deltaY = @touch.y2 - @touch.y1
 
-    @deltaX = @touch.x2 - @touch.x1
-    @deltaY = @touch.y2 - @touch.y1
+      # Restrict movement to tile width and height
+      switch @moveDirection
+        when "left"   then @deltaX = Math.max(Math.min(@deltaX, 0), -@WIDTH)
+        when "right"  then @deltaX = Math.min(Math.max(@deltaX, 0), @WIDTH)
+        when "up"     then @deltaY = Math.max(Math.min(@deltaY, 0), -@HEIGHT)
+        when "down"   then @deltaY = Math.min(Math.max(@deltaY, 0), @HEIGHT)
 
-    # Restrict movement to tile width and height
-    switch @moveDirection
-      when "left"   then @deltaX = Math.max(Math.min(@deltaX, 0), -@WIDTH)
-      when "right"  then @deltaX = Math.min(Math.max(@deltaX, 0), @WIDTH)
-      when "up"     then @deltaY = Math.max(Math.min(@deltaY, 0), -@HEIGHT)
-      when "down"   then @deltaY = Math.min(Math.max(@deltaY, 0), @HEIGHT)
-
-    # Move each tile only in one direction depending on how tiles are positioned
-    for tile in @movingTiles
-      tileX = tile.transform[0]
-      tileY = tile.transform[1]
-      if @horizontal then tileX += @deltaX else tileY += @deltaY
-      tile.element.css { '-webkit-transform': "translate3d(#{tileX}px, #{tileY}px, 0)" }
-
-  dragTileEnd: () ->
-    return unless @movingTiles
-
-    if (@horizontal and Math.abs(@deltaX) > @WIDTH/8) or (not @horizontal and Math.abs(@deltaY) > @HEIGHT/8)
-      @play() #Play the tile if it passes the half of its size
-    else
+      # Move each tile only in one direction depending on how tiles are positioned
       for tile in @movingTiles
         tileX = tile.transform[0]
         tileY = tile.transform[1]
-        $(tile.element).anim({ translate3D: "#{tileX}px, #{tileY}px, 0"}, 0.125, "ease-out") # Aniamte tile back to original position
+        if @horizontal then tileX += @deltaX else tileY += @deltaY
+        tile.element.css { '-webkit-transform': "translate3d(#{tileX}px, #{tileY}px, 0)" }
 
-    @movingTiles = null
+  dragTileEnd: () ->
+    if @movingTiles.length
+      if (@horizontal and Math.abs(@deltaX) > @WIDTH/3) or (not @horizontal and Math.abs(@deltaY) > @HEIGHT/3)
+        #Play tiles if it passes the half of its size
+        @board.movePlayableTiles @tilesToPlay
+      else
+        # Aniamte tile back to original position
+        for tile in @movingTiles
+          tileX = tile.transform[0]
+          tileY = tile.transform[1]
+          $(tile.element).anim({ translate3D: "#{tileX}px, #{tileY}px, 0"}, 0.125, "ease-out")
+      @movingTiles = []

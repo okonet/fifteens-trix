@@ -3,6 +3,9 @@ class window.Tile extends Backbone.Model
     defaults:
       type: 0
 
+    initialize: ->
+      @on 'change', @updateRelativePositions
+
     getPosition: ->
       @get 'position'
 
@@ -13,6 +16,10 @@ class window.Tile extends Backbone.Model
       newPos = @collection.getEmptyTilePosition()
       @collection.getEmptyTile().set { position: @getPosition() }, { silent: true }
       @set position, newPos
+
+    updateRelativePositions: ->
+      @set 'diff', @getPosition() - @collection.getEmptyTilePosition(), silent: yes
+      @set 'delta', Math.abs @get('diff'), silent: yes
 
     canBePlayed: ->
       boardSize = @collection.getSize()
@@ -31,18 +38,3 @@ class window.Tile extends Backbone.Model
           delta : delta
       else
         no
-
-    getRelativePositioning: ->
-      boardSize = @collection.getSize()
-      tilePos = @getPosition()
-      emptyPos = @collection.getEmptyTilePosition()
-      diff = tilePos - emptyPos
-      delta = Math.abs diff
-
-      {
-        boardSize:  boardSize
-        tilePos:    tilePos
-        emptyPos:   emptyPos
-        diff:       diff
-        delta:      delta
-      }
