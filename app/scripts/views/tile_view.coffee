@@ -31,6 +31,8 @@ class window.TileView extends Backbone.View
         duration: 150
         easing: "ease-out"
 
+    @$el[if @model.get('justAdded') then "addClass" else "removeClass"] "tile_justAdded"
+
     @
 
   remove: ->

@@ -1,5 +1,11 @@
 $dimension: 74px;
 
+@-webkit-keyframes glow {
+  50% {
+    opacity: .5;
+  }
+}
+
 .tile {
   position: absolute;
   width: $dimension;
@@ -28,4 +34,7 @@ $dimension: 74px;
   &.tile_5 {
     background-color: rgba(#5dc15d, .75);
   }
+}
+.tile_justAdded {
+  -webkit-animation: glow 1.5s infinite linear;
 }

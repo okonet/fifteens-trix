@@ -48,21 +48,21 @@ class window.Board extends Backbone.Collection
         @add
           position: col
           type: Math.ceil(Math.random() * @TILES_X)
+          justAdded: yes
 
     addAndMoveRows: =>
       emptyRows = @getEmptyRows()
       if emptyRows.length
-        for row in [_.last(emptyRows)..0]
-          if row is 0
-            @addRow()
-          else if row >= 1
-            @moveRowDown row-1, _.last(emptyRows) - row + 1
+        for row in [_.last(emptyRows)..1]
+          @moveRowDown row-1, _.last(emptyRows) - row + 1
+        @addRow() # Add new row as a topmost row
       else
         @trigger 'board:isFull'
 
     moveRowDown: (row, amount = 1) ->
-      for tile in @getTilesInRow row
-        tile.set 'position', tile.get('position') + @TILES_X * amount if tile? # Move a tile one row down
+      for tile in @getTilesInRow row when tile?
+        tile.set 'position', tile.get('position') + @TILES_X * amount # Move a tile one row down
+        tile.set 'justAdded', no # and remove 'justAdded' flag
 
     destroyTiles: ->
       for row in [0...@TILES_Y]
