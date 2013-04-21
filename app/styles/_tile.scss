@@ -1,52 +1,31 @@
-$dimension: 75px;
+$dimension: 74px;
 
 .tile {
   position: absolute;
-  font-size: 2em;
-  line-height: 2.25;
-  text-align: center;
-  text-shadow: 0 1px 0 #000;
-  color: rgba(255,255,255,.4);
   width: $dimension;
   height: $dimension;
+  border-radius: 7px;
+  box-shadow:
+    0 0 0 1px rgba(#000, .2) inset,
+    0 0 0 5px rgba(#fff, .35) inset;
 
-  &:after {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: .5;
-    content: "";
+  // Empty tile
+  &.tile_0 {
+    visibility: collapse;
   }
-
-  &.tile_1:after {
-    background-color: #fa1c00;
+  &.tile_1 {
+    background-color: rgba(#fa1c00, .75);
   }
-  &.tile_2:after {
-    background-color: #2474ab;
+  &.tile_2 {
+    background-color: rgba(#2474ab, .75);
   }
-  &.tile_3:after {
-    background-color: #8d0268;
+  &.tile_3 {
+    background-color: rgba(#8d0268, .75);
   }
-  &.tile_4:after {
-    background-color: #fdc430;
+  &.tile_4 {
+    background-color: rgba(#fdc430, .75);
   }
-  &.tile_5:after {
-    background-color: #5dc15d;
-  }
-}
-
-// Empty tile
-.tile_0 {
-  visibility: hidden;
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-only screen and (min--moz-device-pixel-ratio: 1.5),
-only screen and (-o-device-pixel-ratio: 3/2),
-only screen and (min-device-pixel-ratio: 1.5) {
-  .tile {
-    background: inline-image("tile@2x.png") 0 0 no-repeat;
+  &.tile_5 {
+    background-color: rgba(#5dc15d, .75);
   }
 }
