@@ -57,6 +57,7 @@ class window.Board extends Backbone.Collection
           @moveRowDown row-1, _.last(emptyRows) - row + 1
         @addRow() # Add new row as a topmost row
       else
+        @moveRowDown 0, 0
         @trigger 'board:isFull'
 
     moveRowDown: (row, amount = 1) ->
