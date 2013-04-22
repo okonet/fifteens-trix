@@ -1,12 +1,12 @@
 class window.TileView extends Backbone.View
 
-  WIDTH  : 75
-  HEIGHT : 75
+  WIDTH  : 60
+  HEIGHT : 60
 
   movingTiles: []
   tilesToPlay: []
-  el: no
-  template: _.template("<div class=\"tile tile_<%= type %>\"></div>")
+  className: "tile"
+
   events:
     'touchstart' : 'dragTileStart'
     'touchmove'  : 'dragTileMove'
@@ -19,35 +19,30 @@ class window.TileView extends Backbone.View
     @model.view = @
 
   render: =>
-    tileData = @model.toJSON()
-    @$el.html @template(tileData)
-
-    @left = (tileData.position % game.board.getSize()) * @WIDTH
-    @top = (Math.ceil((tileData.position + 1) / game.board.getSize()) - 1) * @HEIGHT
+    data = @model.toJSON()
+    @$el.attr "class", "tile tile_#{@model.get('type')}"
+    @left = (data.position % game.board.getSize()) * @WIDTH
+    @top = (Math.ceil((data.position + 1) / game.board.getSize()) - 1) * @HEIGHT
 
     @$el
       .css
-        'z-index': tileData.position
-      .animate
-        translate3d: "#{@left}px, #{@top}px, 0"
-      ,
-        duration: 150
-        easing: "ease-out"
+        'z-index'   : data.position
+        'transform' : "translate3d(#{@left}px, #{@top}px, 0)"
 
     @$el[if @model.get('justAdded') then "addClass" else "removeClass"] "tile_justAdded"
     @
 
   remove: ->
-    @$el.animate
-      translate3d: "#{@left}px, #{@top + 150}px, 0"
-      opacity: 0
-    ,
-      complete: =>
-        @$el.remove()
+    @$el.addClass('tile_removing').css 'transform', "translate3d(#{@left}px, #{@top + 150}px, 0)"
 
-  dragTileStart: (e) ->
+    _.delay =>
+      @$el.remove()
+    , 500
+
+  dragTileStart: (evt) ->
     @tilesToPlay = @board.getPlayableTilesFor @model
     if @tilesToPlay.length
+      e = evt.originalEvent
       @model.updateRelativePositions()
       delta = @model.get('delta')
       diff = @model.get('diff')
@@ -59,14 +54,14 @@ class window.TileView extends Backbone.View
       @moveDirection = 'left' if diff > 0 and @horizontal
       @moveDirection = 'down' if diff < 0 and not @horizontal
       @moveDirection = 'up' if diff > 0 and not @horizontal
-
       @movingTiles = (for tile in @tilesToPlay when not tile.isEmpty()
-        element: $(tile.view.el)
-        transform: _.map $(tile.view.el).css('-webkit-transform').replace('translate3d(','').split(','), (val) -> parseFloat val
+        tile.matrix = tile.view.$el.addClass('tile_dragging').css('transform')
+        tile
       )
 
-  dragTileMove: (e) ->
+  dragTileMove: (evt) ->
     if @movingTiles.length
+      e = evt.originalEvent
       @touch.x2 = e.touches[0].pageX
       @touch.y2 = e.touches[0].pageY
 
@@ -82,20 +77,18 @@ class window.TileView extends Backbone.View
 
       # Move each tile only in one direction depending on how tiles are positioned
       for tile in @movingTiles
-        tileX = tile.transform[0]
-        tileY = tile.transform[1]
+        tileX = 0
+        tileY = 0
         if @horizontal then tileX += @deltaX else tileY += @deltaY
-        tile.element.css { '-webkit-transform': "translate3d(#{tileX}px, #{tileY}px, 0)" }
+        tile.view.$el.css 'transform': "#{tile.matrix} translate3d(#{tileX}px, #{tileY}px, 0)"
 
-  dragTileEnd: () ->
+  dragTileEnd: ->
     if @movingTiles.length
+      tile.view.$el.removeClass('tile_dragging') for tile in @movingTiles
       if (@horizontal and Math.abs(@deltaX) > @WIDTH/3) or (not @horizontal and Math.abs(@deltaY) > @HEIGHT/3)
         #Play tiles if it passes the half of its size
         @board.movePlayableTiles @tilesToPlay
       else
         # Aniamte tile back to original position
-        for tile in @movingTiles
-          tileX = tile.transform[0]
-          tileY = tile.transform[1]
-          $(tile.element).anim({ translate3D: "#{tileX}px, #{tileY}px, 0"}, 0.125, "ease-out")
+        tile.view.$el.css 'transform', tile.matrix for tile in @movingTiles
       @movingTiles = []

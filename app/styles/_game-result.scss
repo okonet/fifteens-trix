@@ -7,7 +7,7 @@
   font-weight: 100;
   text-align: center;
   width: 100%;
-  color: #444;
+  color: #865;
   background-color: #fff;
   opacity: 0;
   visibility: collapse;
@@ -21,7 +21,7 @@
 .game-view_result {
   .board {
     -webkit-transform: scale(.85);
-    -webkit-filter: blur(12px);
+    // -webkit-filter: blur(4px);
   }
   .game-result {
     opacity: 1;

@@ -1,6 +1,6 @@
 class window.Board extends Backbone.Collection
 
-    cols: 4
+    cols: 5
     rows: 8
     model: Tile
 
