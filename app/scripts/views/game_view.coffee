@@ -3,8 +3,8 @@ class window.GameView extends Backbone.View
     el: $("body")
 
     events:
-      'click .game-controls__btn-new'  : 'newGame'
-      'click .game-controls__btn-pause': 'togglePause'
+      'tap .game-controls__btn-new'  : 'newGame'
+      'tap .game-controls__btn-pause': 'togglePause'
 
     initialize: ->
       @listenTo @model, 'change:isOver', @gameOver
@@ -23,7 +23,8 @@ class window.GameView extends Backbone.View
       @model.newGame()
       $('.game-view').removeClass('game-view_result')
 
-    togglePause: =>
+    togglePause: (evt) =>
+      evt.preventDefault()
       @model.togglePause()
 
     newGameConfirmation: =>
@@ -32,16 +33,16 @@ class window.GameView extends Backbone.View
     gameOver: =>
       $('.game-view').addClass('game-view_result')
       $('.game-result').html("Game over!<br><br>Tap to start over...")
-      @$el.one "click", @newGame
+      @$el.one "tap", @newGame
 
     gamePaused: =>
       if @model.get('isPaused')
         $('.game-view').addClass('game-view_paused')
         $('.game-result').html("Game paused...<br><br>Tap to continue...")
-        @$el.one "click", @togglePause
+        @$el.on "tap", @togglePause
       else
         $('.game-view').removeClass('game-view_paused')
-        @$el.off "click", @togglePause
+        @$el.off "tap", @togglePause
 
     updateStats: =>
       @$('#moves_count').html @model.get('moves')
