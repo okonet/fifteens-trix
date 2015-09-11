@@ -1,9 +1,13 @@
-import { createStore, applyMiddleware } from 'redux';
+import { compose, createStore, applyMiddleware } from 'redux';
+import { devTools, persistState } from 'redux-devtools';
 import thunk from 'redux-thunk';
 import reducer from '../reducers';
 
-const createStoreWithMiddleware = applyMiddleware(
-    thunk
+
+const createStoreWithMiddleware = compose(
+    applyMiddleware(thunk),
+    devTools(),
+    persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
 )(createStore);
 
 export default function configureStore(initialState) {
