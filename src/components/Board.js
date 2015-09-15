@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { COLS, ROWS, SIZE } from '../constants/Board'
-import { range } from 'lodash'
 import Tile from './Tile'
 
 const styles = {
