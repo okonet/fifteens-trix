@@ -1,4 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react'
+import Tile from './Tile'
+
+const styles = {
+    row: {
+        position: 'relative',
+        flexDirection: 'row'
+    }
+}
 
 export default class Board extends Component {
 
@@ -9,7 +17,13 @@ export default class Board extends Component {
     render() {
         const { tiles } = this.props;
         return (
-            <h2>{tiles.join(', ')}</h2>
+            <div style={styles.row}>
+            {
+                tiles.map((value, i) => {
+                    return <Tile type={value} idx={i} key={i} />
+                })
+            }
+            </div>
         );
     }
 }

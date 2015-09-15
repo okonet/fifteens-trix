@@ -5,7 +5,7 @@ import * as BoardActions from '../actions/board';
 
 function mapStateToProps(state) {
     return {
-        tiles: state.board
+        tiles: state.tiles
     };
 }
 
