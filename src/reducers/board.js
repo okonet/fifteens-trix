@@ -1,23 +1,38 @@
 import { range, shuffle, merge } from 'lodash'
 import { NEW_GAME, GAME_OVER, INCREMENT_STEPS } from '../actions/game'
-import { COLS, ROWS } from '../constants/Board'
+import { COLS, ROWS, SIZE } from '../constants/Board'
 
-const SIZE = COLS * ROWS
-const initialState = range(0, SIZE, 0)
+const initialState = []
+const startRow = (ROWS - COLS)
 
 export default function tiles(state = initialState, action) {
     switch (action.type) {
         case NEW_GAME:
-            const emptyPart = range(0, (ROWS - COLS) * COLS, 0)
+            const emptyBoard = []
             const filledBoard = []
-            for (let i = 0; i < COLS; i++) {
-                for (let j = 0; j < COLS; j++) {
-                    const idx = i * COLS + j
-                    filledBoard[idx] = i + 1
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    const idx = row * COLS + col
+                    if (row >= startRow) {
+                        filledBoard.push({
+                            type: idx === (SIZE - 1)  ? 0 : row - startRow + 1,
+                            pos: idx
+                        })
+                    } else {
+                        emptyBoard.push({
+                            type: 0,
+                            pos: idx
+                        })
+                    }
                 }
             }
-            filledBoard[0] = 0 // Add empty tile to the filled board
-            return [...emptyPart, ...shuffle(filledBoard)]
+
+            const positions = range(startRow * COLS, SIZE, 1).sort(() => 0.5 - Math.random())
+            filledBoard.forEach((tile, idx) => {
+                tile.pos = positions[idx]
+            })
+
+            return [...emptyBoard, ...filledBoard]
 
         default:
             return state;

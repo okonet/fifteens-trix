@@ -14,8 +14,8 @@ const basicStyles = {
 export default class Tile extends Component {
 
     static propTypes = {
-        position: PropTypes.number.isRequired,
-        type: PropTypes.number.isRequired
+        type: PropTypes.number.isRequired,
+        position: PropTypes.number.isRequired
     }
 
     getLeftValue(position) {
