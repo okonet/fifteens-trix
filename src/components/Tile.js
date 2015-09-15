@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import {Spring} from 'react-motion'
 import { COLS } from '../constants/Board'
 
 const TILE_SIZE = 60
@@ -13,23 +14,32 @@ const basicStyles = {
 export default class Tile extends Component {
 
     static propTypes = {
-        idx: PropTypes.number.isRequired,
+        position: PropTypes.number.isRequired,
         type: PropTypes.number.isRequired
     }
 
-    getStyles(idx) {
-        return {
-            ...basicStyles,
-            left: (idx % COLS) * TILE_SIZE,
-            top: (Math.ceil((idx + 1) / COLS) - 1) * TILE_SIZE
-        }
+    getLeftValue(position) {
+        return (position % COLS) * TILE_SIZE
+    }
+
+    getTopValue(position) {
+        return (Math.ceil((position + 1) / COLS) - 1) * TILE_SIZE
     }
 
     render() {
-        const {type, idx} = this.props
-        const styles = this.getStyles(idx)
+        const {type, position} = this.props
         return (
-            <div style={styles}>{type}</div>
+            <Spring
+                endValue={{val: {left: this.getLeftValue(position), top: this.getTopValue(position)}}}
+            >
+                {interpolated =>
+                    <div style={{
+                        ...basicStyles,
+                        top: interpolated.val.top,
+                        left: interpolated.val.left
+                    }}>{type}</div>
+                }
+            </Spring>
         )
     }
 }
