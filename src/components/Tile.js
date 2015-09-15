@@ -34,6 +34,7 @@ export default class Tile extends Component {
                 {interpolated =>
                     <div style={{
                         ...basicStyles,
+                        opacity: type === 0 ? 0.1 : 1,
                         top: interpolated.val.top,
                         left: interpolated.val.left
                     }}>{type}</div>
