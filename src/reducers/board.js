@@ -1,5 +1,5 @@
-import { range, shuffle, merge } from 'lodash'
-import { NEW_GAME, GAME_OVER, INCREMENT_STEPS } from '../actions/game'
+import { range } from 'lodash'
+import { NEW_GAME } from '../actions/game'
 import { COLS, ROWS, SIZE } from '../constants/Board'
 
 const initialState = []
