@@ -5,7 +5,6 @@ import { COLS } from '../constants/Board'
 const TILE_SIZE = 60
 const basicStyles = {
     position: 'absolute',
-    //flexGrow: 1,
     border: '1px solid',
     width: TILE_SIZE,
     height: TILE_SIZE
