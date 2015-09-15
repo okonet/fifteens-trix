@@ -11,7 +11,8 @@ const styles = {
 export default class Board extends Component {
 
     static propTypes = {
-        tiles: PropTypes.array.isRequired
+        tiles: PropTypes.array.isRequired,
+        playTile: PropTypes.func.isRequired
     }
 
     render() {
@@ -24,7 +25,10 @@ export default class Board extends Component {
                         <Tile
                             type={tile.type}
                             position={tile.pos}
-                            key={idx} />
+                            key={idx}
+                            index={idx}
+                            onClickCb={this.props.playTile}
+                        />
                     )
                 })
             }
