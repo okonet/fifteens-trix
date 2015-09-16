@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import {Spring} from 'react-motion'
+import { Spring } from 'react-motion'
 import { COLS } from '../constants/Board'
 
 const TILE_SIZE = 60
@@ -18,6 +18,12 @@ export default class Tile extends Component {
         onClickCb: PropTypes.func
     }
 
+    onClick(position) {
+        if (this.props.onClickCb) {
+            this.props.onClickCb(position)
+        }
+    }
+
     getLeftValue(position) {
         return (position % COLS) * TILE_SIZE
     }
@@ -26,14 +32,8 @@ export default class Tile extends Component {
         return (Math.ceil((position + 1) / COLS) - 1) * TILE_SIZE
     }
 
-    onClick(position) {
-        if (this.props.onClickCb) {
-            this.props.onClickCb(position)
-        }
-    }
-
     render() {
-        const {type, position, index} = this.props
+        const {type, position} = this.props
         return (
             <Spring
                 endValue={{val: {left: this.getLeftValue(position), top: this.getTopValue(position)}}}
@@ -42,12 +42,12 @@ export default class Tile extends Component {
                     <div
                         style={{
                             ...basicStyles,
-                            opacity: type === 0 ? 0.1 : 1,
+                            opacity: type <= 0 ? 0.1 : 1,
                             top: interpolated.val.top,
                             left: interpolated.val.left
                         }}
                         onClick={this.onClick.bind(this, position)}
-                    >{type} [{index}]</div>
+                    >{type}</div>
                 }
             </Spring>
         )

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Tile from './Tile'
+import { sortBy } from 'lodash'
 
 const styles = {
     row: {
@@ -20,13 +21,13 @@ export default class Board extends Component {
         return (
             <div style={styles.row}>
             {
-                tiles.map((tile, idx) => {
+                sortBy(tiles, 'index').map((tile) => {
                     return (
                         <Tile
                             type={tile.type}
-                            position={tile.pos}
-                            key={idx}
-                            index={idx}
+                            position={tiles.indexOf(tile)}
+                            key={tile.index}
+                            index={tile.index}
                             onClickCb={this.props.playTile}
                         />
                     )
