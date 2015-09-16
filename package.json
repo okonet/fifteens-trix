@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "lint": "eslint src",
-    "precommit-lint": "./git-lint.sh"
+    "precommit-lint": "./scripts/git-lint.sh"
   },
   "pre-commit": [
     "precommit-lint"
