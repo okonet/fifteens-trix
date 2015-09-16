@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
-import Game from './containers/Game';
-import configureStore from './store/configureStore';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
+import Game from './containers/Game'
+import configureStore from './store/configureStore'
 
-const store = configureStore();
+const store = configureStore()
 
 ReactDOM.render(
     <div>
@@ -17,4 +17,4 @@ ReactDOM.render(
         </DebugPanel>
     </div>,
     document.getElementById('root')
-);
+)
