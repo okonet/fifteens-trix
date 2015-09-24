@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "lint": "eslint src",
-    "precommit-lint": "./scripts/git-lint.sh"
+    "precommit-lint": "./scripts/git-lint.sh",
+    "deps": "npm-check -u"
   },
   "pre-commit": [
     "precommit-lint"
@@ -32,6 +33,7 @@
     "eslint-config-airbnb": "0.0.8",
     "eslint-plugin-react": "^3.3.2",
     "express": "^4.13.3",
+    "npm-check": "^4.0.3",
     "pre-commit": "^1.1.1",
     "react-transform-catch-errors": "^0.1.1",
     "react-transform-webpack-hmr": "^0.1.4",
