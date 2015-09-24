@@ -43,8 +43,7 @@ export default class Tile extends Component {
                         style={{
                             ...basicStyles,
                             opacity: type <= 0 ? 0.1 : 1,
-                            top: interpolated.val.top,
-                            left: interpolated.val.left
+                            transform: `translate(${interpolated.val.left}px, ${interpolated.val.top}px)`
                         }}
                         onClick={this.onClick.bind(this, position)}
                     >{type}</div>
