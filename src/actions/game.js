@@ -1,5 +1,5 @@
 import random from 'random-seed'
-import {range} from 'lodash'
+import { range } from 'lodash'
 import { COLS, ROWS, SIZE } from '../constants/Board'
 
 const rand = random.create()
