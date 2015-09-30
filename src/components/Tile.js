@@ -15,7 +15,12 @@ export default class Tile extends Component {
     static propTypes = {
         type: PropTypes.number.isRequired,
         position: PropTypes.number.isRequired,
+        isPlayable: PropTypes.bool,
         onClickCb: PropTypes.func
+    }
+
+    static defaultProps = {
+        isPlayable: false
     }
 
     onClick(position) {
@@ -33,7 +38,7 @@ export default class Tile extends Component {
     }
 
     render() {
-        const {type, position} = this.props
+        const {type, position, isPlayable} = this.props
         return (
             <Spring
                 endValue={{val: {left: this.getLeftValue(position), top: this.getTopValue(position)}}}
@@ -43,6 +48,7 @@ export default class Tile extends Component {
                         style={{
                             ...basicStyles,
                             opacity: type <= 0 ? 0.1 : 1,
+                            borderColor: isPlayable ? '#0c0' : '#000',
                             transform: `translate(${interpolated.val.left}px, ${interpolated.val.top}px)`
                         }}
                         onClick={this.onClick.bind(this, position)}
