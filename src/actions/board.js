@@ -12,7 +12,7 @@ export function playTile(position: number) {
         if (delta === 1 || delta === COLS) {
             if (emptyPos % COLS === 0 && position === (emptyPos - 1)) {
                 return // Empty is in last row. Next tile can not be played
-            }  else if ((emptyPos + 1) % COLS === 0 && position === (emptyPos + 1)) {
+            } else if ((emptyPos + 1) % COLS === 0 && position === (emptyPos + 1)) {
                 return // Empty is in first row. Previous tile can not be played
             }
             dispatch({
