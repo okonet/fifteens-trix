@@ -1,6 +1,5 @@
 import { COLS } from '../constants/Board'
 export const PLAY_TILE = 'PLAY_TILE'
-export const DECREMENT_COUNTER = 'DECREMENT_COUNTER'
 
 export function playTile(position: number) {
     return (dispatch, getState) => {
