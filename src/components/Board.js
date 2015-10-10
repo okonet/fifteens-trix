@@ -28,6 +28,7 @@ export default class Board extends Component {
                             position={tiles.indexOf(tile)}
                             key={tile.index}
                             index={tile.index}
+                            isPlayable={tile.isPlayable}
                             onClickCb={this.props.playTile}
                         />
                     )
