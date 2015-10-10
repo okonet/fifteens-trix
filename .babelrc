@@ -1,7 +1,8 @@
 {
   "stage": 0,
   "plugins": [
-    "react-transform"
+    "react-transform",
+    "typecheck"
   ],
   "extra": {
     "react-transform": {
