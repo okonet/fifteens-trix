@@ -7,26 +7,26 @@ const initialState = {
 
 export default function game(state = initialState, action) {
     switch (action.type) {
-    case INCREMENT_STEPS:
-        return {
-            ...state,
-            steps: state.steps + 1
-        }
+        case INCREMENT_STEPS:
+            return {
+                ...state,
+                steps: state.steps + 1
+            }
 
-    case GAME_OVER:
-        return {
-            ...state,
-            isGameOver: true
-        }
+        case GAME_OVER:
+            return {
+                ...state,
+                isGameOver: true
+            }
 
-    case NEW_GAME:
-        return {
-            ...state,
-            isGameOver: false,
-            steps: 0
-        }
+        case NEW_GAME:
+            return {
+                ...state,
+                isGameOver: false,
+                steps: 0
+            }
 
-    default:
-        return state;
+        default:
+            return state;
     }
 }
