@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
 import game from './game';
-import tiles from './board';
+import board from './board';
 
-const rootReducer = combineReducers({
+export default combineReducers({
     game,
-    tiles
+    board
 });
-
-export default rootReducer;
