@@ -7,11 +7,11 @@ const startRow = (ROWS - COLS)
 
 export const NEW_GAME = 'NEW_GAME'
 export const GAME_OVER = 'GAME_OVER'
-export const INCREMENT_STEPS = 'INCREMENT_STEPS'
+export const INCREMENT_MOVES = 'INCREMENT_MOVES'
 
-export function incrementSteps() {
+export function incrementMoves() {
     return {
-        type: INCREMENT_STEPS
+        type: INCREMENT_MOVES
     }
 }
 

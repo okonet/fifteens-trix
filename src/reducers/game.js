@@ -1,16 +1,16 @@
-import { NEW_GAME, GAME_OVER, INCREMENT_STEPS } from '../actions/game';
+import { NEW_GAME, GAME_OVER, INCREMENT_MOVES } from '../actions/game';
 
 const initialState = {
     isGameOver: false,
-    steps: 0
+    moves: 0
 };
 
 export default function game(state = initialState, action) {
     switch (action.type) {
-        case INCREMENT_STEPS:
+        case INCREMENT_MOVES:
             return {
                 ...state,
-                steps: state.steps + 1
+                moves: state.moves + 1
             }
 
         case GAME_OVER:
@@ -23,7 +23,7 @@ export default function game(state = initialState, action) {
             return {
                 ...state,
                 isGameOver: false,
-                steps: 0
+                moves: 0
             }
 
         default:

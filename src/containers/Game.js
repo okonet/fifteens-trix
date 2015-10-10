@@ -5,7 +5,7 @@ import * as GameActions from '../actions/game';
 
 function mapStateToProps(state) {
     return {
-        steps: state.game.steps,
+        steps: state.game.moves,
         isGameOver: state.game.isGameOver
     };
 }
