@@ -9,6 +9,10 @@ export default class Game extends Component {
         startNewGame: PropTypes.func.isRequired
     }
 
+    componentDidMount() {
+        this.props.startNewGame()
+    }
+
     render() {
         const { steps, startNewGame } = this.props;
         return (
