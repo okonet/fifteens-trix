@@ -1,25 +1,18 @@
-import { COLS } from '../constants/Board'
+import { findWhere } from 'lodash'
 export const PLAY_TILE = 'PLAY_TILE'
 
 export function playTile(position: number) {
     return (dispatch, getState) => {
-        const { tiles } = getState()
-        const emptyTile = tiles.find(tile => tile.type === -1)
-        const emptyPos = tiles.indexOf(emptyTile)
-        const delta = Math.abs(position - emptyPos)
+        const { board } = getState()
+        const tile = findWhere(board, {position})
 
-        if (delta === 1 || delta === COLS) {
-            if (emptyPos % COLS === 0 && position === (emptyPos - 1)) {
-                return // Empty is in last row. Next tile can not be played
-            } else if ((emptyPos + 1) % COLS === 0 && position === (emptyPos + 1)) {
-                return // Empty is in first row. Previous tile can not be played
-            }
+        if (tile.isPlayable) {
             dispatch({
                 type: PLAY_TILE,
                 position
-            });
+            })
         }
 
         return
-    };
+    }
 }
