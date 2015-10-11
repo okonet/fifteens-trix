@@ -1,3 +1,5 @@
+/* eslint-disable no-var, func-names */
+
 var path = require('path');
 var webpack = require('webpack');
 
