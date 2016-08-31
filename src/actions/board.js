@@ -4,7 +4,7 @@ export const PLAY_TILE = 'PLAY_TILE'
 export function playTile(position: number) {
     return (dispatch, getState) => {
         const { board } = getState()
-        const tile = findWhere(board, {position})
+        const tile = findWhere(board, { position })
 
         if (tile.isPlayable) {
             dispatch({
@@ -12,7 +12,5 @@ export function playTile(position: number) {
                 position
             })
         }
-
-        return
     }
 }

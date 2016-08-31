@@ -26,7 +26,7 @@ export default function tiles(state = initialState, action) {
     switch (action.type) {
         case NEW_GAME:
             const emptyBoard = range(0, startRow * COLS, 1).map(position => {
-                return {type: 0, position}
+                return { type: 0, position }
             })
 
             let filledBoard = []
@@ -52,7 +52,7 @@ export default function tiles(state = initialState, action) {
         case PLAY_TILE:
             const { position } = action
             const emptyTilePosition = getEmptyTilePos(state)
-            const tileToPlay = findWhere(state, {position})
+            const tileToPlay = findWhere(state, { position })
             if (tileToPlay.isPlayable) {
                 let positions = pluck(state, 'position')
 
