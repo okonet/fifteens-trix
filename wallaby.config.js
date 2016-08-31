@@ -9,18 +9,15 @@ module.exports = function(wallaby) {
     return {
         files: [
             { pattern: 'src/**/*.js', load: false },
-            { pattern: 'src/**/__tests__/*.js', ignore: true }
+            { pattern: 'src/**/*.spec.js', ignore: true }
         ],
 
         tests: [
-            { pattern: 'src/**/__tests__/*.js', load: false }
+            { pattern: 'src/**/*.spec.js', load: false }
         ],
 
         compilers: {
-            'src/**/*.js': wallaby.compilers.babel({
-                babel: require('babel'),
-                stage: 0
-            })
+            'src/**/*.js': wallaby.compilers.babel()
         },
 
         testFramework: 'mocha',
