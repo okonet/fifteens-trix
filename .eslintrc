@@ -1,14 +1,31 @@
 {
-  "extends": "airbnb",
-  "env": {
-    "browser": true,
-    "mocha": true,
-    "node": true
-  },
-  "rules": {
-    "semi": [0, "never"],
-    "indent": [2, 4, {"SwitchCase": 1}],
-    "comma-dangle": [2, "never"],
-    "quotes": [2, "single"]
-  }
+    "extends": "airbnb",
+    "parser": 'babel-eslint',
+    "env": {
+        "es6": true,
+        "browser": true,
+        "mocha": true,
+        "commonjs": true
+    },
+    "rules": {
+        "semi": [
+            2,
+            "never"
+        ],
+        "indent": [
+            2,
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "comma-dangle": [
+            2,
+            "never"
+        ],
+        "quotes": [
+            2,
+            "single"
+        ]
+    }
 }
