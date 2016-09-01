@@ -10,46 +10,54 @@ export function getEmptyTilePos(items: Array<Object>): number {
     return findWhere(items, { type: -1 }).position
 }
 
-export function updatePlayableTiles(items: Array<Object>, cols: number = COLS): Array<Object> {
+export function getPositions(items: Array<Object>): Array<number> {
+    return pluck(items, 'position')
+}
+
+export function getCol(position: number, cols: number): number {
+    return position % cols
+}
+
+export function getRow(position: number, cols: number): number {
+    return ~~(position / cols)
+}
+
+export function isSameCol(posA: number, posB: number, cols: number): boolean {
+    return getCol(posA, cols) === getCol(posB, cols)
+}
+
+export function isSameRow(posA: number, posB: number, cols: number): boolean {
+    return getRow(posA, cols) === getRow(posB, cols)
+}
+
+export function getPlayableTiles(items: Array<Object>, cols: number = COLS): Array<Object> {
     const emptyPos = getEmptyTilePos(items)
-    const emptyRow = ~~(emptyPos / cols)
     return items.map(item => {
-        const delta = (item.position - emptyPos)
-        const isSameCol = Math.abs(delta) % cols === 0
-        const isSameRow = ~~(item.position / cols) === emptyRow
-        const isPlayable = item.type > 0 && (isSameCol || isSameRow)
+        const { type, position } = item
+        const isPlayable = type > 0
+            && (isSameCol(position, emptyPos, cols) || isSameRow(position, emptyPos, cols))
         return { ...item, isPlayable }
     })
 }
 
-export function getPositions(items: Array<Object>): Array<number> {
-    return pluck(items, 'position')
-}
 export function swapPositions(
     items: Array<Object>,
     posA: number,
     posB: number,
     cols: number = COLS): Array<Object> {
-    const colA = posA % cols
-    const rowA = ~~(posA / cols)
-    const colB = posB % cols
-    const rowB = ~~(posB / cols)
-    let positions = getPositions(items)
-
-    // Swap positions
-    positions = positions.map(pos => {
-        if (rowA === rowB) {
+    const positions = getPositions(items).map(pos => {
+        if (isSameRow(posA, posB, cols)) {
             if (posA <= pos && pos < posB) {
                 return pos + 1
             }
             if (posB < pos && pos <= posA) {
                 return pos - 1
             }
-        } else if (colA === colB) {
-            if (posA <= pos && pos < posB && pos % cols === colA) {
+        } else if (isSameCol(posA, posB, cols)) {
+            if (posA <= pos && pos < posB && isSameCol(pos, posA, cols)) {
                 return pos + cols
             }
-            if (posB < pos && pos <= posA && pos % cols === colA) {
+            if (posB < pos && pos <= posA && isSameCol(pos, posA, cols)) {
                 return pos - cols
             }
         }
@@ -92,14 +100,14 @@ export default function tiles(state = initialState, action) {
                 }
             })
 
-            return updatePlayableTiles([...emptyBoard, ...filledBoard])
+            return getPlayableTiles([...emptyBoard, ...filledBoard])
 
         case PLAY_TILE:
             const { position } = action
             const emptyTilePosition = getEmptyTilePos(state)
             const tileToPlay = findWhere(state, { position })
             if (tileToPlay.isPlayable) {
-                return updatePlayableTiles(
+                return getPlayableTiles(
                     swapPositions(state, position, emptyTilePosition)
                 )
             }

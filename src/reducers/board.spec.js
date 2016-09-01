@@ -1,5 +1,14 @@
 import expect from 'expect'
-import reducer, { getEmptyTilePos, updatePlayableTiles, swapPositions, getPositions } from './board'
+import reducer, {
+    getEmptyTilePos,
+    getPlayableTiles,
+    swapPositions,
+    getPositions,
+    getCol,
+    getRow,
+    isSameCol,
+    isSameRow
+} from './board'
 
 describe('board reducer', () => {
     it('should return the initial state', () => {
@@ -16,6 +25,45 @@ describe('board reducer', () => {
             ]
             expect(getPositions(tiles).length).toEqual(2)
             expect(getPositions(tiles)).toEqual([0, 1])
+        })
+    })
+
+    describe('getCol', () => {
+        it('should return a column at which tile is positioned as a number', () => {
+            expect(getCol(0, 3)).toEqual(0)
+            expect(getCol(1, 3)).toEqual(1)
+            expect(getCol(2, 3)).toEqual(2)
+            expect(getCol(3, 3)).toEqual(0)
+            expect(getCol(7, 3)).toEqual(1)
+        })
+    })
+
+    describe('getRow', () => {
+        it('should return a row at which tile is positioned as a number', () => {
+            expect(getRow(0, 3)).toEqual(0)
+            expect(getRow(1, 3)).toEqual(0)
+            expect(getRow(2, 3)).toEqual(0)
+            expect(getRow(3, 3)).toEqual(1)
+            expect(getRow(7, 3)).toEqual(2)
+        })
+    })
+
+    describe('isSameCol', () => {
+        it('should return true if positions are on in the same column', () => {
+            expect(isSameCol(0, 0, 3)).toEqual(true)
+            expect(isSameCol(0, 1, 3)).toEqual(false)
+            expect(isSameCol(0, 2, 3)).toEqual(false)
+            expect(isSameCol(0, 3, 3)).toEqual(true)
+        })
+    })
+
+    describe('isSameRow', () => {
+        it('should return true if positions are on in the same row', () => {
+            expect(isSameRow(0, 0, 3)).toEqual(true)
+            expect(isSameRow(0, 1, 3)).toEqual(true)
+            expect(isSameRow(0, 2, 3)).toEqual(true)
+            expect(isSameRow(0, 3, 3)).toEqual(false)
+            expect(isSameRow(0, 8, 3)).toEqual(false)
         })
     })
 
@@ -106,7 +154,7 @@ describe('board reducer', () => {
 
     it('updatePlayableTiles', () => {
         // 2x2
-        expect(updatePlayableTiles([
+        expect(getPlayableTiles([
             { type: -1, position: 0 },
             { type: 1, position: 1 },
             { type: 1, position: 2 },
@@ -119,7 +167,7 @@ describe('board reducer', () => {
         ])
 
         // 3x3
-        expect(updatePlayableTiles([
+        expect(getPlayableTiles([
             { type: 1, position: 0 },
             { type: 1, position: 1 },
             { type: 1, position: 2 },
