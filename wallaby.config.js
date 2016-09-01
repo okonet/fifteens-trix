@@ -1,9 +1,9 @@
-/* eslint-disable no-var, func-names */
+process.env.BABEL_ENV = 'test'
 
-var wallabyWebpack = require('wallaby-webpack')
-var webpackConfig = require('./webpack.config')
+const wallabyWebpack = require('wallaby-webpack')
+const webpackConfig = require('./webpack.config')
 
-var wallabyPostprocessor = wallabyWebpack(webpackConfig)
+const wallabyPostprocessor = wallabyWebpack(webpackConfig)
 
 module.exports = function (wallaby) {
   return {

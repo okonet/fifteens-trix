@@ -1,10 +1,14 @@
 {
-    "presets": [
-        "es2015",
-        "stage-0",
-        "react"
-    ],
-    "plugins": [
+  "presets": [
+    "es2015",
+    "stage-0",
+    "react"
+  ],
+  "env": {
+    "dev": {
+      "plugins": [
         "typecheck"
-    ]
+      ]
+    }
+  }
 }
