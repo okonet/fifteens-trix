@@ -35,6 +35,8 @@ export default class Tile extends Component {
     }
 
     onTouchStart = (evt) => {
+        evt.preventDefault()
+        if (!this.props.isPlayable) return
         const touch = evt.touches[0]
         this.initialTouchPosition = {
             x: touch.clientX,
@@ -46,8 +48,9 @@ export default class Tile extends Component {
     }
 
     onTouchMove = (evt) => {
+        evt.preventDefault()
         const touch = evt.touches[0]
-        if (this.initialTouchPosition) {
+        if (this.state.isTouched) {
             this.setState({
                 offsetX: touch.clientX - this.initialTouchPosition.x,
                 offsetY: touch.clientY - this.initialTouchPosition.y
