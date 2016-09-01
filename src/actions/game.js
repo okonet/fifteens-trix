@@ -10,22 +10,22 @@ export const GAME_OVER = 'GAME_OVER'
 export const INCREMENT_MOVES = 'INCREMENT_MOVES'
 
 export function incrementMoves() {
-    return {
-        type: INCREMENT_MOVES
-    }
+  return {
+    type: INCREMENT_MOVES
+  }
 }
 
 export function startNewGame() {
-    const positions = range(startRow * COLS, SIZE, 1).sort(() => 0.5 - rand.random())
-    return {
-        type: NEW_GAME,
-        positions
-    }
+  const positions = range(startRow * COLS, SIZE, 1).sort(() => 0.5 - rand.random())
+  return {
+    type: NEW_GAME,
+    positions
+  }
 }
 
 export function gameOver() {
-    return {
-        type: GAME_OVER
-    }
+  return {
+    type: GAME_OVER
+  }
 }
 

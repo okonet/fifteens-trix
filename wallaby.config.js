@@ -1,33 +1,33 @@
 /* eslint-disable no-var, func-names */
 
-var wallabyWebpack = require('wallaby-webpack');
-var webpackConfig = require('./webpack.config');
+var wallabyWebpack = require('wallaby-webpack')
+var webpackConfig = require('./webpack.config')
 
-var wallabyPostprocessor = wallabyWebpack(webpackConfig);
+var wallabyPostprocessor = wallabyWebpack(webpackConfig)
 
-module.exports = function(wallaby) {
-    return {
-        files: [
+module.exports = function (wallaby) {
+  return {
+    files: [
             { pattern: 'src/**/*.js', load: false },
             { pattern: 'src/**/*.spec.js', ignore: true }
-        ],
+    ],
 
-        tests: [
+    tests: [
             { pattern: 'src/**/*.spec.js', load: false }
-        ],
+    ],
 
-        compilers: {
-            'src/**/*.js': wallaby.compilers.babel()
-        },
+    compilers: {
+      'src/**/*.js': wallaby.compilers.babel()
+    },
 
-        testFramework: 'mocha',
+    testFramework: 'mocha',
 
-        postprocessor: wallabyPostprocessor,
+    postprocessor: wallabyPostprocessor,
 
-        bootstrap: function() {
+    bootstrap() {
             // required to trigger tests loading
-            window.__moduleBundler.loadTests();
-        }
+      window.__moduleBundler.loadTests() // eslint-disable-line
+    }
 
-    };
-};
+  }
+}
