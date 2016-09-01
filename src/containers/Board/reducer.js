@@ -2,15 +2,20 @@ import { range, find, map } from 'lodash'
 import { NEW_GAME } from '../Game/actions'
 import { PLAY_TILE } from './actions'
 import { COLS, ROWS, SIZE } from './constants'
+import type { TileType } from './types'
 
 const initialState = []
 const startRow = (ROWS - COLS)
 
-export function getEmptyTilePos(items: Array<Object>): number {
+export function getTileWithPosition(items: Array<TileType>, position: number): TileType {
+  return find(items, { position })
+}
+
+export function getEmptyTilePos(items: Array<TileType>): number {
   return find(items, { type: -1 }).position
 }
 
-export function getPositions(items: Array<Object>): Array<number> {
+export function getPositions(items: Array<TileType>): Array<number> {
   return map(items, 'position')
 }
 
@@ -30,21 +35,21 @@ export function isSameRow(posA: number, posB: number, cols: number): boolean {
   return getRow(posA, cols) === getRow(posB, cols)
 }
 
-export function getPlayableTiles(items: Array<Object>, cols: number = COLS): Array<Object> {
+export function getPlayableTiles(items: Array<TileType>, cols: number = COLS): Array<TileType> {
   const emptyPos = getEmptyTilePos(items)
   return items.map(item => {
     const { type, position } = item
     const isPlayable = type > 0
-            && (isSameCol(position, emptyPos, cols) || isSameRow(position, emptyPos, cols))
+      && (isSameCol(position, emptyPos, cols) || isSameRow(position, emptyPos, cols))
     return { ...item, isPlayable }
   })
 }
 
 export function swapPositions(
-    items: Array<Object>,
-    posA: number,
-    posB: number,
-    cols: number = COLS): Array<Object> {
+  items: Array<TileType>,
+  posA: number,
+  posB: number,
+  cols: number = COLS): Array<TileType> {
   const positions = getPositions(items).map(pos => {
     if (isSameRow(posA, posB, cols)) {
       if (posA <= pos && pos < posB) {
@@ -102,12 +107,12 @@ export default function tiles(state = initialState, action) {
 
     case PLAY_TILE: {
       const { position } = action
-      const emptyTilePosition = getEmptyTilePos(state)
-      const tileToPlay = find(state, { position })
+      const emptyTilePos = getEmptyTilePos(state)
+      const tileToPlay = getTileWithPosition(state, position)
       if (tileToPlay.isPlayable) {
         return getPlayableTiles(
-                    swapPositions(state, position, emptyTilePosition)
-                )
+          swapPositions(state, position, emptyTilePos)
+        )
       }
       return state
     }

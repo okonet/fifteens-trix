@@ -1,5 +1,6 @@
 import expect from 'expect'
 import reducer, {
+  getTileWithPosition,
   getEmptyTilePos,
   getPlayableTiles,
   swapPositions,
@@ -15,6 +16,18 @@ describe('board reducer', () => {
     expect(
       reducer(undefined, {})
     ).toEqual([])
+  })
+
+  describe('getTileWithPosition', () => {
+    it('should return an Object for a given position number', () => {
+      const tiles = [
+        { type: -1, position: 0 },
+        { type: 1, position: 1 }
+      ]
+      expect(getTileWithPosition(tiles, 0)).toEqual({ type: -1, position: 0 })
+      expect(getTileWithPosition(tiles, 1)).toEqual({ type: 1, position: 1 })
+      expect(getTileWithPosition(tiles, 2)).toBe(undefined)
+    })
   })
 
   describe('getPositions', () => {
