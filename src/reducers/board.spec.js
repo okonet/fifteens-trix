@@ -1,5 +1,5 @@
 import expect from 'expect'
-import reducer, { getEmptyTilePos, updatePlayableTiles, switchPositions } from './board'
+import reducer, { getEmptyTilePos, updatePlayableTiles, swapPositions, getPositions } from './board'
 
 describe('board reducer', () => {
     it('should return the initial state', () => {
@@ -8,81 +8,82 @@ describe('board reducer', () => {
         ).toEqual([])
     })
 
-    describe('switchPositions', () => {
+    describe('getPositions', () => {
+        it('should return an Array of numbers with positions', () => {
+            const tiles = [
+                { type: -1, position: 0 },
+                { type: 1, position: 1 }
+            ]
+            expect(getPositions(tiles).length).toEqual(2)
+            expect(getPositions(tiles)).toEqual([0, 1])
+        })
+    })
+
+    describe('swapPositions', () => {
         it('should swap positions for nearby tiles', () => {
-            expect(
-                switchPositions([
-                    { type: -1, position: 0, isPlayable: false },
-                    { type: 1, position: 1, isPlayable: true }
-                ], 0, 1, 2)
-            ).toEqual([
-                { type: -1, position: 1, isPlayable: false },
-                { type: 1, position: 0, isPlayable: true }
-            ])
+            const res = swapPositions([
+                { type: -1, position: 0 },
+                { type: 1, position: 1 }
+            ], 0, 1, 2)
+            expect(getPositions(res)).toEqual([1, 0])
         })
 
-        it('should swap positions for a set of tiles horizontally', () => {
-            expect(
-                switchPositions([
-                    { type: -1, position: 0, isPlayable: false },
-                    { type: 1, position: 1, isPlayable: true },
-                    { type: 2, position: 2, isPlayable: true },
-                    { type: 3, position: 3, isPlayable: true },
-                    { type: 4, position: 4, isPlayable: false },
-                    { type: 5, position: 5, isPlayable: false }
-                ], 2, 0, 3)
-            ).toEqual([
-                { type: -1, position: 2, isPlayable: false },
-                { type: 1, position: 0, isPlayable: true },
-                { type: 2, position: 1, isPlayable: true },
-                { type: 3, position: 3, isPlayable: false },
-                { type: 4, position: 4, isPlayable: false },
-                { type: 5, position: 5, isPlayable: true }
-            ])
+        it('should swap positions when moving a row of tiles horizontally to the left', () => {
+            const res = swapPositions([
+                { type: -1, position: 0 },
+                { type: 1, position: 1 },
+                { type: 2, position: 2 },
+                { type: 3, position: 3 },
+                { type: 4, position: 4 },
+                { type: 5, position: 5 }
+            ], 2, 0, 3)
 
-            expect(
-                switchPositions([
-                    { type: -1, position: 2, isPlayable: false },
-                    { type: 1, position: 0, isPlayable: true },
-                    { type: 2, position: 1, isPlayable: true },
-                    { type: 3, position: 3, isPlayable: false },
-                    { type: 4, position: 4, isPlayable: false },
-                    { type: 5, position: 5, isPlayable: true }
-                ], 0, 0, 3)
-            ).toEqual([
-                { type: -1, position: 0, isPlayable: false },
-                { type: 1, position: 1, isPlayable: true },
-                { type: 2, position: 2, isPlayable: true },
-                { type: 3, position: 3, isPlayable: true },
-                { type: 4, position: 4, isPlayable: false },
-                { type: 5, position: 5, isPlayable: false }
-            ])
+            expect(getPositions(res)).toEqual([2, 0, 1, 3, 4, 5])
         })
 
-        it('should positions for a set of tiles vertically', () => {
-            expect(
-                switchPositions([
-                    { type: -1, position: 0 },
-                    { type: 1, position: 1 },
-                    { type: 2, position: 2 },
-                    { type: 3, position: 3 },
-                    { type: 4, position: 4 },
-                    { type: 5, position: 5 },
-                    { type: 6, position: 6 },
-                    { type: 7, position: 7 },
-                    { type: 8, position: 8 }
-                ], 6, 0, 3)
-            ).toEqual([
-                { type: 3, position: 0, isPlayable: true },
-                { type: 1, position: 1, isPlayable: false },
-                { type: 2, position: 2, isPlayable: false },
-                { type: 6, position: 3, isPlayable: true },
-                { type: 4, position: 4, isPlayable: false },
-                { type: 5, position: 5, isPlayable: false },
-                { type: -1, position: 6, isPlayable: false },
-                { type: 7, position: 7, isPlayable: true },
-                { type: 8, position: 8, isPlayable: true }
-            ])
+        it('should swap positions when moving a row of tiles horizontally to the right', () => {
+            const res = swapPositions([
+                { type: -1, position: 2 },
+                { type: 1, position: 0 },
+                { type: 2, position: 1 },
+                { type: 3, position: 3 },
+                { type: 4, position: 4 },
+                { type: 5, position: 5 }
+            ], 0, 2, 3)
+
+            expect(getPositions(res)).toEqual([0, 1, 2, 3, 4, 5])
+        })
+
+        it('should swap positions when moving a column of tiles vertically down', () => {
+            const res = swapPositions([
+                { type: -1, position: 6 },
+                { type: 1, position: 1 },
+                { type: 2, position: 2 },
+                { type: 3, position: 0 },
+                { type: 4, position: 4 },
+                { type: 5, position: 5 },
+                { type: 6, position: 3 },
+                { type: 7, position: 7 },
+                { type: 8, position: 8 }
+            ], 0, 6, 3)
+
+            expect(getPositions(res)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8])
+        })
+
+        it('should swap positions when moving a column of tiles vertically up', () => {
+            const res = swapPositions([
+                { type: -1, position: 0 },
+                { type: 1, position: 1 },
+                { type: 2, position: 2 },
+                { type: 3, position: 3 },
+                { type: 4, position: 4 },
+                { type: 5, position: 5 },
+                { type: 6, position: 6 },
+                { type: 7, position: 7 },
+                { type: 8, position: 8 }
+            ], 6, 0, 3)
+
+            expect(getPositions(res)).toEqual([6, 1, 2, 0, 4, 5, 3, 7, 8])
         })
     })
 
