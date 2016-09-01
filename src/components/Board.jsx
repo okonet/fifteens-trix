@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react'
+import React from 'react'
 import Tile from './Tile'
+import type { TileType } from '../containers/Board/types'
 
 const styles = {
   row: {
@@ -8,33 +9,28 @@ const styles = {
   }
 }
 
-export default class Board extends Component {
+const Board = (
+  {
+    tiles,
+    playTile
+  }: {
+    tiles: Array<TileType>,
+    playTile: Function
+  }) => (
+  <div style={styles.row}>
+    {
+      tiles.map((tile, idx) =>
+        <Tile
+          type={tile.type}
+          position={tile.position}
+          key={idx}
+          index={idx}
+          isPlayable={tile.isPlayable}
+          onClick={playTile}
+        />
+      )
+    }
+  </div>
+)
 
-  static propTypes = {
-    tiles: PropTypes.array.isRequired,
-    playTile: PropTypes.func.isRequired
-  }
-
-  render() {
-    const { tiles } = this.props
-    return (
-            <div style={styles.row}>
-            {
-                tiles.map((tile, idx) => {
-                  return (
-                        <Tile
-                          type={tile.type}
-                          position={tile.position}
-                          key={idx}
-                          index={idx}
-                          isPlayable={tile.isPlayable}
-                          onClickCb={this.props.playTile}
-                        />
-                    )
-                })
-            }
-            </div>
-        )
-  }
-}
-
+export default Board
