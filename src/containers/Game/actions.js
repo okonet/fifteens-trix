@@ -1,6 +1,6 @@
 import random from 'random-seed'
 import { range } from 'lodash'
-import { COLS, ROWS, SIZE } from '../constants/Board'
+import { COLS, ROWS, SIZE } from '../Board/constants'
 
 const rand = random.create()
 const startRow = (ROWS - COLS)

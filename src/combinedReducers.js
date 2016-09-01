@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import game from './game'
-import board from './board'
+import game from './containers/Game/reducer'
+import board from './containers/Board/reducer'
 
 export default combineReducers({
   game,

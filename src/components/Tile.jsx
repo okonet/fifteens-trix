@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Motion, spring, presets } from 'react-motion'
-import { COLS } from '../constants/Board'
+import { COLS } from '../containers/Board/constants'
 
 const TILE_SIZE = 60
 const basicStyles = {

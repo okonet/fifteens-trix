@@ -1,4 +1,4 @@
-import { NEW_GAME, GAME_OVER, INCREMENT_MOVES } from '../actions/game'
+import { NEW_GAME, GAME_OVER, INCREMENT_MOVES } from './actions'
 
 const initialState = {
   isGameOver: false,

@@ -8,7 +8,7 @@ import reducer, {
   getRow,
   isSameCol,
   isSameRow
-} from './board'
+} from './reducer'
 
 describe('board reducer', () => {
   it('should return the initial state', () => {

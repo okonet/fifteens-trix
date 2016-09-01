@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import Board from '../containers/Board'
+import Board from '../containers/Board/index'
 
 export default class Game extends Component {
 

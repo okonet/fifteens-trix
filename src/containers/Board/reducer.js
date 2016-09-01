@@ -1,7 +1,7 @@
 import { range, find, map } from 'lodash'
-import { NEW_GAME } from '../actions/game'
-import { PLAY_TILE } from '../actions/board'
-import { COLS, ROWS, SIZE } from '../constants/Board'
+import { NEW_GAME } from '../Game/actions'
+import { PLAY_TILE } from './actions'
+import { COLS, ROWS, SIZE } from './constants'
 
 const initialState = []
 const startRow = (ROWS - COLS)

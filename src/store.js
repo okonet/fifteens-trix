@@ -1,6 +1,6 @@
 import { compose, createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import reducer from '../reducers'
+import reducer from './combinedReducers'
 
 export default function configureStore(initialState) {
   const store = createStore(reducer, initialState, compose(
