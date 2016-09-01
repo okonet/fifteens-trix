@@ -1,4 +1,4 @@
-import { range, findWhere, pluck } from 'lodash'
+import { range, find, map } from 'lodash'
 import { NEW_GAME } from '../actions/game'
 import { PLAY_TILE } from '../actions/board'
 import { COLS, ROWS, SIZE } from '../constants/Board'
@@ -7,11 +7,11 @@ const initialState = []
 const startRow = (ROWS - COLS)
 
 export function getEmptyTilePos(items: Array<Object>): number {
-    return findWhere(items, { type: -1 }).position
+    return find(items, { type: -1 }).position
 }
 
 export function getPositions(items: Array<Object>): Array<number> {
-    return pluck(items, 'position')
+    return map(items, 'position')
 }
 
 export function getCol(position: number, cols: number): number {
