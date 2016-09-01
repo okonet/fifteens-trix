@@ -41,9 +41,9 @@
     "react-transform-hmr": "1.0.0",
     "redbox-react": "1.0.3",
     "wallaby-webpack": "0.0.9",
-    "webpack": "1.12.1",
-    "webpack-dev-middleware": "1.2.0",
-    "webpack-hot-middleware": "2.0.0"
+    "webpack": "1.13.2",
+    "webpack-dev-middleware": "1.6.1",
+    "webpack-hot-middleware": "2.12.2"
   },
   "main": "index.js",
   "repository": {
