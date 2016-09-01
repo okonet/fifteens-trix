@@ -5,29 +5,26 @@ const webpackConfig = require('./webpack.config')
 
 const wallabyPostprocessor = wallabyWebpack(webpackConfig)
 
-module.exports = function (wallaby) {
-  return {
-    files: [
-            { pattern: 'src/**/*.js', load: false },
-            { pattern: 'src/**/*.spec.js', ignore: true }
-    ],
+module.exports = wallaby => ({
+  files: [
+    { pattern: 'src/**/*.js', load: false },
+    { pattern: 'src/**/*.spec.js', ignore: true }
+  ],
 
-    tests: [
-            { pattern: 'src/**/*.spec.js', load: false }
-    ],
+  tests: [
+    { pattern: 'src/**/*.spec.js', load: false }
+  ],
 
-    compilers: {
-      'src/**/*.js': wallaby.compilers.babel()
-    },
+  compilers: {
+    'src/**/*.js': wallaby.compilers.babel()
+  },
 
-    testFramework: 'mocha',
+  testFramework: 'mocha',
 
-    postprocessor: wallabyPostprocessor,
+  postprocessor: wallabyPostprocessor,
 
-    bootstrap() {
-            // required to trigger tests loading
-      window.__moduleBundler.loadTests() // eslint-disable-line
-    }
-
+  bootstrap() {
+    // required to trigger tests loading
+    window.__moduleBundler.loadTests() // eslint-disable-line
   }
-}
+})
