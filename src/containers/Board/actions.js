@@ -1,4 +1,4 @@
-import { getTileWithPosition } from './reducer'
+import { getTileWithPosition } from './utils'
 import { incrementMoves } from '../Game/actions'
 
 export const PLAY_TILE = 'PLAY_TILE'
