@@ -1,10 +1,11 @@
 import { compose, createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
+import invariant from 'redux-immutable-state-invariant'
 import reducer from './reducers'
 
 export default function configureStore(initialState) {
   const store = createStore(reducer, initialState, compose(
-    applyMiddleware(thunk),
+    applyMiddleware(invariant(), thunk),
     window.devToolsExtension ? window.devToolsExtension() : f => f
   ))
 
