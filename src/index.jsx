@@ -1,14 +1,25 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import Game from './containers/Game/index'
-import configureStore from './store'
+import { AppContainer } from 'react-hot-loader'
+import App from './App'
 
-const store = configureStore()
+const rootEl = document.getElementById('root')
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Game />
-  </Provider>,
-  document.getElementById('root')
+  <AppContainer>
+    <App />
+  </AppContainer>,
+  rootEl
 )
+
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    const NextApp = require('./App') // eslint-disable-line
+    ReactDOM.render(
+      <AppContainer>
+        <NextApp />
+      </AppContainer>,
+      rootEl
+    )
+  })
+}
