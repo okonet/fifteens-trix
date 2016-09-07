@@ -12,9 +12,13 @@ const styles = {
 const Board = (
   {
     tiles,
+    cols,
+    rows,
     playTile
   }: {
     tiles: Array<TileType>,
+    cols: number,
+    rows: number,
     playTile: Function
   }) => (
   <div style={styles.row}>

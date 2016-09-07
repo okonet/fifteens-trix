@@ -1,9 +1,8 @@
 import random from 'random-seed'
 import { range } from 'lodash'
-import { COLS, ROWS, SIZE } from '../Board/constants'
+import { COLS, ROWS } from '../Board/constants'
 
 const rand = random.create()
-const startRow = (ROWS - COLS)
 
 export const NEW_GAME = 'NEW_GAME'
 export const GAME_OVER = 'GAME_OVER'
@@ -15,8 +14,10 @@ export function incrementMoves() {
   }
 }
 
-export function startNewGame() {
-  const positions = range(startRow * COLS, SIZE, 1).sort(() => 0.5 - rand.random())
+export function startNewGame(cols = COLS, rows = ROWS) {
+  const startRow = (rows - cols)
+  const size = cols * rows
+  const positions = range(startRow * cols, size, 1).sort(() => 0.5 - rand.random())
   return {
     type: NEW_GAME,
     positions
@@ -28,4 +29,5 @@ export function gameOver() {
     type: GAME_OVER
   }
 }
+
 

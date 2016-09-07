@@ -4,8 +4,11 @@ import Board from '../../components/Board'
 import * as actions from './actions'
 
 function mapStateToProps(state) {
+  const { tiles, cols, rows } = state.board
   return {
-    tiles: state.board
+    tiles,
+    cols,
+    rows
   }
 }
 
