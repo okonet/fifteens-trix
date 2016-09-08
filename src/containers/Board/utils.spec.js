@@ -9,6 +9,7 @@ import {
   getRow,
   isSameCol,
   isSameRow,
+  isTilePlayable,
   mapPositionsToTiles
 } from './utils'
 
@@ -72,6 +73,18 @@ describe('Board utils', () => {
       expect(isSameRow(0, 2, 3)).toEqual(true)
       expect(isSameRow(0, 3, 3)).toEqual(false)
       expect(isSameRow(0, 8, 3)).toEqual(false)
+    })
+  })
+
+  describe('isPlayable', () => {
+    it('should return true if positions are on in the same row', () => {
+      expect(isTilePlayable({ type: 0, position: 0 }, 1, 3)).toEqual(false)
+      expect(isTilePlayable({ type: -1, position: 0 }, 1, 3)).toEqual(false)
+      expect(isTilePlayable({ type: 1, position: 0 }, 1, 3)).toEqual(true)
+      expect(isTilePlayable({ type: 1, position: 2 }, 1, 3)).toEqual(true)
+      expect(isTilePlayable({ type: 1, position: 3 }, 1, 3)).toEqual(false)
+      expect(isTilePlayable({ type: 1, position: 4 }, 1, 3)).toEqual(true)
+      expect(isTilePlayable({ type: 1, position: 5 }, 1, 3)).toEqual(false)
     })
   })
 

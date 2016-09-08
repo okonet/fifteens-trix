@@ -30,17 +30,24 @@ export function isSameRow(posA: number, posB: number, cols: number): boolean {
   return getRow(posA, cols) === getRow(posB, cols)
 }
 
+export function isTilePlayable(
+  tile: TileType,
+  emptyPos: number,
+  cols: number
+) {
+  const { type, position } = tile
+  return type > 0
+    && (isSameCol(position, emptyPos, cols) || isSameRow(position, emptyPos, cols))
+}
+
 export function getPlayableTiles(
-  items: Array<TileType>,
+  tiles: Array<TileType>,
   cols: number = COLS
 ): Array<TileType> {
-  const emptyPos = getEmptyTilePos(items)
-  return items.map(item => {
-    const { type, position } = item
-    const isPlayable = type > 0
-      && (isSameCol(position, emptyPos, cols) || isSameRow(position, emptyPos, cols))
-    return { ...item, isPlayable }
-  })
+  const emptyPos = getEmptyTilePos(tiles)
+  return tiles.map(tile =>
+    ({ ...tile, isPlayable: isTilePlayable(tile, emptyPos, cols) })
+  )
 }
 
 export function mapPositionsToTiles(
@@ -57,7 +64,7 @@ export function swapPositions(
   positions: Array<number>,
   posA: number,
   posB: number,
-  cols: number = COLS): Array<TileType> {
+  cols: number = COLS): Array<number> {
   return positions.map(pos => {
     if (isSameRow(posA, posB, cols)) {
       if (posA <= pos && pos < posB) {
