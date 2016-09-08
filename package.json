@@ -5,16 +5,13 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node server.js",
-    "eslint:fix": "eslint --fix",
-    "git:add": "git add",
     "deps": "npm-check -u",
     "lint-staged": "lint-staged"
   },
   "lint-staged": {
     "*.@(js|jsx)": [
-      "eslint:fix",
-      "git:add",
-      "eslint"
+      "eslint --fix",
+      "git add"
     ]
   },
   "pre-commit": "lint-staged",
@@ -34,7 +31,7 @@
     "eslint-plugin-react": "6.2.0",
     "expect": "1.20.2",
     "express": "4.14.0",
-    "lint-staged": "3.0.0-beta1",
+    "lint-staged": "3.0.1",
     "lodash": "4.15.0",
     "mocha": "3.0.2",
     "npm-check": "5.2.3",
