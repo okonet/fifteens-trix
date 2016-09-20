@@ -98,7 +98,7 @@ describe('Board reducer', () => {
     })
   })
 
-  it.skip('should handle CHECK_BOARD action', () => {
+  it('should handle CHECK_BOARD action', () => {
     const initialState = {
       tiles: [
         { type: 1, position: 0, isPlayable: true },
