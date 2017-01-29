@@ -1,4 +1,3 @@
-import expect from 'expect'
 import reducer from './reducer'
 
 describe('Board reducer', () => {
@@ -13,7 +12,7 @@ describe('Board reducer', () => {
       seed: '1'
     })
 
-    expect(state.tiles).toBeAn('array')
+    expect(state.tiles).toBeInstanceOf(Array)
     expect(state.tiles.length).toEqual(18)
 
     // First rows should be empty
@@ -24,18 +23,18 @@ describe('Board reducer', () => {
     // Should include all possible positions
     for (let i = 0; i < 18; i++) {
       const keys = Object.keys(state.tiles[i])
-      expect(keys).toInclude('type')
-      expect(keys).toInclude('position')
-      expect(keys).toInclude('isPlayable')
-      expect(state.tiles).toInclude({ position: i }, t => t.position)
+      expect(keys).toContain('type')
+      expect(keys).toContain('position')
+      expect(keys).toContain('isPlayable')
+      expect(state.tiles.map(tile => tile.position)).toContain(i)
     }
 
     // Positions should be randomized
     expect(state.tiles.map(t => t.position))
-      .toNotEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])
+      .not.toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])
 
-    expect(state).toInclude({ cols: 3 })
-    expect(state).toInclude({ rows: 6 })
+    expect(state.cols).toEqual(3)
+    expect(state.rows).toEqual(6)
   })
 
   it('should not handle PLAY_TILE action for non-playable tiles', () => {

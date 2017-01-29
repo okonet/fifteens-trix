@@ -1,4 +1,3 @@
-import expect from 'expect'
 import {
   getTileWithPosition,
   getEmptyTilePos,
@@ -22,7 +21,7 @@ describe('Board utils', () => {
       ]
       expect(getTileWithPosition(tiles, 0)).toEqual({ type: -1, position: 0 })
       expect(getTileWithPosition(tiles, 1)).toEqual({ type: 1, position: 1 })
-      expect(getTileWithPosition(tiles, 2)).toBe(undefined)
+      expect(getTileWithPosition(tiles, 2)).toBeUndefined()
     })
   })
 
