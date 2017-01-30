@@ -7,7 +7,7 @@ export type PlayTileActionType = {
   position: number
 }
 
-export type BardActionType = NewGameActionType | PlayTileActionType
+export type BoardActionType = NewGameActionType | PlayTileActionType
 
 export type TileType = {
   position: number,

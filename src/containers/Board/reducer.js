@@ -11,7 +11,7 @@ import {
   mapPositionsToTiles,
   swapPositions
 } from './utils'
-import type { BoardStateType, BardActionType } from './types'
+import type { BoardStateType, BoardActionType } from './types'
 
 const initialState = {
   tiles: [],
@@ -21,7 +21,7 @@ const initialState = {
 
 export default function Board(
   state: BoardStateType = initialState,
-  action: BardActionType
+  action: BoardActionType
 ): BoardStateType {
   const { cols, rows, tiles } = state
   const size = cols * rows
