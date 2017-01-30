@@ -7,7 +7,8 @@
     "start": "node server.js",
     "deps": "npm-check -u",
     "lint-staged": "lint-staged",
-    "test": "jest"
+    "test": "jest",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "lint-staged": {
     "*.@(js|jsx)": [
@@ -61,5 +62,8 @@
     "html5",
     "javascript"
   ],
-  "author": "Andrey Okonetchnikov @okonetchnikov"
+  "author": "Andrey Okonetchnikov @okonetchnikov",
+  "devDependencies": {
+    "flow-bin": "^0.38.0"
+  }
 }
