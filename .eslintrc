@@ -1,35 +1,9 @@
 {
-  "extends": "airbnb",
-  "parser": 'babel-eslint',
+  "extends": "okonet",
   "env": {
-    "es6": true,
-    "browser": true,
-    "jest": true,
-    "commonjs": true
+    "jest": true
   },
   "rules": {
-    "max-len": [
-      2,
-      120
-    ],
-    "semi": [
-      2,
-      "never"
-    ],
-    "indent": [
-      2,
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "comma-dangle": [
-      2,
-      "never"
-    ],
-    "quotes": [
-      2,
-      "single"
-    ]
+    "no-plusplus": "off"
   }
 }
