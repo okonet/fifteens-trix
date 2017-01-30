@@ -1,25 +1,24 @@
+// @flow
+
 import random from 'random-seed'
+import type { NewGameActionType, GameOverActionType, IncrementMovesActionType } from './types'
 
-export const NEW_GAME = 'NEW_GAME'
-export const GAME_OVER = 'GAME_OVER'
-export const INCREMENT_MOVES = 'INCREMENT_MOVES'
-
-export function incrementMoves() {
+export function incrementMoves(): IncrementMovesActionType {
   return {
-    type: INCREMENT_MOVES
+    type: 'INCREMENT_MOVES'
   }
 }
 
-export function startNewGame() {
+export function startNewGame(): NewGameActionType {
   return {
-    type: NEW_GAME,
+    type: 'NEW_GAME',
     seed: random.create().string(6)
   }
 }
 
-export function gameOver() {
+export function gameOver(): GameOverActionType {
   return {
-    type: GAME_OVER
+    type: 'GAME_OVER'
   }
 }
 

@@ -1,3 +1,5 @@
+// @flow
+
 import { find, map } from 'lodash'
 import { COLS } from './constants'
 import type { TileType } from './types'
@@ -19,7 +21,7 @@ export function getCol(position: number, cols: number): number {
 }
 
 export function getRow(position: number, cols: number): number {
-  return ~~(position / cols)
+  return Math.floor(position / cols)
 }
 
 export function isSameCol(posA: number, posB: number, cols: number): boolean {
@@ -34,7 +36,7 @@ export function isTilePlayable(
   tile: TileType,
   emptyPos: number,
   cols: number
-) {
+): boolean {
   const { type, position } = tile
   return type > 0
     && (isSameCol(position, emptyPos, cols) || isSameRow(position, emptyPos, cols))
@@ -65,7 +67,7 @@ export function swapPositions(
   posA: number,
   posB: number,
   cols: number = COLS): Array<number> {
-  return positions.map(pos => {
+  return positions.map((pos) => {
     if (isSameRow(posA, posB, cols)) {
       if (posA <= pos && pos < posB) {
         return pos + 1

@@ -1,16 +1,17 @@
+// @flow
+
 import random from 'random-seed'
 import { range } from 'lodash'
-import { NEW_GAME } from '../Game/actions'
-import { PLAY_TILE } from './actions'
 import { COLS, ROWS } from './constants'
 import {
-  getTileWithPosition,
   getEmptyTilePos,
   getPlayableTiles,
-  swapPositions,
   getPositions,
-  mapPositionsToTiles
+  getTileWithPosition,
+  mapPositionsToTiles,
+  swapPositions
 } from './utils'
+import type { BoardStateType, BardActionType } from './types'
 
 const initialState = {
   tiles: [],
@@ -18,11 +19,14 @@ const initialState = {
   rows: ROWS
 }
 
-export default function Board(state = initialState, action) {
+export default function Board(
+  state: BoardStateType = initialState,
+  action: BardActionType
+): BoardStateType {
   const { cols, rows, tiles } = state
   const size = cols * rows
   switch (action.type) {
-    case NEW_GAME: {
+    case 'NEW_GAME': {
       const { seed } = action
       const rand = random.create(seed)
       const startRow = (rows - cols)
@@ -53,7 +57,7 @@ export default function Board(state = initialState, action) {
       }
     }
 
-    case PLAY_TILE: {
+    case 'PLAY_TILE': {
       const { position } = action
       const emptyTilePos = getEmptyTilePos(tiles)
       const tileToPlay = getTileWithPosition(tiles, position)
