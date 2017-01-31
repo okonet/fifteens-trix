@@ -13,6 +13,7 @@ export default function game(
 ): GameStateType {
   switch (action.type) {
     case 'INCREMENT_MOVES':
+    case 'PLAY_TILE':
       return {
         ...state,
         moves: state.moves + 1

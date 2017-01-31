@@ -29,13 +29,13 @@ export default class Tile extends Component {
   }
 
   onClick = () => {
-    const { onClick, position } = this.props
-    if (typeof onClick === 'function') {
+    const { onClick, position, isPlayable } = this.props
+    if (typeof onClick === 'function' && isPlayable) {
       onClick(position)
     }
   }
 
-  onTouchStart = evt => {
+  onTouchStart = (evt) => {
     evt.preventDefault()
     if (!this.props.isPlayable) return
     const touch = evt.touches[0]
@@ -48,7 +48,7 @@ export default class Tile extends Component {
     })
   }
 
-  onTouchMove = evt => {
+  onTouchMove = (evt) => {
     evt.preventDefault()
     const touch = evt.touches[0]
     if (this.state.isTouched) {
@@ -96,7 +96,7 @@ export default class Tile extends Component {
               ...basicStyles,
               opacity: type <= 0 ? 0.1 : 1,
               borderColor: isPlayable ? '#0c0' : '#000',
-              transform: `translate(${interpolatedStyle.left}px, ${interpolatedStyle.top}px)`
+              transform: `translate(${ interpolatedStyle.left }px, ${ interpolatedStyle.top }px)`
             }}
             onClick={this.onClick}
             onTouchStart={this.onTouchStart}

@@ -1,15 +1,16 @@
 import {
-  getTileWithPosition,
+  getCol,
   getEmptyTilePos,
   getPlayableTiles,
-  swapPositions,
   getPositions,
-  getCol,
   getRow,
+  getTileWithPosition,
   isSameCol,
   isSameRow,
   isTilePlayable,
-  mapPositionsToTiles
+  mapPositionsToTiles,
+  swapPositions,
+  removeFullRows
 } from './utils'
 
 describe('Board utils', () => {
@@ -180,5 +181,78 @@ describe('Board utils', () => {
       { type: 1, position: 7, isPlayable: true },
       { type: 1, position: 8, isPlayable: false }
     ])
+  })
+
+  describe('removeFullRows', () => {
+    it('should return array', () => {
+      expect(removeFullRows([
+        { type: 1, position: 0 },
+        { type: 1, position: 1 },
+        { type: 1, position: 2 },
+        { type: 1, position: 3 },
+        { type: -1, position: 4 },
+        { type: 0, position: 5 },
+        { type: 1, position: 6 },
+        { type: 2, position: 7 },
+        { type: 1, position: 8 }
+      ], 3))
+        .toEqual([
+          { type: 0, position: 0 },
+          { type: 0, position: 1 },
+          { type: 0, position: 2 },
+          { type: 1, position: 3 },
+          { type: -1, position: 4 },
+          { type: 0, position: 5 },
+          { type: 1, position: 6 },
+          { type: 2, position: 7 },
+          { type: 1, position: 8 }
+        ])
+
+      expect(removeFullRows([
+        { type: 1, position: 0 },
+        { type: 1, position: 1 },
+        { type: 1, position: 2 },
+        { type: 2, position: 3 },
+        { type: 2, position: 4 },
+        { type: 2, position: 5 },
+        { type: 3, position: 6 },
+        { type: 3, position: 7 },
+        { type: 3, position: 8 }
+      ], 3))
+        .toEqual([
+          { type: 0, position: 0 },
+          { type: 0, position: 1 },
+          { type: 0, position: 2 },
+          { type: 0, position: 3 },
+          { type: 0, position: 4 },
+          { type: 0, position: 5 },
+          { type: 0, position: 6 },
+          { type: 0, position: 7 },
+          { type: 0, position: 8 }
+        ])
+
+      expect(removeFullRows([
+        { type: 1, position: 0 },
+        { type: 2, position: 1 },
+        { type: 3, position: 2 },
+        { type: 2, position: 3 },
+        { type: 2, position: 4 },
+        { type: 2, position: 5 },
+        { type: 3, position: 6 },
+        { type: 3, position: 7 },
+        { type: 3, position: 8 }
+      ], 3))
+        .toEqual([
+          { type: 1, position: 6 },
+          { type: 2, position: 7 },
+          { type: 3, position: 8 },
+          { type: 0, position: 0 },
+          { type: 0, position: 1 },
+          { type: 0, position: 2 },
+          { type: 0, position: 3 },
+          { type: 0, position: 4 },
+          { type: 0, position: 5 }
+        ])
+    })
   })
 })

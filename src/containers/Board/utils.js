@@ -9,7 +9,7 @@ export function getTileWithPosition(items: Array<TileType>, position: number): T
 }
 
 export function getEmptyTilePos(items: Array<TileType>): number {
-  return find(items, { type: -1 }).position
+  return items.length ? find(items, { type: -1 }).position : -1
 }
 
 export function getPositions(items: Array<TileType>): Array<number> {
@@ -35,8 +35,7 @@ export function isSameRow(posA: number, posB: number, cols: number): boolean {
 export function isTilePlayable(
   tile: TileType,
   emptyPos: number,
-  cols: number
-): boolean {
+  cols: number): boolean {
   const { type, position } = tile
   return type > 0
     && (isSameCol(position, emptyPos, cols) || isSameRow(position, emptyPos, cols))
@@ -44,8 +43,7 @@ export function isTilePlayable(
 
 export function getPlayableTiles(
   tiles: Array<TileType>,
-  cols: number = COLS
-): Array<TileType> {
+  cols: number = COLS): Array<TileType> {
   const emptyPos = getEmptyTilePos(tiles)
   return tiles.map(tile =>
     ({ ...tile, isPlayable: isTilePlayable(tile, emptyPos, cols) })
@@ -54,8 +52,7 @@ export function getPlayableTiles(
 
 export function mapPositionsToTiles(
   items: Array<TileType>,
-  positions: Array<number>
-): Array<TileType> {
+  positions: Array<number>): Array<TileType> {
   return items.map((item, idx) => ({
     ...item,
     position: positions[idx]

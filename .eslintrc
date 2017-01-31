@@ -4,6 +4,7 @@
     "jest": true
   },
   "rules": {
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "id-length": "off"
   }
 }

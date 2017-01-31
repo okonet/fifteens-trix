@@ -5,10 +5,10 @@ import { range } from 'lodash'
 import { COLS, ROWS } from './constants'
 import {
   getEmptyTilePos,
-  getPlayableTiles,
   getPositions,
   getTileWithPosition,
   mapPositionsToTiles,
+  isTilePlayable,
   swapPositions
 } from './utils'
 import type { BoardStateType, BoardActionType } from './types'
@@ -25,11 +25,12 @@ export default function Board(
 ): BoardStateType {
   const { cols, rows, tiles } = state
   const size = cols * rows
+  const startRow = (rows - cols)
+
   switch (action.type) {
     case 'NEW_GAME': {
       const { seed } = action
       const rand = random.create(seed)
-      const startRow = (rows - cols)
       const positions = range(startRow * cols, size).sort(() => 0.5 - rand.random())
       const newBoard = []
 
@@ -53,7 +54,7 @@ export default function Board(
 
       return {
         ...state,
-        tiles: getPlayableTiles(newBoard)
+        tiles: newBoard
       }
     }
 
@@ -61,11 +62,11 @@ export default function Board(
       const { position } = action
       const emptyTilePos = getEmptyTilePos(tiles)
       const tileToPlay = getTileWithPosition(tiles, position)
-      if (tileToPlay.isPlayable) {
+      if (isTilePlayable(tileToPlay, emptyTilePos, cols)) {
         const newPositions = swapPositions(getPositions(tiles), position, emptyTilePos)
         return {
           ...state,
-          tiles: getPlayableTiles(mapPositionsToTiles(tiles, newPositions))
+          tiles: mapPositionsToTiles(tiles, newPositions)
         }
       }
       return state
